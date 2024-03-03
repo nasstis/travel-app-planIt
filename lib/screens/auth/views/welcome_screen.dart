@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
-import 'package:travel_app/screens/auth/views/sign_in_screen.dart';
-import 'package:travel_app/screens/auth/views/sign_up_screen.dart';
+import 'package:travel_app/screens/auth/views/auth_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -12,6 +7,17 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void chooseScreen(String screen) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AuthScreen(
+            screen: screen,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,16 +45,7 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) =>
-                            SignInBloc(context.read<AuthBloc>().userRepository),
-                        child: const SignInScreen(),
-                      ),
-                    ),
-                  );
+                  chooseScreen('sign in');
                 },
                 style: ElevatedButton.styleFrom(fixedSize: const Size(160, 45)),
                 child: const Text('Sign In'),
@@ -56,17 +53,7 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) => SignUpBloc(
-                          context.read<AuthBloc>().userRepository,
-                        ),
-                        child: const SignUpScreen(),
-                      ),
-                    ),
-                  );
+                  chooseScreen('sign up');
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: MyColors.secondary,

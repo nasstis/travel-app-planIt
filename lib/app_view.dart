@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/views/welcome_screen.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/utils/theme/theme.dart';
@@ -18,7 +19,12 @@ class MyAppView extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state.status == AuthStatus.authenticated) {
-            return const HomeScreen();
+            return BlocProvider(
+              create: (context) => SignInBloc(
+                context.read<AuthBloc>().userRepository,
+              ),
+              child: const HomeScreen(),
+            );
           } else {
             return const WelcomeScreen();
           }
