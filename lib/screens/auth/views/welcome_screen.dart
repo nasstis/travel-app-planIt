@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:travel_app/screens/auth/views/sign_in_screen.dart';
 import 'package:travel_app/screens/auth/views/sign_up_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -38,7 +42,11 @@ class WelcomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignInScreen(),
+                      builder: (context) => BlocProvider(
+                        create: (context) =>
+                            SignInBloc(context.read<AuthBloc>().userRepository),
+                        child: const SignInScreen(),
+                      ),
                     ),
                   );
                 },
@@ -51,7 +59,12 @@ class WelcomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
+                      builder: (context) => BlocProvider(
+                        create: (context) => SignUpBloc(
+                          context.read<AuthBloc>().userRepository,
+                        ),
+                        child: const SignUpScreen(),
+                      ),
                     ),
                   );
                 },
