@@ -2,8 +2,8 @@ class MyUserEntity {
   String userId;
   String name;
   String email;
-  List<String> favoriteCities;
-  List<String> favoritePlaces;
+  List<dynamic> favoriteCities;
+  List<dynamic> favoritePlaces;
 
   MyUserEntity({
     required this.userId,

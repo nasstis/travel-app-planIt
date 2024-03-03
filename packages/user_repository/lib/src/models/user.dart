@@ -4,8 +4,8 @@ class MyUser {
   String userId;
   String name;
   String email;
-  List<String> favoriteCities;
-  List<String> favoritePlaces;
+  List<dynamic> favoriteCities;
+  List<dynamic> favoritePlaces;
 
   MyUser({
     required this.userId,
