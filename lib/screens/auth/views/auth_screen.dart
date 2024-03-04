@@ -55,13 +55,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         height: 80,
                       ),
                       if (widget.screen == 'sign in')
-                        BlocProvider(
+                        BlocProvider<SignInBloc>(
                           create: (context) => SignInBloc(
                               context.read<AuthBloc>().userRepository),
                           child: const SignInComponent(),
                         ),
                       if (widget.screen == 'sign up')
-                        BlocProvider(
+                        BlocProvider<SignUpBloc>(
                           create: (context) => SignUpBloc(
                               context.read<AuthBloc>().userRepository),
                           child: const SignUpComponent(),

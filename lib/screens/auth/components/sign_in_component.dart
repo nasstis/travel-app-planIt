@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/components/my_text_field.dart';
 import 'package:travel_app/screens/auth/views/auth_screen.dart';
+import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class SignInComponent extends StatefulWidget {
@@ -30,6 +31,11 @@ class _SignInComponentState extends State<SignInComponent> {
           setState(() {
             signInRequired = false;
           });
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ));
         } else if (state is SignInLoading) {
           setState(() {
             signInRequired = true;
@@ -190,7 +196,7 @@ class _SignInComponentState extends State<SignInComponent> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const AuthScreen(

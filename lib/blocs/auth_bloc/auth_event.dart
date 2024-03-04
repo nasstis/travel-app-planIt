@@ -10,7 +10,4 @@ class AuthUserChanged extends AuthEvent {
   final MyUser? user;
 
   AuthUserChanged(this.user);
-
-  @override
-  List<Object?> get props => [user];
 }

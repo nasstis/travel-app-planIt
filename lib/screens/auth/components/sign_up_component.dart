@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:travel_app/screens/auth/components/my_text_field.dart';
+import 'package:travel_app/screens/auth/views/auth_screen.dart';
+import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -35,6 +37,11 @@ class _SignUpComponentState extends State<SignUpComponent> {
           setState(() {
             signUpRequired = false;
           });
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ));
         } else if (state is SignUpFailure) {
           setState(() {
             signUpRequired = false;
@@ -207,18 +214,14 @@ class _SignUpComponentState extends State<SignUpComponent> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => BlocProvider(
-                    //       create: (context) => SignInBloc(
-                    //           context
-                    //               .read<AuthBloc>()
-                    //               .userRepository),
-                    //       child: const SignInScreen(),
-                    //     ),
-                    //   ),
-                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AuthScreen(
+                          screen: 'sign in',
+                        ),
+                      ),
+                    );
                   },
                   child: const Text(
                     'Sign In',
