@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/components/my_text_field.dart';
 import 'package:travel_app/screens/auth/views/auth_screen.dart';
-import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/text_strings.dart';
 
 class SignInComponent extends StatefulWidget {
   const SignInComponent({super.key});
@@ -31,11 +31,7 @@ class _SignInComponentState extends State<SignInComponent> {
           setState(() {
             signInRequired = false;
           });
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ));
+          Navigator.pop(context);
         } else if (state is SignInLoading) {
           setState(() {
             signInRequired = true;
@@ -131,7 +127,7 @@ class _SignInComponentState extends State<SignInComponent> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                         child: Text(
-                          'Sign In',
+                          MyTexts.signIn,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
@@ -143,9 +139,17 @@ class _SignInComponentState extends State<SignInComponent> {
                   )
                 : const CircularProgressIndicator(),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const AuthScreen(screen: MyTexts.forgotPassword),
+                  ),
+                );
+              },
               child: const Text(
-                'Forgot password?',
+                MyTexts.forgotPassword,
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
             ),
@@ -160,7 +164,7 @@ class _SignInComponentState extends State<SignInComponent> {
                     height: 28,
                   ),
                   label: const Text(
-                    'Sign In',
+                    MyTexts.signIn,
                     style: TextStyle(
                       color: MyColors.grey,
                       fontWeight: FontWeight.w600,
@@ -175,7 +179,7 @@ class _SignInComponentState extends State<SignInComponent> {
                     color: MyColors.facebookLogo,
                   ),
                   label: const Text(
-                    'Sign In',
+                    MyTexts.signIn,
                     style: TextStyle(
                       color: MyColors.grey,
                       fontWeight: FontWeight.w600,
@@ -200,13 +204,13 @@ class _SignInComponentState extends State<SignInComponent> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const AuthScreen(
-                          screen: 'sign up',
+                          screen: MyTexts.signUp,
                         ),
                       ),
                     );
                   },
                   child: const Text(
-                    'Sign Up',
+                    MyTexts.signUp,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),

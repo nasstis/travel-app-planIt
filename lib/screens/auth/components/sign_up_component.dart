@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:travel_app/screens/auth/components/my_text_field.dart';
 import 'package:travel_app/screens/auth/views/auth_screen.dart';
-import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/text_strings.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SignUpComponent extends StatefulWidget {
@@ -37,11 +37,7 @@ class _SignUpComponentState extends State<SignUpComponent> {
           setState(() {
             signUpRequired = false;
           });
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ));
+          Navigator.pop(context);
         } else if (state is SignUpFailure) {
           setState(() {
             signUpRequired = false;
@@ -156,7 +152,7 @@ class _SignUpComponentState extends State<SignUpComponent> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                         child: Text(
-                          'Sign Up',
+                          MyTexts.signUp,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
@@ -178,7 +174,7 @@ class _SignUpComponentState extends State<SignUpComponent> {
                     height: 28,
                   ),
                   label: const Text(
-                    'Sign Up',
+                    MyTexts.signUp,
                     style: TextStyle(
                       color: MyColors.grey,
                       fontWeight: FontWeight.w600,
@@ -193,7 +189,7 @@ class _SignUpComponentState extends State<SignUpComponent> {
                     color: MyColors.facebookLogo,
                   ),
                   label: const Text(
-                    'Sign Up',
+                    MyTexts.signUp,
                     style: TextStyle(
                       color: MyColors.grey,
                       fontWeight: FontWeight.w600,
@@ -218,13 +214,13 @@ class _SignUpComponentState extends State<SignUpComponent> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const AuthScreen(
-                          screen: 'sign in',
+                          screen: MyTexts.signIn,
                         ),
                       ),
                     );
                   },
                   child: const Text(
-                    'Sign In',
+                    MyTexts.signIn,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),

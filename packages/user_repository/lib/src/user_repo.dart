@@ -10,4 +10,6 @@ abstract class UserRepository {
   Future<void> logOut();
 
   Future<void> setUserData(MyUser myUser);
+
+  Future<void> resetPassword(String email);
 }

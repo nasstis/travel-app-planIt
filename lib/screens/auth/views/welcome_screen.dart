@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/screens/auth/views/auth_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/text_strings.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -45,20 +46,20 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  chooseScreen('sign in');
+                  chooseScreen(MyTexts.signIn);
                 },
                 style: ElevatedButton.styleFrom(fixedSize: const Size(160, 45)),
-                child: const Text('Sign In'),
+                child: const Text(MyTexts.signIn),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  chooseScreen('sign up');
+                  chooseScreen(MyTexts.signUp);
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: MyColors.secondary,
                     fixedSize: const Size(160, 45)),
-                child: const Text('Sign Up'),
+                child: const Text(MyTexts.signUp),
               ),
             ],
           ),

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:travel_app/screens/auth/components/forgot_password_component.dart';
 import 'package:travel_app/screens/auth/components/sign_in_component.dart';
 import 'package:travel_app/screens/auth/components/sign_up_component.dart';
+import 'package:travel_app/utils/constants/text_strings.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key, required this.screen});
@@ -54,17 +56,23 @@ class _AuthScreenState extends State<AuthScreen> {
                       const SizedBox(
                         height: 80,
                       ),
-                      if (widget.screen == 'sign in')
+                      if (widget.screen == MyTexts.signIn)
                         BlocProvider<SignInBloc>(
                           create: (context) => SignInBloc(
                               context.read<AuthBloc>().userRepository),
                           child: const SignInComponent(),
                         ),
-                      if (widget.screen == 'sign up')
+                      if (widget.screen == MyTexts.signUp)
                         BlocProvider<SignUpBloc>(
                           create: (context) => SignUpBloc(
                               context.read<AuthBloc>().userRepository),
                           child: const SignUpComponent(),
+                        ),
+                      if (widget.screen == MyTexts.forgotPassword)
+                        BlocProvider<SignInBloc>(
+                          create: (context) => SignInBloc(
+                              context.read<AuthBloc>().userRepository),
+                          child: const ForgotPasswordComponent(),
                         ),
                     ],
                   ),

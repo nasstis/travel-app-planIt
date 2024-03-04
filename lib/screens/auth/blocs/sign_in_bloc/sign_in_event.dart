@@ -17,3 +17,12 @@ class SignInRequired extends SignInEvent {
 }
 
 class SignOutRequired extends SignInEvent {}
+
+class ResetPasswordRequired extends SignInEvent {
+  final String email;
+
+  ResetPasswordRequired(this.email);
+
+  @override
+  List<Object> get props => [email];
+}

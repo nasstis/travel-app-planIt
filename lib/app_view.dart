@@ -25,10 +25,6 @@ class MyAppView extends StatelessWidget {
               ),
               child: const HomeScreen(),
             );
-          } else if (state.status == AuthStatus.unknown) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
           } else {
             return const WelcomeScreen();
           }

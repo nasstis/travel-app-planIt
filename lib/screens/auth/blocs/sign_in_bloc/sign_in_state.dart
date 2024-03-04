@@ -13,3 +13,13 @@ final class SignInLoading extends SignInState {}
 final class SignInSuccess extends SignInState {}
 
 final class SignInFailure extends SignInState {}
+
+final class ResetPasswordLoading extends SignInState {}
+
+final class ResetPasswordSuccess extends SignInState {}
+
+final class ResetPasswordFailure extends SignInState {
+  final String errorMsg;
+
+  ResetPasswordFailure(this.errorMsg);
+}
