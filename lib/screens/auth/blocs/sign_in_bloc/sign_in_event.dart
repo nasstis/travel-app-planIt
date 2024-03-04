@@ -26,3 +26,5 @@ class ResetPasswordRequired extends SignInEvent {
   @override
   List<Object> get props => [email];
 }
+
+class SignInWithGoogleRequired extends SignInEvent {}

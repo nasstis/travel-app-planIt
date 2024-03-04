@@ -12,4 +12,6 @@ abstract class UserRepository {
   Future<void> setUserData(MyUser myUser);
 
   Future<void> resetPassword(String email);
+
+  Future<void> signInWithGoogle();
 }

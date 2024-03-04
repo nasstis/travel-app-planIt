@@ -23,3 +23,13 @@ final class ResetPasswordFailure extends SignInState {
 
   ResetPasswordFailure(this.errorMsg);
 }
+
+final class SignInWithGoogleLoading extends SignInState {}
+
+final class SignInWithGoogleSuccess extends SignInState {}
+
+final class SignInWithGoogleFailure extends SignInState {
+  final String error;
+
+  SignInWithGoogleFailure(this.error);
+}

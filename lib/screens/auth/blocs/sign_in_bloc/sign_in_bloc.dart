@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -30,6 +32,17 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         emit(ResetPasswordSuccess());
       } catch (e) {
         emit(ResetPasswordFailure(e.toString()));
+      }
+    });
+
+    on<SignInWithGoogleRequired>((event, emit) async {
+      emit(SignInWithGoogleLoading());
+      try {
+        await _userRepository.signInWithGoogle();
+        emit(SignInWithGoogleSuccess());
+      } catch (e) {
+        log(e.toString());
+        emit(SignInWithGoogleFailure(e.toString()));
       }
     });
   }

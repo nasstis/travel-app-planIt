@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:travel_app/screens/auth/components/my_text_field.dart';
 import 'package:travel_app/screens/auth/views/auth_screen.dart';
@@ -164,40 +163,6 @@ class _SignUpComponentState extends State<SignUpComponent> {
                   )
                 : const CircularProgressIndicator(),
             const SizedBox(height: 60),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'assets/images/google_logo.png',
-                    height: 28,
-                  ),
-                  label: const Text(
-                    MyTexts.signUp,
-                    style: TextStyle(
-                      color: MyColors.grey,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const FaIcon(
-                    FontAwesomeIcons.facebook,
-                    color: MyColors.facebookLogo,
-                  ),
-                  label: const Text(
-                    MyTexts.signUp,
-                    style: TextStyle(
-                      color: MyColors.grey,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

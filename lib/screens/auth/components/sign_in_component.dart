@@ -41,6 +41,20 @@ class _SignInComponentState extends State<SignInComponent> {
             signInRequired = false;
             _errorMsg = 'Wrong credentials. Try again';
           });
+        } else if (state is SignInWithGoogleSuccess) {
+          setState(() {
+            signInRequired = false;
+          });
+          Navigator.pop(context);
+        } else if (state is SignInWithGoogleLoading) {
+          setState(() {
+            signInRequired = true;
+          });
+        } else if (state is SignInWithGoogleFailure) {
+          setState(() {
+            signInRequired = false;
+            _errorMsg = state.error;
+          });
         }
       },
       child: Form(
@@ -158,7 +172,9 @@ class _SignInComponentState extends State<SignInComponent> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<SignInBloc>().add(SignInWithGoogleRequired());
+                  },
                   icon: Image.asset(
                     'assets/images/google_logo.png',
                     height: 28,
