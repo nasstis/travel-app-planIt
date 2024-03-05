@@ -12,3 +12,5 @@ class SignUpRequired extends SignUpEvent {
     required this.password,
   });
 }
+
+class SignUpWithGoogleRequired extends SignUpEvent {}

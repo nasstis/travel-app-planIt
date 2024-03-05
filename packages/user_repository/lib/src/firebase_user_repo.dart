@@ -89,19 +89,30 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<void> signInWithGoogle() async {
+  Future<MyUser> authWithGoogle() async {
     try {
+      await GoogleSignIn().signOut();
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      if (googleUser == null) {
+        return MyUser.empty;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
+      UserCredential user =
+          await _firebaseAuth.signInWithCredential(credential);
+
+      return MyUser(
+          userId: user.user!.uid,
+          name: googleUser.displayName ?? googleUser.email,
+          email: googleUser.email);
     } catch (e) {
       log(e.toString());
       rethrow;

@@ -27,6 +27,6 @@ class ResetPasswordRequired extends SignInEvent {
   List<Object> get props => [email];
 }
 
-class SignInWithGoogleRequired extends SignInEvent {}
+class AuthWithGoogleRequired extends SignInEvent {}
 
 class SignInWithFacebookRequired extends SignInEvent {}

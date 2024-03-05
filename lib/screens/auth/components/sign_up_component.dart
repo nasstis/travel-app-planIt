@@ -23,7 +23,6 @@ class _SignUpComponentState extends State<SignUpComponent> {
   bool signUpRequired = false;
   IconData iconPassword = CupertinoIcons.eye_fill;
   bool obscurePassword = true;
-  String? _errorMsg;
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpBloc, SignUpState>(
@@ -41,7 +40,11 @@ class _SignUpComponentState extends State<SignUpComponent> {
           setState(() {
             signUpRequired = false;
           });
-          return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+            ),
+          );
         }
       },
       child: Form(
@@ -57,7 +60,6 @@ class _SignUpComponentState extends State<SignUpComponent> {
                 obscureText: false,
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                errorMsg: _errorMsg,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -78,7 +80,6 @@ class _SignUpComponentState extends State<SignUpComponent> {
                 obscureText: false,
                 keyboardType: TextInputType.name,
                 prefixIcon: const Icon(CupertinoIcons.person_fill),
-                errorMsg: _errorMsg,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -96,7 +97,6 @@ class _SignUpComponentState extends State<SignUpComponent> {
                 obscureText: obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 prefixIcon: const Icon(CupertinoIcons.lock_fill),
-                errorMsg: _errorMsg,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -163,6 +163,22 @@ class _SignUpComponentState extends State<SignUpComponent> {
                   )
                 : const CircularProgressIndicator(),
             const SizedBox(height: 60),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<SignUpBloc>().add(SignUpWithGoogleRequired());
+              },
+              icon: Image.asset(
+                'assets/images/google_logo.png',
+                height: 28,
+              ),
+              label: const Text(
+                MyTexts.signUp,
+                style: TextStyle(
+                  color: MyColors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

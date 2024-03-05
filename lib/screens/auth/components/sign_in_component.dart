@@ -22,31 +22,28 @@ class _SignInComponentState extends State<SignInComponent> {
   bool signInRequired = false;
   IconData iconPassword = CupertinoIcons.eye_fill;
   bool obscurePassword = true;
-  String? _errorMsg;
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
-        if (state is SignInSuccess ||
-            state is SignInWithGoogleSuccess ||
-            state is SignInWithFacebookSuccess) {
+        if (state is SignInSuccess) {
           setState(() {
             signInRequired = false;
           });
           Navigator.pop(context);
-        } else if (state is SignInLoading ||
-            state is SignInWithGoogleLoading ||
-            state is SignInWithFacebookLoading) {
+        } else if (state is SignInLoading) {
           setState(() {
             signInRequired = true;
           });
-        } else if (state is SignInFailure ||
-            state is SignInWithGoogleFailure ||
-            state is SignInWithFacebookFailure) {
+        } else if (state is SignInFailure) {
           setState(() {
             signInRequired = false;
-            _errorMsg = 'Wrong credentials. Try again';
           });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+            ),
+          );
         }
       },
       child: Form(
@@ -62,7 +59,6 @@ class _SignInComponentState extends State<SignInComponent> {
                 obscureText: false,
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                errorMsg: _errorMsg,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -83,7 +79,6 @@ class _SignInComponentState extends State<SignInComponent> {
                 obscureText: obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 prefixIcon: const Icon(CupertinoIcons.lock_fill),
-                errorMsg: _errorMsg,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Please fill in this field';
@@ -165,7 +160,7 @@ class _SignInComponentState extends State<SignInComponent> {
               children: [
                 OutlinedButton.icon(
                   onPressed: () {
-                    context.read<SignInBloc>().add(SignInWithGoogleRequired());
+                    context.read<SignInBloc>().add(AuthWithGoogleRequired());
                   },
                   icon: Image.asset(
                     'assets/images/google_logo.png',

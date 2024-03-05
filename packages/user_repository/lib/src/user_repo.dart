@@ -13,7 +13,7 @@ abstract class UserRepository {
 
   Future<void> resetPassword(String email);
 
-  Future<void> signInWithGoogle();
+  Future<MyUser> authWithGoogle();
 
   Future<void> signInWithFacebook();
 }

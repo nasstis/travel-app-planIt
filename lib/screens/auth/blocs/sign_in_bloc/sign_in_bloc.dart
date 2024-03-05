@@ -17,7 +17,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         await _userRepository.signIn(event.email, event.password);
         emit(SignInSuccess());
       } catch (e) {
-        emit(SignInFailure());
+        emit(SignInFailure(e.toString()));
       }
     });
 
@@ -35,25 +35,25 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       }
     });
 
-    on<SignInWithGoogleRequired>((event, emit) async {
-      emit(SignInWithGoogleLoading());
+    on<AuthWithGoogleRequired>((event, emit) async {
+      emit(SignInLoading());
       try {
-        await _userRepository.signInWithGoogle();
-        emit(SignInWithGoogleSuccess());
+        await _userRepository.authWithGoogle();
+        emit(SignInSuccess());
       } catch (e) {
         log(e.toString());
-        emit(SignInWithGoogleFailure(e.toString()));
+        emit(SignInFailure(e.toString()));
       }
     });
 
     on<SignInWithFacebookRequired>((event, emit) async {
-      emit(SignInWithFacebookLoading());
+      emit(SignInLoading());
       try {
         await _userRepository.signInWithFacebook();
-        emit(SignInWithFacebookSuccess());
+        emit(SignInSuccess());
       } catch (e) {
         log(e.toString());
-        emit(SignInWithFacebookFailure());
+        emit(SignInFailure(e.toString()));
       }
     });
   }
