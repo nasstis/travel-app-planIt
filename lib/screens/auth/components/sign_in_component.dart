@@ -27,33 +27,25 @@ class _SignInComponentState extends State<SignInComponent> {
   Widget build(BuildContext context) {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
-        if (state is SignInSuccess) {
+        if (state is SignInSuccess ||
+            state is SignInWithGoogleSuccess ||
+            state is SignInWithFacebookSuccess) {
           setState(() {
             signInRequired = false;
           });
           Navigator.pop(context);
-        } else if (state is SignInLoading) {
+        } else if (state is SignInLoading ||
+            state is SignInWithGoogleLoading ||
+            state is SignInWithFacebookLoading) {
           setState(() {
             signInRequired = true;
           });
-        } else if (state is SignInFailure) {
+        } else if (state is SignInFailure ||
+            state is SignInWithGoogleFailure ||
+            state is SignInWithFacebookFailure) {
           setState(() {
             signInRequired = false;
             _errorMsg = 'Wrong credentials. Try again';
-          });
-        } else if (state is SignInWithGoogleSuccess) {
-          setState(() {
-            signInRequired = false;
-          });
-          Navigator.pop(context);
-        } else if (state is SignInWithGoogleLoading) {
-          setState(() {
-            signInRequired = true;
-          });
-        } else if (state is SignInWithGoogleFailure) {
-          setState(() {
-            signInRequired = false;
-            _errorMsg = state.error;
           });
         }
       },
@@ -189,7 +181,11 @@ class _SignInComponentState extends State<SignInComponent> {
                 ),
                 const SizedBox(width: 10),
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    context
+                        .read<SignInBloc>()
+                        .add(SignInWithFacebookRequired());
+                  },
                   icon: const FaIcon(
                     FontAwesomeIcons.facebook,
                     color: MyColors.facebookLogo,

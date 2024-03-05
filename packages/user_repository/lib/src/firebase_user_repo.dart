@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'user_repo.dart';
 import 'models/models.dart';
@@ -101,6 +102,21 @@ class FirebaseUserRepository implements UserRepository {
       );
 
       await _firebaseAuth.signInWithCredential(credential);
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> signInWithFacebook() async {
+    try {
+      final loginResult = await FacebookAuth.instance.login();
+
+      final facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+      _firebaseAuth.signInWithCredential(facebookAuthCredential);
     } catch (e) {
       log(e.toString());
       rethrow;

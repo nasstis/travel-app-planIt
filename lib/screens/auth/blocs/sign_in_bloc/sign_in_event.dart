@@ -28,3 +28,5 @@ class ResetPasswordRequired extends SignInEvent {
 }
 
 class SignInWithGoogleRequired extends SignInEvent {}
+
+class SignInWithFacebookRequired extends SignInEvent {}

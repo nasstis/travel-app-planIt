@@ -33,3 +33,9 @@ final class SignInWithGoogleFailure extends SignInState {
 
   SignInWithGoogleFailure(this.error);
 }
+
+final class SignInWithFacebookLoading extends SignInState {}
+
+final class SignInWithFacebookSuccess extends SignInState {}
+
+final class SignInWithFacebookFailure extends SignInState {}
