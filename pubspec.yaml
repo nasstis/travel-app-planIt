@@ -20,6 +20,8 @@ dependencies:
 
   user_repository:
     path: packages/user_repository
+  city_repository:
+    path: packages/city_repository
 
 dev_dependencies:
   flutter_test:
