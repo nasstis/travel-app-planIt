@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseCityRepo implements CityRepo {
   final cityColection = FirebaseFirestore.instance.collection('cities');
 
+  @override
   Future<List<City>> getCities() async {
     try {
       return await cityColection.get().then((value) => value.docs

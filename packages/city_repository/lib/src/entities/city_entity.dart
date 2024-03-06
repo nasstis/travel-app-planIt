@@ -4,7 +4,7 @@ class CityEntity {
   String description;
   String continent;
   String country;
-  List<String> pictures;
+  List<dynamic> pictures;
   double latitude;
   double longitude;
 

@@ -1,32 +1,35 @@
+import 'package:city_repository/city_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class PopularDestinations extends StatelessWidget {
-  const PopularDestinations({super.key});
+  const PopularDestinations({super.key, required this.cities});
+
+  final List<City> cities;
 
   @override
   Widget build(BuildContext context) {
-    List imagesAssets = [
-      'assets/images/2.jpg',
-      'assets/images/3.jpg',
-      'assets/images/4.jpg',
-      'assets/images/5.jpg',
-      'assets/images/2.jpg',
-      'assets/images/3.jpg',
-      'assets/images/5.jpg',
-    ];
+    // List imagesAssets = [
+    //   'assets/images/2.jpg',
+    //   'assets/images/3.jpg',
+    //   'assets/images/4.jpg',
+    //   'assets/images/5.jpg',
+    //   'assets/images/2.jpg',
+    //   'assets/images/3.jpg',
+    //   'assets/images/5.jpg',
+    // ];
 
-    List names = [
-      'Paris',
-      'Turkey',
-      'Japan',
-      'Dubai',
-      'Paris',
-      'Turkey',
-      'Dubai',
-    ];
+    // List names = [
+    //   'Paris',
+    //   'Turkey',
+    //   'Japan',
+    //   'Dubai',
+    //   'Paris',
+    //   'Turkey',
+    //   'Dubai',
+    // ];
 
     return Column(
       children: [
@@ -48,7 +51,7 @@ class PopularDestinations extends StatelessWidget {
         ),
         Expanded(
           child: MasonryGridView.builder(
-            itemCount: 7,
+            itemCount: cities.length,
             gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2),
             mainAxisSpacing: 10.0,
@@ -68,7 +71,7 @@ class PopularDestinations extends StatelessWidget {
                           minWidth: 200,
                         ),
                         child: Image(
-                          image: AssetImage(imagesAssets[index]),
+                          image: NetworkImage(cities[index].pictures[0]),
                           fit: BoxFit.cover,
                           color: Colors.black.withOpacity(0.1),
                           colorBlendMode: BlendMode.srcOver,
@@ -93,7 +96,7 @@ class PopularDestinations extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            names[index],
+                            cities[index].name,
                             style: const TextStyle(
                               fontSize: 17,
                               color: MyColors.light,
