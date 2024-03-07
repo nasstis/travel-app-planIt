@@ -9,6 +9,7 @@ class MyColors {
 
   static const Color white = Colors.white;
   static const Color light = Color(0xFFEFEEEE);
+  static const Color darkLight = Color(0xFFE3E3E3);
   static const Color grey = Color(0xFF757575);
 
   static const Color buttonDisabled = Color(0xFFC4C4C4);
