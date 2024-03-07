@@ -6,20 +6,27 @@ class City {
   String description;
   String continent;
   String country;
-  List<dynamic> pictures;
+  String picture;
   double latitude;
   double longitude;
+  String officialLanguage;
+  String timeZone;
+  String climate;
+  String currency;
 
-  City({
-    required this.cityId,
-    required this.name,
-    required this.description,
-    required this.continent,
-    required this.country,
-    required this.pictures,
-    required this.latitude,
-    required this.longitude,
-  });
+  City(
+      {required this.cityId,
+      required this.name,
+      required this.description,
+      required this.continent,
+      required this.country,
+      required this.picture,
+      required this.latitude,
+      required this.longitude,
+      required this.officialLanguage,
+      required this.timeZone,
+      required this.climate,
+      required this.currency});
 
   CityEntity toEntity() {
     return CityEntity(
@@ -28,9 +35,13 @@ class City {
       description: description,
       continent: continent,
       country: country,
-      pictures: pictures,
+      picture: picture,
       latitude: latitude,
       longitude: longitude,
+      officialLanguage: officialLanguage,
+      timeZone: timeZone,
+      climate: climate,
+      currency: currency,
     );
   }
 
@@ -41,9 +52,13 @@ class City {
       description: entity.description,
       continent: entity.continent,
       country: entity.country,
-      pictures: entity.pictures,
+      picture: entity.picture,
       latitude: entity.latitude,
       longitude: entity.longitude,
+      officialLanguage: entity.officialLanguage,
+      timeZone: entity.timeZone,
+      climate: entity.climate,
+      currency: entity.currency,
     );
   }
 }

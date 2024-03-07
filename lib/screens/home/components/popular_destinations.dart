@@ -63,7 +63,7 @@ class PopularDestinations extends StatelessWidget {
                             minWidth: 200,
                           ),
                           child: Image(
-                            image: NetworkImage(cities[index].pictures[0]),
+                            image: NetworkImage(cities[index].picture),
                             fit: BoxFit.cover,
                             color: Colors.black.withOpacity(0.1),
                             colorBlendMode: BlendMode.srcOver,

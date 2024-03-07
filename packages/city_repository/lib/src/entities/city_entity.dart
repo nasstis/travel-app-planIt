@@ -4,20 +4,27 @@ class CityEntity {
   String description;
   String continent;
   String country;
-  List<dynamic> pictures;
+  String picture;
   double latitude;
   double longitude;
+  String officialLanguage;
+  String timeZone;
+  String climate;
+  String currency;
 
-  CityEntity({
-    required this.cityId,
-    required this.name,
-    required this.description,
-    required this.continent,
-    required this.country,
-    required this.pictures,
-    required this.latitude,
-    required this.longitude,
-  });
+  CityEntity(
+      {required this.cityId,
+      required this.name,
+      required this.description,
+      required this.continent,
+      required this.country,
+      required this.picture,
+      required this.latitude,
+      required this.longitude,
+      required this.officialLanguage,
+      required this.timeZone,
+      required this.climate,
+      required this.currency});
 
   Map<String, Object?> toDocument() {
     return {
@@ -26,9 +33,13 @@ class CityEntity {
       'description': description,
       'continent': continent,
       'country': country,
-      'pictures': pictures,
+      'picture': picture,
       'latitude': latitude,
       'longitude': longitude,
+      'officialLanguage': officialLanguage,
+      'timeZone': timeZone,
+      'climate': climate,
+      'currency': currency,
     };
   }
 
@@ -39,9 +50,13 @@ class CityEntity {
       description: doc['description'],
       continent: doc['continent'],
       country: doc['country'],
-      pictures: doc['pictures'],
+      picture: doc['picture'],
       latitude: doc['latitude'],
       longitude: doc['longitude'],
+      officialLanguage: doc['officialLanguage'],
+      timeZone: doc['timeZone'],
+      climate: doc['climate'],
+      currency: doc['currency'],
     );
   }
 }

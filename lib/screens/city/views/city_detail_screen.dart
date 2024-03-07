@@ -20,6 +20,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
     return Scaffold(
       backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: MyColors.light, //change your color here
@@ -51,7 +52,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Image(
-                      image: NetworkImage(widget.city.pictures[0]),
+                      image: NetworkImage(widget.city.picture),
                       fit: BoxFit.cover,
                       color: Colors.black.withOpacity(0.4),
                       colorBlendMode: BlendMode.srcOver,

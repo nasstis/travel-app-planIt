@@ -36,6 +36,7 @@ class _CityMapState extends State<CityMap> {
         child: GoogleMap(
           onMapCreated: _onMapCreated,
           mapType: MapType.terrain,
+          zoomControlsEnabled: false,
           initialCameraPosition: CameraPosition(
             target: LatLng(widget.city.latitude, widget.city.longitude),
             zoom: 11.0,
