@@ -1,5 +1,13 @@
+import 'package:city_repository/city_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
+import 'package:travel_app/screens/home/blocs/search_bloc/search_bloc.dart';
+import 'package:travel_app/screens/home/views/home_screen.dart';
+import 'package:travel_app/screens/home/views/search_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
@@ -34,6 +42,29 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               IconButton(
                 enableFeedback: false,
                 onPressed: () {
+                  if (pageIndex == 0) {
+                    return;
+                  } else {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) => SignInBloc(
+                                  context.read<AuthBloc>().userRepository,
+                                ),
+                              ),
+                              BlocProvider(
+                                create: (context) => GetCitiesBloc(
+                                  FirebaseCityRepo(),
+                                )..add(GetCities()),
+                              ),
+                            ],
+                            child: const HomeScreen(),
+                          ),
+                        ));
+                  }
                   setState(() {
                     pageIndex = 0;
                   });
@@ -49,6 +80,18 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               IconButton(
                 enableFeedback: false,
                 onPressed: () {
+                  if (pageIndex == 1) {
+                    return;
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => SearchBloc(FirebaseCityRepo()),
+                            child: const SearchScreen(),
+                          ),
+                        ));
+                  }
                   setState(() {
                     pageIndex = 1;
                   });

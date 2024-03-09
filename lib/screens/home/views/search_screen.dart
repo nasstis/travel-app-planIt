@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/city/views/city_detail_screen.dart';
 import 'package:travel_app/screens/home/blocs/search_bloc/search_bloc.dart';
+import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -181,6 +182,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
         ],
       ),
+      bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

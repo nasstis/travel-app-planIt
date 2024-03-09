@@ -17,16 +17,18 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   firebase_core: ^2.24.2
   equatable: ^2.0.5
-
-  user_repository:
-    path: packages/user_repository
-  city_repository:
-    path: packages/city_repository
   carousel_slider: ^4.2.1
   readmore: ^2.2.0
   google_maps_flutter: ^2.5.3
   stream_transform: ^2.1.0
   bloc_concurrency: ^0.2.4
+
+  user_repository:
+    path: packages/user_repository
+  city_repository:
+    path: packages/city_repository
+  place_repository:
+    path: packages/place_repository
 
 dev_dependencies:
   flutter_test:
