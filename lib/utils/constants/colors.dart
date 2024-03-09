@@ -4,6 +4,7 @@ class MyColors {
   MyColors._();
 
   static const Color primary = Color(0xFF5941a9);
+  static const Color darkPrimary = Color(0xFF362766);
   static const Color secondary = Color(0xFFe39ec1);
   static const Color accent = Color(0xFFf4b860);
 

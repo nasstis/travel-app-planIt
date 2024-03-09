@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
+import 'package:travel_app/screens/home/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/screens/home/components/places_horizontal_list_view.dart';
 import 'package:travel_app/screens/home/components/popular_destinations.dart';
+import 'package:travel_app/screens/home/views/search_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late List<City> cities;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider(
+                    create: (context) => SearchBloc(FirebaseCityRepo()),
+                    child: const SearchScreen(),
+                  ),
+                ),
+              );
+            },
             icon: const FaIcon(
               FontAwesomeIcons.magnifyingGlass,
               size: 22,
@@ -53,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocBuilder<GetCitiesBloc, GetCitiesState>(
           builder: (context, state) {
             if (state is GetCitiesSuccess) {
+              cities = state.cities;
               return Column(
                 children: [
                   const PlacesHorizontalListView(),

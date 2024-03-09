@@ -25,6 +25,8 @@ dependencies:
   carousel_slider: ^4.2.1
   readmore: ^2.2.0
   google_maps_flutter: ^2.5.3
+  stream_transform: ^2.1.0
+  bloc_concurrency: ^0.2.4
 
 dev_dependencies:
   flutter_test:
