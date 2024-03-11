@@ -3,9 +3,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key, required this.cityLatLng});
+  const MapScreen({super.key, required this.cityLatLng, required this.markers});
 
   final LatLng cityLatLng;
+  final Set<Marker> markers;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -31,12 +32,7 @@ class _MapScreenState extends State<MapScreen> {
           target: widget.cityLatLng,
           zoom: 11.0,
         ),
-        markers: {
-          Marker(
-            markerId: const MarkerId('1'),
-            position: widget.cityLatLng,
-          )
-        },
+        markers: widget.markers,
       ),
     );
   }
