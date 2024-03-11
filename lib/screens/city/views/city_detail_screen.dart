@@ -117,12 +117,8 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                       cityName: widget.city.name,
                     ),
                   ),
-                  BlocProvider(
-                    create: (context) => GetPlacesBloc(FirebasePlaceRepo())
-                      ..add(GetPlaces(widget.city.cityId)),
-                    child: CityMap(
-                      city: widget.city,
-                    ),
+                  CityMap(
+                    city: widget.city,
                   ),
                 ]),
               ),
