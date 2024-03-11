@@ -1,9 +1,8 @@
 import 'package:city_repository/city_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:travel_app/screens/city/views/city_detail_screen.dart';
-import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/components/card_view.dart';
 
 class PopularDestinations extends StatelessWidget {
   const PopularDestinations({super.key, required this.cities});
@@ -52,80 +51,9 @@ class PopularDestinations extends StatelessWidget {
                           ),
                         ));
                   },
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          constraints: const BoxConstraints(
-                            minHeight: 180,
-                            maxHeight: 250,
-                            minWidth: 200,
-                          ),
-                          child: Image(
-                            image: NetworkImage(cities[index].picture),
-                            fit: BoxFit.cover,
-                            color: Colors.black.withOpacity(0.1),
-                            colorBlendMode: BlendMode.srcOver,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            CupertinoIcons.heart_fill,
-                            color: MyColors.light,
-                            size: 25,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        left: 12,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              cities[index].name,
-                              style: const TextStyle(
-                                fontSize: 17,
-                                color: MyColors.light,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              height: 28,
-                              width: 55,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: MyColors.light.withOpacity(0.8),
-                              ),
-                              child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.star_fill,
-                                    size: 20,
-                                    color: Colors.amber,
-                                  ),
-                                  Text(
-                                    '4.5',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                  child: CardView(
+                    imageUrl: cities[index].picture,
+                    name: cities[index].name,
                   ),
                 ),
               );

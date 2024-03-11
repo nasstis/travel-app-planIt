@@ -1,24 +1,21 @@
-import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:place_repository/place_repository.dart';
-import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
-import 'package:travel_app/screens/city/components/city_info.dart';
-import 'package:travel_app/screens/city/components/city_map.dart';
 import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
-import 'package:travel_app/screens/place/views/places_list_view.dart';
+import 'package:travel_app/screens/place/components/gallery.dart';
+import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
-class CityDetailScreen extends StatefulWidget {
-  const CityDetailScreen({super.key, required this.city});
+class PlaceScreen extends StatefulWidget {
+  const PlaceScreen({super.key, required this.place, required this.cityName});
 
-  final City city;
+  final Place place;
+  final String cityName;
 
   @override
-  State<CityDetailScreen> createState() => _CityDetailScreenState();
+  State<PlaceScreen> createState() => _PlaceScreenState();
 }
 
-class _CityDetailScreenState extends State<CityDetailScreen> {
+class _PlaceScreenState extends State<PlaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +53,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Image(
-                      image: NetworkImage(widget.city.picture),
+                      image: NetworkImage(widget.place.pictures[0]),
                       fit: BoxFit.cover,
                       color: Colors.black.withOpacity(0.4),
                       colorBlendMode: BlendMode.srcOver,
@@ -71,7 +68,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: Text(
-                            widget.city.name,
+                            widget.place.name,
                             style: const TextStyle(
                                 fontSize: 35,
                                 color: MyColors.light,
@@ -87,7 +84,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              widget.city.country,
+                              widget.cityName,
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: MyColors.light,
@@ -107,23 +104,21 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: TabBarView(children: [
-                  CityInfo(
-                    city: widget.city,
+                  PlaceInfo(
+                    place: widget.place,
                   ),
-                  BlocProvider(
-                    create: (context) => GetPlacesBloc(FirebasePlaceRepo())
-                      ..add(GetPlaces(widget.city.cityId)),
-                    child: PlacesList(
-                      cityName: widget.city.name,
-                    ),
+                  Gallery(
+                    images: widget.place.pictures,
                   ),
-                  BlocProvider(
-                    create: (context) => GetPlacesBloc(FirebasePlaceRepo())
-                      ..add(GetPlaces(widget.city.cityId)),
-                    child: CityMap(
-                      city: widget.city,
-                    ),
-                  ),
+                  const Text('data'),
+                  // BlocProvider(
+                  //   create: (context) => GetPlacesBloc(FirebasePlaceRepo())
+                  //     ..add(GetPlaces(widget.city.cityId)),
+                  //   child: const PlacesList(),
+                  // ),
+                  // CityMap(
+                  //   city: widget.city,
+                  // ),
                 ]),
               ),
             ),
@@ -143,7 +138,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   child: const TabBar(
                     tabs: [
                       Text('Info'),
-                      Text('Places'),
+                      Text('Gallery'),
                       Text('Map'),
                     ],
                   ),
