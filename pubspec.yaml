@@ -30,6 +30,7 @@ dependencies:
   place_repository:
     path: packages/place_repository
   custom_info_window: ^1.0.1
+  go_router: ^13.2.0
 
 dev_dependencies:
   flutter_test:

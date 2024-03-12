@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:travel_app/screens/auth/components/my_text_field.dart';
 import 'package:travel_app/screens/auth/views/auth_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:travel_app/utils/constants/text_strings.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -31,6 +33,7 @@ class _SignUpComponentState extends State<SignUpComponent> {
           setState(() {
             signUpRequired = true;
           });
+          context.go(homeRoute);
         } else if (state is SignUpSuccess) {
           setState(() {
             signUpRequired = false;

@@ -2,14 +2,14 @@ import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
-import 'package:travel_app/screens/home/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/screens/home/components/places_horizontal_list_view.dart';
 import 'package:travel_app/screens/home/components/popular_destinations.dart';
-import 'package:travel_app/screens/home/views/search_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,15 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                    create: (context) => SearchBloc(FirebaseCityRepo()),
-                    child: const SearchScreen(),
-                  ),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => BlocProvider(
+              //       create: (context) => SearchBloc(FirebaseCityRepo()),
+              //       child: const SearchScreen(),
+              //     ),
+              //   ),
+              // );
             },
             icon: const FaIcon(
               FontAwesomeIcons.magnifyingGlass,
@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {
               context.read<SignInBloc>().add(SignOutRequired());
+              context.go(initRoute);
             },
             icon: const FaIcon(
               FontAwesomeIcons.arrowRightFromBracket,
@@ -87,9 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
               return const Center(
                 child: Text('An error has occured...'),
               );
-            } else {
+            } else if (state is GetCitiesLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
+              );
+            } else {
+              return const Center(
+                child: Text('Так не має бути'),
               );
             }
           },

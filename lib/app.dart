@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<AuthBloc>(
+    return RepositoryProvider(
       create: (context) => AuthBloc(userRepository: userRepository),
       child: const MyAppView(),
     );

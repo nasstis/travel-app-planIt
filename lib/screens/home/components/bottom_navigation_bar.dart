@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
-import 'package:travel_app/screens/home/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
-import 'package:travel_app/screens/home/views/search_screen.dart';
+import 'package:travel_app/screens/search/views/search_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
@@ -83,14 +82,14 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   if (pageIndex == 1) {
                     return;
                   } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => SearchBloc(FirebaseCityRepo()),
-                            child: const SearchScreen(),
-                          ),
-                        ));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => BlocProvider(
+                    //         create: (context) => SearchBloc(FirebaseCityRepo()),
+                    //         child: const SearchScreen(),
+                    //       ),
+                    //     ));
                   }
                   setState(() {
                     pageIndex = 1;
