@@ -5,7 +5,6 @@ import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/city_info.dart';
 import 'package:travel_app/screens/city/components/city_map.dart';
-import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/screens/place/views/places_list_view.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
@@ -149,7 +148,6 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

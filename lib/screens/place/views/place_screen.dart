@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:place_repository/place_repository.dart';
-import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/screens/place/components/gallery.dart';
 import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -112,14 +111,6 @@ class _PlaceScreenState extends State<PlaceScreen> {
                     images: place.pictures,
                   ),
                   const Text('data'),
-                  // BlocProvider(
-                  //   create: (context) => GetPlacesBloc(FirebasePlaceRepo())
-                  //     ..add(GetPlaces(widget.city.cityId)),
-                  //   child: const PlacesList(),
-                  // ),
-                  // CityMap(
-                  //   city: widget.city,
-                  // ),
                 ]),
               ),
             ),
@@ -149,7 +140,6 @@ class _PlaceScreenState extends State<PlaceScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

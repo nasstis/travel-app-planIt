@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
-import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/screens/home/components/places_horizontal_list_view.dart';
 import 'package:travel_app/screens/home/components/popular_destinations.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -63,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(
                 children: [
                   const PlacesHorizontalListView(),
-                  // SizedBox(height: 25),
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.only(right: 16),
@@ -72,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )),
                   const SizedBox(
-                    height: 1,
+                    height: 70,
                   )
                 ],
               );
@@ -88,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

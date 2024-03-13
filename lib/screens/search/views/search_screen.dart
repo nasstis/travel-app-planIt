@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travel_app/screens/home/components/bottom_navigation_bar.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
@@ -178,7 +177,6 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
         ],
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

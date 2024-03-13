@@ -3,6 +3,9 @@ abstract class PageName {
   static const welcomeRoute = '/welcome';
   static const homeRoute = '/home';
   static const searchRoute = '/search';
-  static const cityRoute = '/city';
-  static const placeRoute = '/place';
+  static const cityRoute = '/home/city';
+  static const placeRoute = '/home/place';
+
+  static const cityPathName = 'city';
+  static const placePathName = 'place';
 }
