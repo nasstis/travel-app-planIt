@@ -22,13 +22,12 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(
-          color: MyColors.light, //change your color here
+          color: MyColors.light,
         ),
       ),
       backgroundColor: MyColors.white,
       extendBodyBehindAppBar: true,
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -91,6 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             context
                                 .read<SearchBloc>()
                                 .add(SearchWordRequired(_controller.text));
+                            FocusScope.of(context).unfocus();
                           },
                           icon: const FaIcon(
                             FontAwesomeIcons.magnifyingGlass,
@@ -139,6 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           ListTile(
                             onTap: () {
+                              _controller.clear();
                               context.go(PageName.cityRoute,
                                   extra: cities[index]);
                             },

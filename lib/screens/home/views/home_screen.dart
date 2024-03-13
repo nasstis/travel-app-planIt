@@ -33,16 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              context.push(PageName.searchRoute);
-            },
-            icon: const FaIcon(
-              FontAwesomeIcons.magnifyingGlass,
-              size: 22,
-              color: MyColors.primary,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
               context.read<SignInBloc>().add(SignOutRequired());
               context.go(PageName.initRoute);
             },
