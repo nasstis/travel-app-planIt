@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
-import 'package:travel_app/screens/place/views/place_screen.dart';
 import 'package:travel_app/utils/components/card_view.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 
 class PlacesList extends StatelessWidget {
   const PlacesList({super.key, required this.cityName});
@@ -33,14 +34,12 @@ class PlacesList extends StatelessWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PlaceScreen(
-                            place: state.places[index],
-                            cityName: cityName,
-                          ),
-                        ),
+                      context.push(
+                        PageName.placeRoute,
+                        extra: {
+                          'place': state.places[index],
+                          'cityName': cityName,
+                        },
                       );
                     },
                     child: CardView(

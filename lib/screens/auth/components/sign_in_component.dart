@@ -32,7 +32,7 @@ class _SignInComponentState extends State<SignInComponent> {
           setState(() {
             signInRequired = false;
           });
-          context.go(homeRoute);
+          context.go(PageName.homeRoute);
         } else if (state is SignInLoading) {
           setState(() {
             signInRequired = true;

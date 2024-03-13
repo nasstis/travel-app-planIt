@@ -6,10 +6,9 @@ import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class PlaceScreen extends StatefulWidget {
-  const PlaceScreen({super.key, required this.place, required this.cityName});
+  const PlaceScreen({super.key, this.extra});
 
-  final Place place;
-  final String cityName;
+  final Map<String, dynamic>? extra;
 
   @override
   State<PlaceScreen> createState() => _PlaceScreenState();
@@ -18,6 +17,8 @@ class PlaceScreen extends StatefulWidget {
 class _PlaceScreenState extends State<PlaceScreen> {
   @override
   Widget build(BuildContext context) {
+    final Place place = widget.extra!['place'];
+    final String cityName = widget.extra!['cityName'];
     return Scaffold(
       backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,
@@ -53,7 +54,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Image(
-                      image: NetworkImage(widget.place.pictures[0]),
+                      image: NetworkImage(place.pictures[0]),
                       fit: BoxFit.cover,
                       color: Colors.black.withOpacity(0.4),
                       colorBlendMode: BlendMode.srcOver,
@@ -68,7 +69,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: Text(
-                            widget.place.name,
+                            place.name,
                             style: const TextStyle(
                                 fontSize: 35,
                                 color: MyColors.light,
@@ -84,7 +85,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              widget.cityName,
+                              cityName,
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: MyColors.light,
@@ -105,10 +106,10 @@ class _PlaceScreenState extends State<PlaceScreen> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: TabBarView(children: [
                   PlaceInfo(
-                    place: widget.place,
+                    place: place,
                   ),
                   Gallery(
-                    images: widget.place.pictures,
+                    images: place.pictures,
                   ),
                   const Text('data'),
                   // BlocProvider(

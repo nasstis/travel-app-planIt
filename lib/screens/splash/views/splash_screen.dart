@@ -14,13 +14,13 @@ class SplashScreen extends StatelessWidget {
         builder: (context, state) {
           if (state.status == AuthStatus.authenticated) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.go(homeRoute);
+              context.go(PageName.homeRoute);
             });
 
             return Container();
           } else if (state.status == AuthStatus.unauthenticated) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.go(welcomeRoute);
+              context.go(PageName.welcomeRoute);
             });
             return Container();
           } else {

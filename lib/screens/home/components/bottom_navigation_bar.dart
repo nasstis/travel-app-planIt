@@ -6,7 +6,6 @@ import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
-import 'package:travel_app/screens/search/views/search_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {

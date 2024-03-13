@@ -34,15 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => BlocProvider(
-              //       create: (context) => SearchBloc(FirebaseCityRepo()),
-              //       child: const SearchScreen(),
-              //     ),
-              //   ),
-              // );
+              context.push(PageName.searchRoute);
             },
             icon: const FaIcon(
               FontAwesomeIcons.magnifyingGlass,
@@ -53,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {
               context.read<SignInBloc>().add(SignOutRequired());
-              context.go(initRoute);
+              context.go(PageName.initRoute);
             },
             icon: const FaIcon(
               FontAwesomeIcons.arrowRightFromBracket,
@@ -88,13 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
               return const Center(
                 child: Text('An error has occured...'),
               );
-            } else if (state is GetCitiesLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
             } else {
               return const Center(
-                child: Text('Так не має бути'),
+                child: CircularProgressIndicator(),
               );
             }
           },

@@ -2,11 +2,12 @@ import 'package:city_repository/city_repository.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
-import 'package:travel_app/screens/place/views/place_screen.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:travel_app/utils/helpers/get_json.dart';
 
 class MapView extends StatefulWidget {
@@ -118,12 +119,10 @@ class InfoWindow extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    PlaceScreen(place: selectedPlace, cityName: cityName),
-              ));
+          context.push(PageName.placeRoute, extra: {
+            'place': selectedPlace,
+            'cityName': cityName,
+          });
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

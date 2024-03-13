@@ -33,7 +33,7 @@ class _SignUpComponentState extends State<SignUpComponent> {
           setState(() {
             signUpRequired = true;
           });
-          context.go(homeRoute);
+          context.go(PageName.homeRoute);
         } else if (state is SignUpSuccess) {
           setState(() {
             signUpRequired = false;
