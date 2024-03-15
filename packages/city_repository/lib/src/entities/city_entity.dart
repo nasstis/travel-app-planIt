@@ -11,20 +11,23 @@ class CityEntity {
   String timeZone;
   String climate;
   String currency;
+  double area;
 
-  CityEntity(
-      {required this.cityId,
-      required this.name,
-      required this.description,
-      required this.continent,
-      required this.country,
-      required this.picture,
-      required this.latitude,
-      required this.longitude,
-      required this.officialLanguage,
-      required this.timeZone,
-      required this.climate,
-      required this.currency});
+  CityEntity({
+    required this.cityId,
+    required this.name,
+    required this.description,
+    required this.continent,
+    required this.country,
+    required this.picture,
+    required this.latitude,
+    required this.longitude,
+    required this.officialLanguage,
+    required this.timeZone,
+    required this.climate,
+    required this.currency,
+    required this.area,
+  });
 
   Map<String, Object?> toDocument() {
     return {
@@ -40,6 +43,7 @@ class CityEntity {
       'timeZone': timeZone,
       'climate': climate,
       'currency': currency,
+      'area': area,
     };
   }
 
@@ -57,6 +61,7 @@ class CityEntity {
       timeZone: doc['timeZone'],
       climate: doc['climate'],
       currency: doc['currency'],
+      area: doc['area'],
     );
   }
 }

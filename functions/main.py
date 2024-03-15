@@ -1,9 +1,18 @@
-from firebase_functions import https_fn
-from firebase_admin import initialize_app
+from firebase_functions.firestore_fn import (
+    on_document_created,
+    Event,
+    DocumentSnapshot,
+)
+from firebase_admin import initialize_app, firestore
+import google.cloud.firestore
+import math
+import googlemaps
 
 initialize_app()
 
+API_KEY = open("API_KEY.txt", "r").read()
 
-@https_fn.on_request()
-def on_request_example(req: https_fn.Request) -> https_fn.Response:
-    return https_fn.Response("Hello world!")
+
+@on_document_created(document="cities/{cityId}")
+def createPlaces(event: Event[DocumentSnapshot]) -> None:
+    radius = (math.sqrt(event.data.get("area") / math.pi)) * 1000

@@ -13,20 +13,23 @@ class City {
   String timeZone;
   String climate;
   String currency;
+  double area;
 
-  City(
-      {required this.cityId,
-      required this.name,
-      required this.description,
-      required this.continent,
-      required this.country,
-      required this.picture,
-      required this.latitude,
-      required this.longitude,
-      required this.officialLanguage,
-      required this.timeZone,
-      required this.climate,
-      required this.currency});
+  City({
+    required this.cityId,
+    required this.name,
+    required this.description,
+    required this.continent,
+    required this.country,
+    required this.picture,
+    required this.latitude,
+    required this.longitude,
+    required this.officialLanguage,
+    required this.timeZone,
+    required this.climate,
+    required this.currency,
+    required this.area,
+  });
 
   CityEntity toEntity() {
     return CityEntity(
@@ -42,6 +45,7 @@ class City {
       timeZone: timeZone,
       climate: climate,
       currency: currency,
+      area: area,
     );
   }
 
@@ -59,6 +63,7 @@ class City {
       timeZone: entity.timeZone,
       climate: entity.climate,
       currency: entity.currency,
+      area: entity.area,
     );
   }
 }
