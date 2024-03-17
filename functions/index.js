@@ -2,6 +2,7 @@ require("dotenv").config();
 const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
+const { getStorage, getDownloadURL } = require("firebase-admin/storage");
 
 initializeApp();
 
@@ -24,7 +25,6 @@ exports.myfunction = onDocumentCreated("cities/{cityId}", async (event) => {
         },
         languageCode: "en"
     };
-
     const headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": API_KEY,
@@ -37,13 +37,15 @@ exports.myfunction = onDocumentCreated("cities/{cityId}", async (event) => {
         body: JSON.stringify(parameters)
     });
 
-    const data = await response.json()
+    const data = await response.json();
 
     processData(data.places);
 });
 
 async function processData(places) {
     for (const place of places) {
+        const photoUrls = await getPhotosUrl(place.photos);
+
         const placeMap = {
             "name": place.displayName.text,
             "id": place.id,
@@ -55,7 +57,7 @@ async function processData(places) {
             "address": place.shortFormattedAddress,
             "description": place.editorialSummary.text,
             "reviews": place.reviews,
-            "photos": place.photos,
+            "photos": photoUrls,
         };
 
         if (place.goodForChildren !== undefined) {
@@ -70,4 +72,35 @@ async function processData(places) {
 
         await getFirestore().collection("places").doc(placeMap.id).set(placeMap);
     }
+}
+
+async function getPhotosUrl(photos) {
+    const urls = [];
+    for (const photo of photos) {
+        try {
+            const get_photo_url = `https://places.googleapis.com/v1/${photo.name}/media?maxHeightPx=${photo.heightPx}&maxWidthPx=${photo.widthPx}&key=${API_KEY}`;
+
+            const headers = {
+                "Content-Type": "application/json",
+                "X-Goog-Api-Key": API_KEY,
+            };
+
+            const response = await fetch(get_photo_url, {
+                method: 'GET',
+                headers: headers,
+            });
+
+            const file = await response.arrayBuffer();
+            var uint8file = new Uint8Array(file);
+
+            const fileRef = getStorage().bucket().file(`${photo.name}.jpg`);
+            await fileRef.save(uint8file, { resumable: false, metadata: { contentType: "image/jpg" } });
+
+            const photoUrl = await getDownloadURL(fileRef);
+            urls.push(photoUrl);
+        } catch (error) {
+            console.log("PHOTO ERROR", error);
+        }
+    }
+    return urls;
 }
