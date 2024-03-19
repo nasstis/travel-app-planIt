@@ -16,7 +16,7 @@ exports.myfunction = onDocumentCreated(
     {
       document: "cities/{cityId}",
       region: "europe-west1",
-      timeoutSeconds: 300,
+      timeoutSeconds: 540,
       memory: "512MiB",
     }, async (event) => {
       const radius = Math.sqrt(event.data.data().area / Math.PI) * 1000;
@@ -53,10 +53,9 @@ exports.myfunction = onDocumentCreated(
     });
 
 async function processData(places, cityId, batch) {
-  const placePromises = await places.map(async (place) => {
+  for await (const place of places) {
     const photoUrls = await getPhotosUrl(place.photos);
 
-    console.log("processData");
     const placeMap = {
       name: place.displayName.text,
       id: place.id,
@@ -82,21 +81,20 @@ async function processData(places, cityId, batch) {
       placeMap.goodForChildren = place.goodForChildren;
     }
     if (place.regularOpeningHours) {
-      placeMap.regularOpeningHours = place.regularOpeningHours.weekdayDescriptions;
+      placeMap.openingHours = place.regularOpeningHours.weekdayDescriptions;
     }
     if (place.restroom) {
       placeMap.restroom = place.restroom;
     }
 
-
     const placeRef = db.collection("places").doc(placeMap.id);
     batch.set(placeRef, placeMap);
-  });
-  await Promise.all(placePromises);
+  }
 }
 
 async function getPhotosUrl(photos) {
   console.log("getPhotourls");
+  let filteredUrls = [];
   try {
     const urls = await photos.map(async (photo) => {
       const getPhotoUrl = `https://places.googleapis.com/v1/${photo.name}/media?maxHeightPx=${photo.heightPx}&maxWidthPx=${photo.widthPx}&key=${API_KEY}`;
@@ -126,10 +124,9 @@ async function getPhotosUrl(photos) {
     });
 
     const urlsData = await Promise.all(urls);
-    const filteredUrls = urlsData.filter(Boolean);
-
-    return filteredUrls;
+    filteredUrls = urlsData.filter(Boolean);
   } catch (error) {
     console.log("PHOTO ERROR", error);
   }
+  return filteredUrls;
 }
