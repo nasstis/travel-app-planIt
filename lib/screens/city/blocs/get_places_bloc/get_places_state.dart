@@ -17,4 +17,8 @@ final class GetPlacesSuccess extends GetPlacesState {
   const GetPlacesSuccess(this.places);
 }
 
-final class GetPlacesFailure extends GetPlacesState {}
+final class GetPlacesFailure extends GetPlacesState {
+  final String error;
+
+  GetPlacesFailure({required this.error});
+}

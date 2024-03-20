@@ -53,7 +53,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: Image(
-                      image: NetworkImage(place.pictures[0]),
+                      image: NetworkImage(place.photos[0]),
                       fit: BoxFit.cover,
                       color: Colors.black.withOpacity(0.4),
                       colorBlendMode: BlendMode.srcOver,
@@ -108,7 +108,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                     place: place,
                   ),
                   Gallery(
-                    images: place.pictures,
+                    images: place.photos,
                   ),
                   const Text('data'),
                 ]),

@@ -135,7 +135,7 @@ class InfoWindow extends StatelessWidget {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
                 image: DecorationImage(
-                  image: NetworkImage(selectedPlace.pictures[0]),
+                  image: NetworkImage(selectedPlace.photos[0]),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -43,7 +43,7 @@ class PlacesList extends StatelessWidget {
                       );
                     },
                     child: CardView(
-                      imageUrl: state.places[index].pictures[0],
+                      imageUrl: state.places[index].photos[0],
                       name: state.places[index].name,
                     ),
                   ),
@@ -51,10 +51,16 @@ class PlacesList extends StatelessWidget {
               },
             ),
           );
+        } else if (state is GetPlacesLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is GetPlacesFailure) {
+          return Center(
+            child: Text(state.error),
+          );
         }
-        return const Center(
-          child: Text('Не робе'),
-        );
+        return Container();
       },
     );
   }

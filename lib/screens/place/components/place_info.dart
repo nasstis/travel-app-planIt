@@ -31,19 +31,20 @@ class PlaceInfo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            ReadMoreText(
-              place.description,
-              trimLines: 6,
-              colorClickableText: Colors.pink,
-              trimMode: TrimMode.Line,
-              trimCollapsedText: 'More',
-              trimExpandedText: ' Hide',
-              moreStyle:
-                  const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              lessStyle:
-                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-              style: const TextStyle(fontSize: 15),
-            ),
+            if (place.description != null)
+              ReadMoreText(
+                place.description!,
+                trimLines: 6,
+                colorClickableText: Colors.pink,
+                trimMode: TrimMode.Line,
+                trimCollapsedText: 'More',
+                trimExpandedText: ' Hide',
+                moreStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                lessStyle:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 15),
+              ),
             const SizedBox(height: 50),
           ],
         ),

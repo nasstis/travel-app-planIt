@@ -1,43 +1,76 @@
+import 'package:place_repository/place_repository.dart';
+
 class PlaceEntity {
   String id;
   String name;
-  String description;
-  List<dynamic> pictures;
+  List<dynamic> types;
   double latitude;
   double longitude;
+  String address;
+  List reviews;
+  List<dynamic> photos;
   String cityId;
+  String? description;
+  String? businessStatus;
+  double? rating;
+  bool? goodForChildren;
+  List<dynamic>? openingHours;
+  bool? restroom;
 
   PlaceEntity({
     required this.id,
     required this.name,
-    required this.description,
-    required this.pictures,
+    required this.types,
     required this.latitude,
     required this.longitude,
+    required this.address,
+    required this.reviews,
+    required this.photos,
     required this.cityId,
+    this.description,
+    this.businessStatus,
+    this.rating,
+    this.goodForChildren,
+    this.openingHours,
+    this.restroom,
   });
 
-  Map<String, Object?> toDocument() {
-    return {
-      "id": id,
-      "name": name,
-      "description": description,
-      "pictures": pictures,
-      "latitude": latitude,
-      "longitude": longitude,
-      "cityId": cityId,
-    };
-  }
+  // Map<String, Object?> toDocument() {
+  //   return {
+  //     "id": id,
+  //     "name": name,
+  //     "description": description,
+  //     "pictures": pictures,
+  //     "latitude": latitude,
+  //     "longitude": longitude,
+  //     "cityId": cityId,
+  //     "address": address,
+  //   };
+  // }
 
   static PlaceEntity fromDocument(Map<String, dynamic> doc) {
     return PlaceEntity(
       id: doc["id"],
       name: doc["name"],
-      description: doc["description"],
-      pictures: doc["pictures"],
+      types: doc["types"],
       latitude: doc["latitude"],
       longitude: doc["longitude"],
+      address: doc["address"],
+      reviews: doc["reviews"]
+          .map(
+            (review) => Review.fromEntity(
+              ReviewEntity.fromDocument(review),
+            ),
+          )
+          .toList(),
+      photos: doc["photos"],
       cityId: doc["cityId"],
+      description: doc["description"],
+      businessStatus: doc["businessStatus"],
+      rating: doc["rating"].toDouble(),
+      goodForChildren: doc["goodForChildren"],
+      openingHours: doc["openingHours"],
+      restroom: doc["restroom"],
     );
   }
 }

@@ -14,7 +14,7 @@ class GetPlacesBloc extends Bloc<GetPlacesEvent, GetPlacesState> {
         final places = await _placeRepo.getPlaces(event.cityId);
         emit(GetPlacesSuccess(places));
       } catch (e) {
-        emit(GetPlacesFailure());
+        emit(GetPlacesFailure(error: e.toString()));
       }
     });
   }
