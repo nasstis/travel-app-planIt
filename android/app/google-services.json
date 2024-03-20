@@ -37,6 +37,13 @@
             {
               "client_id": "492359981927-atirg7gel4lv810r9jtnbr86np0ru59u.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "492359981927-frscnj58ros32lttoen8l5cg9ibm5tlp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.travelApp"
+              }
             }
           ]
         }

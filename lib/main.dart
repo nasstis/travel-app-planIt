@@ -15,8 +15,18 @@ void main() async {
       appId: '1:492359981927:android:cd183369d974b912756dc2',
       messagingSenderId: '492359981927',
       projectId: 'travel-app-b3617',
+      storageBucket: 'gs://travel-app-b3617.appspot.com',
     ),
   );
+  // if (FlutterConfig.get('USE_FIREBASE_EMU') == 'true') {
+  //   await FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
+  //   await FirebaseStorage.instance.useStorageEmulator('10.0.2.2', 9199);
+  //   FirebaseFirestore.instance.settings = const Settings(
+  //     host: '10.0.2.2:8080',
+  //     sslEnabled: false,
+  //     persistenceEnabled: false,
+  //   );
+  // }
   Bloc.observer = SimpleBlocObserver();
   runApp(MyApp(FirebaseUserRepository()));
 }
