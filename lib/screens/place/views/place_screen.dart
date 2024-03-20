@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/place/components/gallery.dart';
@@ -52,11 +53,14 @@ class _PlaceScreenState extends State<PlaceScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.4,
-                    child: Image(
-                      image: NetworkImage(place.photos[0]),
+                    child: CachedNetworkImage(
+                      imageUrl: place.photos[0],
                       fit: BoxFit.cover,
                       color: Colors.black.withOpacity(0.4),
                       colorBlendMode: BlendMode.srcOver,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
                   ),
                   Positioned(

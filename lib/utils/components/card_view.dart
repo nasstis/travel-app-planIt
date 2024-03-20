@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -19,18 +20,20 @@ class CardView extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Container(
-            constraints: const BoxConstraints(
-              minHeight: 180,
-              maxHeight: 250,
-              minWidth: 200,
-            ),
-            child: Image(
-              image: NetworkImage(imageUrl),
-              fit: BoxFit.cover,
-              color: Colors.black.withOpacity(0.1),
-              colorBlendMode: BlendMode.srcOver,
-            ),
-          ),
+              constraints: const BoxConstraints(
+                minHeight: 180,
+                maxHeight: 250,
+                minWidth: 200,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                color: Colors.black.withOpacity(0.1),
+                colorBlendMode: BlendMode.srcOver,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )),
         ),
         Align(
           alignment: Alignment.topRight,

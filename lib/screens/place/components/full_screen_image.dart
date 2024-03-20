@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
@@ -52,10 +53,11 @@ class _FullScreenImageState extends State<FullScreenImage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          images[index],
-                        ),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: images[index],
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
                       ),
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:city_repository/city_repository.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
@@ -130,13 +131,16 @@ class InfoWindow extends StatelessWidget {
             Container(
               height: 95,
               width: 200,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
-                image: DecorationImage(
-                  image: NetworkImage(selectedPlace.photos[0]),
-                  fit: BoxFit.cover,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: selectedPlace.photos[0],
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
                 ),
               ),
             ),
