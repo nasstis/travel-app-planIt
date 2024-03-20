@@ -10,6 +10,7 @@ import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.da
 import 'package:travel_app/screens/city/views/city_detail_screen.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
+import 'package:travel_app/screens/place/components/full_screen_image.dart';
 import 'package:travel_app/utils/components/bottom_nav_bar.dart';
 import 'package:travel_app/screens/place/views/place_screen.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
@@ -18,7 +19,6 @@ import 'package:travel_app/screens/splash/views/splash_screen.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter router(AuthBloc authBloc) {
   return GoRouter(
@@ -41,6 +41,11 @@ GoRouter router(AuthBloc authBloc) {
       GoRoute(
         path: PageName.welcomeRoute,
         builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: PageName.galleryRoute,
+        builder: (context, state) =>
+            FullScreenImage(extra: state.extra as Map<String, dynamic>?),
       ),
       StatefulShellRoute.indexedStack(
         builder: (BuildContext context, GoRouterState state,

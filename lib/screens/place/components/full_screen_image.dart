@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class FullScreenImage extends StatefulWidget {
-  const FullScreenImage(
-      {super.key, required this.images, required this.initialIndex});
+  const FullScreenImage({super.key, this.extra});
 
-  final List<dynamic> images;
-  final int initialIndex;
+  final Map<String, dynamic>? extra;
 
   @override
   State<FullScreenImage> createState() => _FullScreenImageState();
@@ -15,10 +13,14 @@ class FullScreenImage extends StatefulWidget {
 class _FullScreenImageState extends State<FullScreenImage> {
   late final PageController _pageController;
   late int _activePage;
+  late List<dynamic> images;
+  late int initialIndex;
   @override
   void initState() {
-    _pageController = PageController(initialPage: widget.initialIndex);
-    _activePage = widget.initialIndex;
+    images = widget.extra!['images'];
+    initialIndex = widget.extra!['initialIndex'];
+    _pageController = PageController(initialPage: initialIndex);
+    _activePage = initialIndex;
     super.initState();
   }
 
@@ -37,7 +39,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
         child: Stack(
           children: [
             PageView.builder(
-              itemCount: widget.images.length,
+              itemCount: images.length,
               controller: _pageController,
               onPageChanged: (value) {
                 setState(() {
@@ -46,13 +48,13 @@ class _FullScreenImageState extends State<FullScreenImage> {
               },
               itemBuilder: (context, index) => Center(
                 child: Hero(
-                  tag: widget.images[widget.initialIndex],
+                  tag: images[initialIndex],
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       image: DecorationImage(
                         image: NetworkImage(
-                          widget.images[index],
+                          images[index],
                         ),
                       ),
                     ),
@@ -60,7 +62,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                 ),
               ),
             ),
-            if (_activePage < widget.images.length - 1)
+            if (_activePage < images.length - 1)
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.5,
                 right: 5,
@@ -122,7 +124,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                 ),
                 child: Center(
                   child: Text(
-                    '${_activePage + 1} / ${widget.images.length}',
+                    '${_activePage + 1} / ${images.length}',
                     style: TextStyle(
                       color: MyColors.light.withOpacity(0.8),
                       fontSize: 16,

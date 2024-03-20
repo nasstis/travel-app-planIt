@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:travel_app/screens/place/components/full_screen_image.dart';
+import 'package:go_router/go_router.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 
 class Gallery extends StatelessWidget {
   const Gallery({super.key, required this.images});
@@ -17,12 +18,13 @@ class Gallery extends StatelessWidget {
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return FullScreenImage(
-                images: images,
-                initialIndex: index,
-              );
-            }));
+            context.push(
+              PageName.galleryRoute,
+              extra: {
+                'images': images,
+                'initialIndex': index,
+              },
+            );
           },
           child: Hero(
             tag: images[index],

@@ -5,6 +5,7 @@ abstract class PageName {
   static const searchRoute = '/search';
   static const cityRoute = '/home/city';
   static const placeRoute = '/home/place';
+  static const galleryRoute = '/gallery';
 
   static const cityPathName = 'city';
   static const placePathName = 'place';
