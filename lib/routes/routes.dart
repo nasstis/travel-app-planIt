@@ -43,15 +43,6 @@ GoRouter router(AuthBloc authBloc) {
         path: PageName.welcomeRoute,
         builder: (context, state) => const WelcomeScreen(),
       ),
-      GoRoute(
-        path: PageName.galleryRoute,
-        builder: (context, state) =>
-            FullScreenImage(extra: state.extra as Map<String, dynamic>?),
-      ),
-      GoRoute(
-        path: PageName.mapRoute,
-        builder: (context, state) => MapScreen(city: state.extra as City),
-      ),
       StatefulShellRoute.indexedStack(
         builder: (BuildContext context, GoRouterState state,
             StatefulNavigationShell navigationShell) {
@@ -104,6 +95,20 @@ GoRouter router(AuthBloc authBloc) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: PageName.galleryRoute,
+        builder: (context, state) =>
+            FullScreenImage(extra: state.extra as Map<String, dynamic>?),
+      ),
+      GoRoute(
+        path: PageName.mapRoute,
+        builder: (context, state) => MapScreen(city: state.extra as City),
+      ),
+      GoRoute(
+        path: PageName.placeFromMapRoute,
+        builder: (context, state) =>
+            PlaceScreen(extra: state.extra as Map<String, dynamic>?),
       ),
     ],
   );
