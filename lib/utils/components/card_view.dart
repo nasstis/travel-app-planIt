@@ -93,7 +93,7 @@ class _CardViewState extends State<CardView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 180,
+                width: 170,
                 child: Text(
                   widget.name,
                   style: const TextStyle(

@@ -65,7 +65,9 @@ class _PlaceScreenState extends State<PlaceScreen> {
                   ),
                   Positioned(
                     left: 20,
-                    top: MediaQuery.of(context).size.height * 0.17,
+                    top: place.name.length >= 30
+                        ? MediaQuery.of(context).size.height * 0.14
+                        : MediaQuery.of(context).size.height * 0.17,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -74,7 +76,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                           child: Text(
                             place.name,
                             style: const TextStyle(
-                                fontSize: 35,
+                                fontSize: 33,
                                 color: MyColors.light,
                                 fontWeight: FontWeight.w600),
                           ),
