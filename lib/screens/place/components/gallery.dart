@@ -37,12 +37,9 @@ class Gallery extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl: images[index],
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(images[index]),
                     ),
                   ),
                 ),

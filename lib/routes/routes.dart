@@ -8,6 +8,7 @@ import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/views/welcome_screen.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/views/city_detail_screen.dart';
+import 'package:travel_app/screens/city/views/map_screen.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
@@ -46,6 +47,10 @@ GoRouter router(AuthBloc authBloc) {
         path: PageName.galleryRoute,
         builder: (context, state) =>
             FullScreenImage(extra: state.extra as Map<String, dynamic>?),
+      ),
+      GoRoute(
+        path: PageName.mapRoute,
+        builder: (context, state) => MapScreen(city: state.extra as City),
       ),
       StatefulShellRoute.indexedStack(
         builder: (BuildContext context, GoRouterState state,

@@ -135,7 +135,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                     tabs: [
                       Text('Info'),
                       Text('Gallery'),
-                      Text('Map'),
+                      Text('Reviews'),
                     ],
                   ),
                 ),

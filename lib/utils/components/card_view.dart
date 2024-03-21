@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
-class CardView extends StatelessWidget {
+class CardView extends StatefulWidget {
   const CardView({
     super.key,
     required this.imageUrl,
@@ -14,26 +14,66 @@ class CardView extends StatelessWidget {
   final String name;
 
   @override
+  State<CardView> createState() => _CardViewState();
+}
+
+class _CardViewState extends State<CardView> {
+  bool isLoading = false;
+  String photo = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        loadData(widget.imageUrl);
+      },
+    );
+  }
+
+  Future<void> loadData(String imageUrl) async {
+    setState(() => isLoading = true);
+
+    photo = await cacheImage(context, imageUrl);
+
+    setState(() => isLoading = false);
+  }
+
+  Future<String> cacheImage(BuildContext context, String url) async {
+    await precacheImage(CachedNetworkImageProvider(url), context);
+    return url;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: Container(
-              constraints: const BoxConstraints(
-                minHeight: 180,
-                maxHeight: 250,
-                minWidth: 200,
-              ),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.cover,
-                color: Colors.black.withOpacity(0.1),
-                colorBlendMode: BlendMode.srcOver,
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )),
+          child: isLoading
+              ? Container(
+                  height: 200,
+                  width: 200,
+                  color: MyColors.buttonDisabled,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Container(
+                  constraints: const BoxConstraints(
+                    minHeight: 180,
+                    maxHeight: 250,
+                    minWidth: 200,
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: photo,
+                    fit: BoxFit.cover,
+                    color: Colors.black.withOpacity(0.1),
+                    colorBlendMode: BlendMode.srcOver,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )),
         ),
         Align(
           alignment: Alignment.topRight,
@@ -55,7 +95,7 @@ class CardView extends StatelessWidget {
               SizedBox(
                 width: 180,
                 child: Text(
-                  name,
+                  widget.name,
                   style: const TextStyle(
                     fontSize: 17,
                     color: MyColors.light,

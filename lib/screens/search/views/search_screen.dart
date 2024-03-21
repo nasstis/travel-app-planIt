@@ -160,18 +160,17 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             leading: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: cities[index].picture,
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                )),
+                                  image: CachedNetworkImageProvider(
+                                      cities[index].picture),
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 15),
                         ],
