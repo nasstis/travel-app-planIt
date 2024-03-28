@@ -19,7 +19,12 @@ class ReviewEntity {
       rating: doc["rating"].toDouble(),
       authorName: doc["authorAttribution"]["displayName"],
       authorPhoto: doc["authorAttribution"]["photoUri"],
-      publishTime: doc["publishTime"],
+      publishTime: convertPublishTime(doc["publishTime"]),
     );
+  }
+
+  static String convertPublishTime(String time) {
+    List<String> timeSplited = time.split('T');
+    return timeSplited[0];
   }
 }

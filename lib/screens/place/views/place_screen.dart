@@ -5,6 +5,7 @@ import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/place/blocs/get_working_hours_bloc.dart/get_working_hours_bloc.dart';
 import 'package:travel_app/screens/place/components/gallery.dart';
 import 'package:travel_app/screens/place/components/place_info.dart';
+import 'package:travel_app/screens/place/components/reviews.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class PlaceScreen extends StatefulWidget {
@@ -121,7 +122,10 @@ class _PlaceScreenState extends State<PlaceScreen> {
                   Gallery(
                     images: place.photos,
                   ),
-                  const Text('data'),
+                  Reviews(
+                    reviews: place.reviews,
+                    placeRating: place.rating!,
+                  ),
                 ]),
               ),
             ),

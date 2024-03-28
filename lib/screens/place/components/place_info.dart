@@ -47,15 +47,15 @@ class _PlaceInfoState extends State<PlaceInfo> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const FaIcon(
-                  FontAwesomeIcons.clock,
-                  size: 20,
-                  color: MyColors.primary,
-                ),
-                const SizedBox(width: 5),
-                if (isOpen != null)
+            if (isOpen != null)
+              Row(
+                children: [
+                  const FaIcon(
+                    FontAwesomeIcons.clock,
+                    size: 20,
+                    color: MyColors.primary,
+                  ),
+                  const SizedBox(width: 5),
                   Text(
                     isOpen! ? 'Right now Open' : 'Right now Closed ',
                     style: const TextStyle(
@@ -63,8 +63,8 @@ class _PlaceInfoState extends State<PlaceInfo> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(height: 15),
             const Text(
               'Address',
