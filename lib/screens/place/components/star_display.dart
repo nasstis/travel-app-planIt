@@ -11,14 +11,17 @@ class StarDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(
-        5,
-        (index) => Icon(
-          index < rating ? Icons.star : Icons.star_border,
+      children: List.generate(5, (index) {
+        return Icon(
+          index < rating.floor()
+              ? Icons.star
+              : index == rating.floor() && rating - index >= 0.5
+                  ? Icons.star_half
+                  : Icons.star_border,
           color: MyColors.accent,
           size: size,
-        ),
-      ),
+        );
+      }),
     );
   }
 }

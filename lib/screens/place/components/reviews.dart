@@ -40,7 +40,7 @@ class Reviews extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.45,
                       child: StarDisplay(
-                        rating: placeRating.roundToDouble(),
+                        rating: placeRating,
                         size: 26,
                       ),
                     ),
