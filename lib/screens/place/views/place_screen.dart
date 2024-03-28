@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/screens/place/blocs/get_working_hours_bloc.dart/get_working_hours_bloc.dart';
 import 'package:travel_app/screens/place/components/gallery.dart';
 import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -110,8 +112,11 @@ class _PlaceScreenState extends State<PlaceScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: TabBarView(children: [
-                  PlaceInfo(
-                    place: place,
+                  BlocProvider(
+                    create: (context) => GetWorkingHoursBloc(),
+                    child: PlaceInfo(
+                      place: place,
+                    ),
                   ),
                   Gallery(
                     images: place.photos,

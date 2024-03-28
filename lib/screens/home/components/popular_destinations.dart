@@ -49,6 +49,7 @@ class PopularDestinations extends StatelessWidget {
                   child: CardView(
                     imageUrl: cities[index].picture,
                     name: cities[index].name,
+                    rating: 4.5,
                   ),
                 ),
               );

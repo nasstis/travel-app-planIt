@@ -108,21 +108,23 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.6,
-                child: TabBarView(children: [
-                  CityInfo(
-                    city: widget.city,
-                  ),
-                  BlocProvider(
-                    create: (context) => GetPlacesBloc(FirebasePlaceRepo())
-                      ..add(GetPlaces(widget.city.cityId)),
-                    child: PlacesList(
-                      cityName: widget.city.name,
+                child: TabBarView(
+                  children: [
+                    CityInfo(
+                      city: widget.city,
                     ),
-                  ),
-                  CityMap(
-                    city: widget.city,
-                  ),
-                ]),
+                    BlocProvider(
+                      create: (context) => GetPlacesBloc(FirebasePlaceRepo())
+                        ..add(GetPlaces(widget.city.cityId)),
+                      child: PlacesList(
+                        cityName: widget.city.name,
+                      ),
+                    ),
+                    CityMap(
+                      city: widget.city,
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(

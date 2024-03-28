@@ -17,8 +17,8 @@ class PlacesList extends StatelessWidget {
       builder: (context, state) {
         if (state is GetPlacesSuccess) {
           return Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 45.0, horizontal: 20.0),
+            padding: const EdgeInsets.only(
+                bottom: 85.0, top: 40, left: 20.0, right: 20.0),
             child: MasonryGridView.builder(
               padding: EdgeInsets.zero,
               itemCount: state.places.length,
@@ -45,6 +45,7 @@ class PlacesList extends StatelessWidget {
                     child: CardView(
                       imageUrl: state.places[index].photos[0],
                       name: state.places[index].name,
+                      rating: state.places[index].rating!,
                     ),
                   ),
                 );

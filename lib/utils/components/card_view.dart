@@ -8,10 +8,12 @@ class CardView extends StatefulWidget {
     super.key,
     required this.imageUrl,
     required this.name,
+    required this.rating,
   });
 
   final String imageUrl;
   final String name;
+  final double rating;
 
   @override
   State<CardView> createState() => _CardViewState();
@@ -111,17 +113,17 @@ class _CardViewState extends State<CardView> {
                   borderRadius: BorderRadius.circular(5),
                   color: MyColors.light.withOpacity(0.8),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Icon(
+                    const Icon(
                       CupertinoIcons.star_fill,
                       size: 20,
                       color: Colors.amber,
                     ),
                     Text(
-                      '4.5',
-                      style: TextStyle(
+                      widget.rating.toString(),
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                       ),
