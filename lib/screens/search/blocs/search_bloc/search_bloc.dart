@@ -22,6 +22,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         const Duration(milliseconds: 500),
       ),
     );
+
+    on<ClearSearchResults>((event, emit) {
+      emit(SearchState(cities: null));
+    });
   }
 
   _onSearch(SearchWordRequired event, Emitter<SearchState> emit) async {

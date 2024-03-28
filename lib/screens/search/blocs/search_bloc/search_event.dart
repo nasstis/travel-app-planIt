@@ -12,3 +12,5 @@ class SearchWordRequired extends SearchEvent {
 
   const SearchWordRequired(this.word);
 }
+
+class ClearSearchResults extends SearchEvent {}

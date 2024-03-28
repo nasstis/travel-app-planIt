@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,9 +17,11 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final _controller = TextEditingController();
+  List<City>? cities;
+
   @override
   Widget build(BuildContext context) {
-    final cities = context.select((SearchBloc bloc) => bloc.state.cities);
+    cities = context.select((SearchBloc bloc) => bloc.state.cities);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -117,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          if (cities == null || cities.isEmpty)
+          if (cities == null || cities!.isEmpty)
             Column(
               children: [
                 SizedBox(
@@ -134,18 +137,21 @@ class _SearchScreenState extends State<SearchScreen> {
                 height: 500,
                 child: ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemCount: cities.length,
+                    itemCount: cities!.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           ListTile(
                             onTap: () {
                               _controller.clear();
+                              context
+                                  .read<SearchBloc>()
+                                  .add(ClearSearchResults());
                               context.go(PageName.cityRoute,
-                                  extra: cities[index]);
+                                  extra: cities![index]);
                             },
                             title: Text(
-                              cities[index].name,
+                              cities![index].name,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -153,7 +159,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             subtitle: Text(
-                              cities[index].country,
+                              cities![index].country,
                               style: const TextStyle(
                                 fontSize: 13,
                                 color: MyColors.darkPrimary,
@@ -167,7 +173,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: CachedNetworkImageProvider(
-                                      cities[index].picture),
+                                      cities![index].picture),
                                 ),
                               ),
                             ),
