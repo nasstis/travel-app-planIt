@@ -52,7 +52,11 @@ class PlaceEntity {
     return PlaceEntity(
       id: doc["id"],
       name: doc["name"],
-      types: doc["types"],
+      types: doc["types"]
+          .where((type) => type != 'tourist_attraction')
+          .map((type) {
+        return type.replaceAll('_', ' ');
+      }).toList(),
       latitude: doc["latitude"],
       longitude: doc["longitude"],
       address: doc["address"],

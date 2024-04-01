@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/theme/theme_widgets.dart/chip_theme.dart';
 import 'package:travel_app/utils/theme/theme_widgets.dart/elevated_button.dart';
 
 class AppTheme {
@@ -12,6 +13,7 @@ class AppTheme {
     primaryColor: MyColors.primary,
     scaffoldBackgroundColor: MyColors.light,
     elevatedButtonTheme: MyElevatedButtonTheme.lightlevatedButtonThemeData,
+    chipTheme: MyChipTheme.lightChipThemeData,
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -20,5 +22,6 @@ class AppTheme {
     brightness: Brightness.dark,
     primaryColor: MyColors.primary,
     elevatedButtonTheme: MyElevatedButtonTheme.darklevatedButtonThemeData,
+    chipTheme: MyChipTheme.darkChipThemeData,
   );
 }
