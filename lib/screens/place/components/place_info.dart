@@ -75,8 +75,7 @@ class _PlaceInfoState extends State<PlaceInfo> {
                   child: Text(
                     widget.place.address,
                     style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -100,7 +99,6 @@ class _PlaceInfoState extends State<PlaceInfo> {
                       isOpen! ? 'Right now Open' : 'Right now Closed ',
                       style: const TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -134,6 +132,29 @@ class _PlaceInfoState extends State<PlaceInfo> {
                   ),
                   const SizedBox(height: 15),
                 ],
+              ),
+            if (widget.place.goodForChildren != null &&
+                widget.place.goodForChildren!)
+              const Chip(
+                avatar: Icon(
+                  Icons.child_friendly,
+                  size: 18,
+                ),
+                label: Text(
+                  'This place is good for children',
+                ),
+                backgroundColor: MyColors.light,
+              ),
+            if (widget.place.restroom != null && widget.place.restroom!)
+              const Chip(
+                avatar: FaIcon(
+                  FontAwesomeIcons.restroom,
+                  size: 15,
+                ),
+                label: Text(
+                  'This place have a restroom',
+                ),
+                backgroundColor: MyColors.light,
               ),
             if (workingHours.isNotEmpty)
               WorkingHoursElement(
