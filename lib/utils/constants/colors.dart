@@ -17,6 +17,6 @@ class MyColors {
 
   static const Color facebookLogo = Color(0xFF316FF6);
 
-  static const Color green = Color(0xFF5CB85C);
+  static const Color green = Color.fromARGB(255, 68, 176, 68);
   static const Color red = Color(0xFFDC143C);
 }

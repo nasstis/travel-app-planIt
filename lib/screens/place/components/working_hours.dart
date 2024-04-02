@@ -19,17 +19,8 @@ class WorkingHoursElement extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 15),
-        const Text(
-          'Openning hours',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 15),
         Center(
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.76,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: MyColors.light,

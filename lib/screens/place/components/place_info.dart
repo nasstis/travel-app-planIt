@@ -22,6 +22,7 @@ class _PlaceInfoState extends State<PlaceInfo> {
   Map<String, String> workingHours = {};
   String currentDay = "";
   bool seeAllTypesRequired = false;
+  bool seeWorkingHoursRequired = false;
 
   @override
   void initState() {
@@ -60,7 +61,55 @@ class _PlaceInfoState extends State<PlaceInfo> {
                 });
               },
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
+            if (isOpen != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.solidClock,
+                          size: 17,
+                          color: isOpen! ? MyColors.green : MyColors.red,
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          isOpen! ? 'Open Now' : 'Closed Now',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: isOpen! ? MyColors.green : MyColors.red,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 5),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          seeWorkingHoursRequired = !seeWorkingHoursRequired;
+                        });
+                      },
+                      icon: Icon(
+                        seeWorkingHoursRequired
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
+                        color: isOpen! ? MyColors.green : MyColors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (seeWorkingHoursRequired)
+              WorkingHoursElement(
+                workingHours: workingHours,
+                currentDay: currentDay,
+                lenght: widget.place.openingHours!.length,
+              ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -81,29 +130,6 @@ class _PlaceInfoState extends State<PlaceInfo> {
                 ),
               ],
             ),
-            const Divider(),
-            const SizedBox(height: 5),
-            if (isOpen != null)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.solidClock,
-                    size: 17,
-                    color: isOpen! ? MyColors.green : MyColors.red,
-                  ),
-                  const SizedBox(width: 5),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      isOpen! ? 'Right now Open' : 'Right now Closed ',
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             const SizedBox(height: 20),
             if (widget.place.description != null)
               Column(
@@ -130,7 +156,7 @@ class _PlaceInfoState extends State<PlaceInfo> {
                         fontSize: 14, fontWeight: FontWeight.w600),
                     style: const TextStyle(fontSize: 15),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                 ],
               ),
             if (widget.place.goodForChildren != null &&
@@ -155,12 +181,6 @@ class _PlaceInfoState extends State<PlaceInfo> {
                   'This place have a restroom',
                 ),
                 backgroundColor: MyColors.light,
-              ),
-            if (workingHours.isNotEmpty)
-              WorkingHoursElement(
-                workingHours: workingHours,
-                currentDay: currentDay,
-                lenght: widget.place.openingHours!.length,
               ),
             const SizedBox(height: 50),
           ],
