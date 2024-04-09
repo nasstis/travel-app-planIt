@@ -80,6 +80,11 @@ GoRouter router(AuthBloc authBloc) {
                       builder: (context, state) => PlaceScreen(
                           extra: state.extra as Map<String, dynamic>?),
                     ),
+                    GoRoute(
+                      path: PageName.mapPathName,
+                      builder: (context, state) =>
+                          MapScreen(city: state.extra as City),
+                    ),
                   ]),
             ],
           ),
@@ -100,15 +105,6 @@ GoRouter router(AuthBloc authBloc) {
         path: PageName.galleryRoute,
         builder: (context, state) =>
             FullScreenImage(extra: state.extra as Map<String, dynamic>?),
-      ),
-      GoRoute(
-        path: PageName.mapRoute,
-        builder: (context, state) => MapScreen(city: state.extra as City),
-      ),
-      GoRoute(
-        path: PageName.placeFromMapRoute,
-        builder: (context, state) =>
-            PlaceScreen(extra: state.extra as Map<String, dynamic>?),
       ),
     ],
   );
