@@ -5,10 +5,16 @@ import 'package:travel_app/screens/place/components/star_display.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class Reviews extends StatelessWidget {
-  const Reviews({super.key, required this.reviews, required this.placeRating});
+  const Reviews({
+    super.key,
+    required this.reviews,
+    required this.placeRating,
+    required this.ratingCount,
+  });
 
   final List reviews;
   final double placeRating;
+  final int ratingCount;
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +55,9 @@ class Reviews extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          const Text(
-                            'Based on 00 reviews',
-                            style: TextStyle(
+                          Text(
+                            'Based on $ratingCount reviews',
+                            style: const TextStyle(
                               fontSize: 15,
                             ),
                           ),

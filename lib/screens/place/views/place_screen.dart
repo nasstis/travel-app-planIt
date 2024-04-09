@@ -125,6 +125,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                   Reviews(
                     reviews: place.reviews,
                     placeRating: place.rating!,
+                    ratingCount: place.ratingCount,
                   ),
                 ]),
               ),

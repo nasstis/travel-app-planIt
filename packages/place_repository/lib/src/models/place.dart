@@ -8,6 +8,7 @@ class Place {
   double longitude;
   String address;
   List reviews;
+  int ratingCount;
   List<dynamic> photos;
   String cityId;
   String? description;
@@ -25,6 +26,7 @@ class Place {
     required this.longitude,
     required this.address,
     required this.reviews,
+    required this.ratingCount,
     required this.photos,
     required this.cityId,
     this.description,
@@ -58,6 +60,7 @@ class Place {
       longitude: entity.longitude,
       address: entity.address,
       reviews: entity.reviews,
+      ratingCount: entity.ratingCount,
       photos: entity.photos,
       cityId: entity.cityId,
       description: entity.description,

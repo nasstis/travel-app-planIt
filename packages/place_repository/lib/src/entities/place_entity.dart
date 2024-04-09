@@ -8,6 +8,7 @@ class PlaceEntity {
   double longitude;
   String address;
   List reviews;
+  int ratingCount;
   List<dynamic> photos;
   String cityId;
   String? description;
@@ -25,6 +26,7 @@ class PlaceEntity {
     required this.longitude,
     required this.address,
     required this.reviews,
+    required this.ratingCount,
     required this.photos,
     required this.cityId,
     this.description,
@@ -67,6 +69,7 @@ class PlaceEntity {
             ),
           )
           .toList(),
+      ratingCount: doc["ratingCount"],
       photos: doc["photos"],
       cityId: doc["cityId"],
       description: doc["description"],
