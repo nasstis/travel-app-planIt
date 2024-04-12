@@ -12,6 +12,7 @@ import 'package:travel_app/screens/city/views/map_screen.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
+import 'package:travel_app/screens/search/views/new_trip_search.dart';
 import 'package:travel_app/screens/trips/views/my_trips.dart';
 import 'package:travel_app/screens/trips/views/new_trip.dart';
 import 'package:travel_app/utils/components/bottom_nav_bar.dart';
@@ -110,6 +111,7 @@ GoRouter router(AuthBloc authBloc) {
                   GoRoute(
                     path: PageName.newTripPathName,
                     builder: (context, state) => const NewTrip(),
+                    // routes: <RouteBase>[],
                   ),
                 ],
               ),
@@ -121,6 +123,13 @@ GoRouter router(AuthBloc authBloc) {
         path: PageName.galleryRoute,
         builder: (context, state) =>
             FullScreenImage(extra: state.extra as Map<String, dynamic>?),
+      ),
+      GoRoute(
+        path: PageName.newTripSearchRoute,
+        builder: (context, state) => BlocProvider(
+          create: (context) => SearchBloc(FirebaseCityRepo()),
+          child: const NewTripSearch(),
+        ),
       ),
     ],
   );

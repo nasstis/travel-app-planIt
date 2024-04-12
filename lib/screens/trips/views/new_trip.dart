@@ -1,6 +1,9 @@
+import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 
 class NewTrip extends StatefulWidget {
   const NewTrip({super.key});
@@ -84,10 +87,7 @@ class _NewTripState extends State<NewTrip> {
                   const SizedBox(height: 25),
                   TextField(
                     controller: _cityController,
-                    style: const TextStyle(
-                        color: MyColors.darkGrey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
+                    style: const TextStyle(color: MyColors.darkGrey),
                     decoration: const InputDecoration(
                       label: Text('Where are you going?'),
                       labelStyle: TextStyle(color: MyColors.darkGrey),
@@ -99,7 +99,15 @@ class _NewTripState extends State<NewTrip> {
                           OutlineInputBorder(borderSide: BorderSide.none),
                     ),
                     readOnly: true,
-                    onTap: () {},
+                    onTap: () async {
+                      City? pickedCity =
+                          await context.push(PageName.newTripSearchRoute);
+                      if (pickedCity != null) {
+                        setState(() {
+                          _cityController.text = pickedCity.name;
+                        });
+                      }
+                    },
                   ),
                   const SizedBox(height: 15),
                   TextField(

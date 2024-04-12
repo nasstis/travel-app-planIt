@@ -1,12 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
+import 'package:travel_app/screens/search/components/search_results.dart';
 import 'package:travel_app/utils/constants/colors.dart';
-import 'package:travel_app/utils/constants/routes_names.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -120,70 +118,11 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          if (cities == null || cities!.isEmpty)
-            Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                ),
-                const Center(
-                  child: Text('There is no such city yet...'),
-                ),
-              ],
-            )
-          else
-            Expanded(
-              child: SizedBox(
-                height: 500,
-                child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: cities!.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          ListTile(
-                            onTap: () {
-                              _controller.clear();
-                              context
-                                  .read<SearchBloc>()
-                                  .add(ClearSearchResults());
-                              context.go(PageName.cityRoute,
-                                  extra: cities![index]);
-                            },
-                            title: Text(
-                              cities![index].name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: MyColors.darkPrimary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              cities![index].country,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: MyColors.darkPrimary,
-                              ),
-                            ),
-                            leading: Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(
-                                      cities![index].picture),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 15),
-                        ],
-                      );
-                    }),
-              ),
-            ),
+          SearchResults(
+            cities: cities,
+            controller: _controller,
+            isForTrip: false,
+          ),
         ],
       ),
     );
