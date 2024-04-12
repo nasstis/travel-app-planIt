@@ -64,7 +64,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
                     _onTap(context, 2);
                   },
                   icon: Icon(
-                    CupertinoIcons.star_fill,
+                    CupertinoIcons.airplane,
                     color: navigationShell.currentIndex == 2
                         ? MyColors.primary
                         : MyColors.buttonDisabled,

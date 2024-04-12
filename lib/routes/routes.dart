@@ -12,6 +12,7 @@ import 'package:travel_app/screens/city/views/map_screen.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
+import 'package:travel_app/screens/trips/views/my_trips.dart';
 import 'package:travel_app/utils/components/bottom_nav_bar.dart';
 import 'package:travel_app/screens/place/views/place_screen.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
@@ -96,6 +97,14 @@ GoRouter router(AuthBloc authBloc) {
                   create: (context) => SearchBloc(FirebaseCityRepo()),
                   child: const SearchScreen(),
                 ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: PageName.tripsRoute,
+                builder: (context, state) => const MyTrips(),
               ),
             ],
           ),
