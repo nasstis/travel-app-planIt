@@ -13,6 +13,7 @@ import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.da
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
 import 'package:travel_app/screens/trips/views/my_trips.dart';
+import 'package:travel_app/screens/trips/views/new_trip.dart';
 import 'package:travel_app/utils/components/bottom_nav_bar.dart';
 import 'package:travel_app/screens/place/views/place_screen.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
@@ -105,6 +106,12 @@ GoRouter router(AuthBloc authBloc) {
               GoRoute(
                 path: PageName.tripsRoute,
                 builder: (context, state) => const MyTrips(),
+                routes: <RouteBase>[
+                  GoRoute(
+                    path: PageName.newTripPathName,
+                    builder: (context, state) => const NewTrip(),
+                  ),
+                ],
               ),
             ],
           ),
