@@ -133,4 +133,10 @@ class FirebaseUserRepository implements UserRepository {
       rethrow;
     }
   }
+
+  @override
+  String getUserId() {
+    final id = _firebaseAuth.currentUser!.uid;
+    return id;
+  }
 }
