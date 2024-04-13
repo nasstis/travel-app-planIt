@@ -10,6 +10,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+  user_repository:
+    path: packages/user_repository
+  city_repository:
+    path: packages/city_repository
+  place_repository:
+    path: packages/place_repository
+  trip_repository:
+    path: packages/trip_repository
+
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.1.4
   bloc: ^8.1.3
@@ -22,13 +31,6 @@ dependencies:
   google_maps_flutter: ^2.5.3
   stream_transform: ^2.1.0
   bloc_concurrency: ^0.2.4
-
-  user_repository:
-    path: packages/user_repository
-  city_repository:
-    path: packages/city_repository
-  place_repository:
-    path: packages/place_repository
   custom_info_window: ^1.0.1
   go_router: ^13.2.0
   flutter_config: ^2.0.2

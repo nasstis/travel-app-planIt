@@ -1011,6 +1011,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  trip_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/trip_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
