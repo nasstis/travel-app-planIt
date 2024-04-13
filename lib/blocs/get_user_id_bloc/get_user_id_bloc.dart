@@ -8,7 +8,7 @@ part 'get_user_id_state.dart';
 class GetUserIdBloc extends Bloc<GetUserIdEvent, GetUserIdState> {
   final UserRepository _userRepository;
   GetUserIdBloc(this._userRepository) : super(const GetUserIdState()) {
-    on<GetUserIdEvent>((event, emit) {
+    on<GetUserIdRequired>((event, emit) {
       final id = _userRepository.getUserId();
       emit(GetUserIdState(userId: id));
     });

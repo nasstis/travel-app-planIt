@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:travel_app/blocs/get_user_id_bloc/get_user_id_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/views/welcome_screen.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.da
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
 import 'package:travel_app/screens/search/views/new_trip_search.dart';
+import 'package:travel_app/screens/trips/blocs/create_trip_bloc/create_trip_bloc.dart';
 import 'package:travel_app/screens/trips/views/my_trips.dart';
 import 'package:travel_app/screens/trips/views/new_trip.dart';
 import 'package:travel_app/utils/components/bottom_nav_bar.dart';
@@ -21,8 +23,12 @@ import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/search/views/search_screen.dart';
 import 'package:travel_app/screens/splash/views/splash_screen.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:trip_repository/trip_repository.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final FirebaseCityRepo _firebaseCityRepo = FirebaseCityRepo();
+final FirebasePlaceRepo _firebasePlaceRepo = FirebasePlaceRepo();
+final FirebaseTripRepo _firebaseTripRepo = FirebaseTripRepo();
 
 GoRouter router(AuthBloc authBloc) {
   return GoRouter(
@@ -64,7 +70,7 @@ GoRouter router(AuthBloc authBloc) {
                           ),
                           BlocProvider(
                             create: (context) =>
-                                GetCitiesBloc(FirebaseCityRepo())
+                                GetCitiesBloc(_firebaseCityRepo)
                                   ..add(GetCities()),
                           ),
                         ],
@@ -74,7 +80,7 @@ GoRouter router(AuthBloc authBloc) {
                     GoRoute(
                       path: PageName.cityPathName,
                       builder: (context, state) => BlocProvider(
-                        create: (context) => GetPlacesBloc(FirebasePlaceRepo()),
+                        create: (context) => GetPlacesBloc(_firebasePlaceRepo),
                         child: CityDetailScreen(city: state.extra as City),
                       ),
                     ),
@@ -96,7 +102,7 @@ GoRouter router(AuthBloc authBloc) {
               GoRoute(
                 path: PageName.searchRoute,
                 builder: (context, state) => BlocProvider(
-                  create: (context) => SearchBloc(FirebaseCityRepo()),
+                  create: (context) => SearchBloc(_firebaseCityRepo),
                   child: const SearchScreen(),
                 ),
               ),
@@ -110,7 +116,20 @@ GoRouter router(AuthBloc authBloc) {
                 routes: <RouteBase>[
                   GoRoute(
                     path: PageName.newTripPathName,
-                    builder: (context, state) => const NewTrip(),
+                    builder: (context, state) => MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (context) =>
+                              CreateTripBloc(_firebaseTripRepo),
+                        ),
+                        BlocProvider(
+                          create: (context) => GetUserIdBloc(
+                              context.read<AuthBloc>().userRepository)
+                            ..add(GetUserIdRequired()),
+                        ),
+                      ],
+                      child: const NewTrip(),
+                    ),
                     // routes: <RouteBase>[],
                   ),
                 ],
@@ -127,7 +146,7 @@ GoRouter router(AuthBloc authBloc) {
       GoRoute(
         path: PageName.newTripSearchRoute,
         builder: (context, state) => BlocProvider(
-          create: (context) => SearchBloc(FirebaseCityRepo()),
+          create: (context) => SearchBloc(_firebaseCityRepo),
           child: const NewTripSearch(),
         ),
       ),

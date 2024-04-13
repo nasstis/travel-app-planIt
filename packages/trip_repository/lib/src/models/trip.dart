@@ -4,33 +4,33 @@ class Trip {
   String id;
   String userId;
   String cityId;
-  List<String> placesId;
   DateTime startDate;
   DateTime endDate;
   String name;
   String? description;
+  List<String>? placesId;
 
   Trip({
     required this.id,
     required this.userId,
     required this.cityId,
-    required this.placesId,
     required this.startDate,
     required this.endDate,
     required this.name,
     this.description,
+    this.placesId,
   });
 
   TripEntity toEntity() {
     return TripEntity(
       id: id,
       userId: userId,
-      cityId: cityId,
-      placesId: placesId,
       startDate: startDate,
       endDate: endDate,
       name: name,
       description: description,
+      cityId: cityId,
+      placesId: placesId,
     );
   }
 
