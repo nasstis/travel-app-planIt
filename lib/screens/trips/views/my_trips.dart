@@ -35,69 +35,80 @@ class MyTrips extends StatelessWidget {
                   itemBuilder: (context, index) => Center(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 15),
-                      child: Card(
-                        elevation: 5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              width: MediaQuery.of(context).size.width * 0.96,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
-                                ),
-                                image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
-                                      state.trips[index].photoUrl),
-                                  fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () {
+                          context.push(
+                            PageName.tripRoute,
+                            extra: state.trips[index],
+                          );
+                        },
+                        child: Card(
+                          elevation: 5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                width: MediaQuery.of(context).size.width * 0.96,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                  ),
+                                  image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                        state.trips[index].photoUrl),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              decoration: const BoxDecoration(
-                                color: MyColors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(15),
-                                  bottomRight: Radius.circular(15),
+                              Container(
+                                decoration: const BoxDecoration(
+                                  color: MyColors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),
+                                  ),
                                 ),
-                              ),
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              width: MediaQuery.of(context).size.width * 0.96,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.trips[index].name,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                width: MediaQuery.of(context).size.width * 0.96,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        state.trips[index].name,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                    // const SizedBox(height: 5),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        const Icon(
-                                          Icons.calendar_month,
-                                          size: 22,
-                                          color: Color(0xFF313131),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Text(
-                                          '${DateFormat.MMMd().format(state.trips[index].startDate).toString()} - ${DateFormat.MMMd().format(state.trips[index].endDate).toString()}',
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                      // const SizedBox(height: 5),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          const Icon(
+                                            Icons.calendar_month,
+                                            size: 22,
+                                            color: Color(0xFF313131),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            '${DateFormat.MMMd().format(state.trips[index].startDate).toString()} - ${DateFormat.MMMd().format(state.trips[index].endDate).toString()}',
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

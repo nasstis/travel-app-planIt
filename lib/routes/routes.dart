@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
@@ -126,7 +127,12 @@ GoRouter router(AuthBloc authBloc) {
                       create: (context) => CreateTripBloc(_firebaseTripRepo),
                       child: const NewTrip(),
                     ),
-                    // routes: <RouteBase>[],
+                  ),
+                  GoRoute(
+                    path: PageName.tripPathName,
+                    builder: (context, state) => TripView(
+                      trip: state.extra as Trip,
+                    ),
                   ),
                 ],
               ),
