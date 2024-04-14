@@ -16,6 +16,4 @@ abstract class UserRepository {
   Future<MyUser> authWithGoogle();
 
   Future<void> signInWithFacebook();
-
-  String getUserId();
 }

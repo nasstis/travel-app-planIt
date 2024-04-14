@@ -13,6 +13,7 @@ import 'entities/entities.dart';
 class FirebaseUserRepository implements UserRepository {
   final FirebaseAuth _firebaseAuth;
   final userCollection = FirebaseFirestore.instance.collection('users');
+
   FirebaseUserRepository({
     FirebaseAuth? firebaseAuth,
   }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
@@ -132,11 +133,5 @@ class FirebaseUserRepository implements UserRepository {
       log(e.toString());
       rethrow;
     }
-  }
-
-  @override
-  String getUserId() {
-    final id = _firebaseAuth.currentUser!.uid;
-    return id;
   }
 }

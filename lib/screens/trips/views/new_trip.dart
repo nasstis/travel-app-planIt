@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:travel_app/blocs/get_user_id_bloc/get_user_id_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/create_trip_bloc/create_trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
@@ -23,7 +22,6 @@ class _NewTripState extends State<NewTrip> {
   bool _creationRequired = false;
   City? pickedCity;
   DateTimeRange? pickedDate;
-  late String userId;
 
   @override
   void initState() {
@@ -33,7 +31,6 @@ class _NewTripState extends State<NewTrip> {
 
   @override
   Widget build(BuildContext context) {
-    userId = context.select((GetUserIdBloc bloc) => bloc.state.userId);
     return BlocListener<CreateTripBloc, CreateTripState>(
       listener: (context, state) {
         if (state is CreateTripLoading) {
@@ -191,7 +188,7 @@ class _NewTripState extends State<NewTrip> {
                                       CreateTripRequired(
                                         Trip(
                                           id: uuid.v4(),
-                                          userId: userId,
+                                          userId: '',
                                           cityId: pickedCity!.cityId,
                                           startDate: pickedDate!.start,
                                           endDate: pickedDate!.end,

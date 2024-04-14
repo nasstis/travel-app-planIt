@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -11,9 +13,10 @@ class GetTripsBloc extends Bloc<GetTripsEvent, GetTripsState> {
     on<GetTripsRequired>((event, emit) async {
       emit(GetTripsLoading());
       try {
-        final trips = await _tripRepository.getTrips(event.userId);
+        final trips = await _tripRepository.getTrips();
         emit(GetTripsSuccess(trips));
       } catch (e) {
+        log(e.toString());
         emit(GetTripsFailure());
       }
     });

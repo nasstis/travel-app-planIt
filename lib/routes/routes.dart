@@ -1,10 +1,12 @@
-import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:trip_repository/trip_repository.dart';
+
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:travel_app/blocs/get_user_id_bloc/get_user_id_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/views/welcome_screen.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
@@ -15,15 +17,15 @@ import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
 import 'package:travel_app/screens/search/views/new_trip_search.dart';
 import 'package:travel_app/screens/trips/blocs/create_trip_bloc/create_trip_bloc.dart';
+import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/views/my_trips.dart';
 import 'package:travel_app/screens/trips/views/new_trip.dart';
-import 'package:travel_app/utils/components/bottom_nav_bar.dart';
 import 'package:travel_app/screens/place/views/place_screen.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/search/views/search_screen.dart';
 import 'package:travel_app/screens/splash/views/splash_screen.dart';
+import 'package:travel_app/utils/components/bottom_nav_bar.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
-import 'package:trip_repository/trip_repository.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final FirebaseCityRepo _firebaseCityRepo = FirebaseCityRepo();
@@ -112,22 +114,16 @@ GoRouter router(AuthBloc authBloc) {
             routes: <RouteBase>[
               GoRoute(
                 path: PageName.tripsRoute,
-                builder: (context, state) => const MyTrips(),
+                builder: (context, state) => BlocProvider(
+                  create: (context) =>
+                      GetTripsBloc(_firebaseTripRepo)..add(GetTripsRequired()),
+                  child: const MyTrips(),
+                ),
                 routes: <RouteBase>[
                   GoRoute(
                     path: PageName.newTripPathName,
-                    builder: (context, state) => MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (context) =>
-                              CreateTripBloc(_firebaseTripRepo),
-                        ),
-                        BlocProvider(
-                          create: (context) => GetUserIdBloc(
-                              context.read<AuthBloc>().userRepository)
-                            ..add(GetUserIdRequired()),
-                        ),
-                      ],
+                    builder: (context, state) => BlocProvider(
+                      create: (context) => CreateTripBloc(_firebaseTripRepo),
                       child: const NewTrip(),
                     ),
                     // routes: <RouteBase>[],

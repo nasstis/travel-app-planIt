@@ -37,9 +37,9 @@ class TripEntity {
       id: doc['id'],
       userId: doc['userId'],
       cityId: doc['cityId'],
-      placesId: doc['placesId'] as List<String>,
-      startDate: doc['startDate'],
-      endDate: doc['endDate'],
+      placesId: doc['placesId'],
+      startDate: doc['startDate'].toDate(),
+      endDate: doc['endDate'].toDate(),
       name: doc['name'],
       description: doc['description'],
     );
