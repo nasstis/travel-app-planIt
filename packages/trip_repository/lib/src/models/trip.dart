@@ -7,6 +7,7 @@ class Trip {
   DateTime startDate;
   DateTime endDate;
   String name;
+  String photoUrl;
   String? description;
   List<String>? placesId;
 
@@ -17,6 +18,7 @@ class Trip {
     required this.startDate,
     required this.endDate,
     required this.name,
+    required this.photoUrl,
     this.description,
     this.placesId,
   });
@@ -28,6 +30,7 @@ class Trip {
       startDate: startDate,
       endDate: endDate,
       name: name,
+      photoUrl: photoUrl,
       description: description,
       cityId: cityId,
       placesId: placesId,
@@ -43,6 +46,7 @@ class Trip {
       startDate: entity.startDate,
       endDate: entity.endDate,
       name: entity.name,
+      photoUrl: entity.photoUrl,
       description: entity.description,
     );
   }

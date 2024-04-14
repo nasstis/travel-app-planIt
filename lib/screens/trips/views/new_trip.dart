@@ -29,6 +29,32 @@ class _NewTripState extends State<NewTrip> {
     super.initState();
   }
 
+  void planTripHandle(BuildContext context) {
+    if (pickedCity != null && pickedDate != null) {
+      var uuid = const Uuid();
+      context.read<CreateTripBloc>().add(
+            CreateTripRequired(
+              Trip(
+                id: uuid.v4(),
+                userId: '',
+                cityId: pickedCity!.cityId,
+                startDate: pickedDate!.start,
+                endDate: pickedDate!.end,
+                name:
+                    '${pickedCity!.name} ${DateFormat.yMMMM().format(pickedDate!.start).toString()}',
+                photoUrl: pickedCity!.picture,
+              ),
+            ),
+          );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Fill all fields'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CreateTripBloc, CreateTripState>(
@@ -166,7 +192,6 @@ class _NewTripState extends State<NewTrip> {
                           firstDate: DateTime(2023),
                           lastDate: DateTime(2050),
                         );
-
                         if (pickedDate != null) {
                           setState(
                             () {
@@ -181,30 +206,7 @@ class _NewTripState extends State<NewTrip> {
                     ElevatedButton(
                       onPressed: _creationRequired
                           ? null
-                          : () {
-                              if (pickedCity != null && pickedDate != null) {
-                                var uuid = const Uuid();
-                                context.read<CreateTripBloc>().add(
-                                      CreateTripRequired(
-                                        Trip(
-                                          id: uuid.v4(),
-                                          userId: '',
-                                          cityId: pickedCity!.cityId,
-                                          startDate: pickedDate!.start,
-                                          endDate: pickedDate!.end,
-                                          name:
-                                              '${pickedCity!.name} ${DateFormat.yMMMM().format(pickedDate!.start).toString()}',
-                                        ),
-                                      ),
-                                    );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Fill all fields'),
-                                  ),
-                                );
-                              }
-                            },
+                          : () => planTripHandle(context),
                       child: _creationRequired
                           ? const CircularProgressIndicator()
                           : const Text('Plan Trip'),

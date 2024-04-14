@@ -5,6 +5,7 @@ class TripEntity {
   DateTime startDate;
   DateTime endDate;
   String name;
+  String photoUrl;
   String? description;
   List<String>? placesId;
 
@@ -15,6 +16,7 @@ class TripEntity {
     required this.startDate,
     required this.endDate,
     required this.name,
+    required this.photoUrl,
     this.description,
     this.placesId,
   });
@@ -28,6 +30,7 @@ class TripEntity {
       'startDate': startDate,
       'endDate': endDate,
       'name': name,
+      'photoUrl': photoUrl,
       'description': description,
     };
   }
@@ -41,6 +44,7 @@ class TripEntity {
       startDate: doc['startDate'].toDate(),
       endDate: doc['endDate'].toDate(),
       name: doc['name'],
+      photoUrl: doc['photoUrl'],
       description: doc['description'],
     );
   }
