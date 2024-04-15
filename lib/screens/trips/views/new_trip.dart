@@ -43,6 +43,7 @@ class _NewTripState extends State<NewTrip> {
                 name:
                     '${pickedCity!.name} ${DateFormat.yMMMM().format(pickedDate!.start).toString()}',
                 photoUrl: pickedCity!.picture,
+                placesId: [],
               ),
             ),
           );

@@ -131,8 +131,18 @@ GoRouter router(AuthBloc authBloc) {
                   GoRoute(
                     path: PageName.tripPathName,
                     builder: (context, state) => TripView(
-                      trip: state.extra as Trip,
+                      extra: state.extra as Map<String, dynamic>?,
                     ),
+                    // pageBuilder: (context, state) {
+                    //   CustomTransitionPage(
+                    //     child: TripView(
+                    //       extra: state.extra as Map<String, dynamic>?,
+                    //     ),
+                    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+
+                    //     },
+                    //   );
+                    // },
                   ),
                 ],
               ),

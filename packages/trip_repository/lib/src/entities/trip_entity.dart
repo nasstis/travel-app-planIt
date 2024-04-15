@@ -7,7 +7,7 @@ class TripEntity {
   String name;
   String photoUrl;
   String? description;
-  List<String>? placesId;
+  List placesId;
 
   TripEntity({
     required this.id,
@@ -18,7 +18,7 @@ class TripEntity {
     required this.name,
     required this.photoUrl,
     this.description,
-    this.placesId,
+    required this.placesId,
   });
 
   Map<String, Object?> toDocument() {

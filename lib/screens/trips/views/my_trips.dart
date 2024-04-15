@@ -39,7 +39,10 @@ class MyTrips extends StatelessWidget {
                         onTap: () {
                           context.push(
                             PageName.tripRoute,
-                            extra: state.trips[index],
+                            extra: {
+                              'trip': state.trips[index],
+                              'tag': '${state.trips[index].photoUrl}$index',
+                            },
                           );
                         },
                         child: Card(
@@ -47,19 +50,23 @@ class MyTrips extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                width: MediaQuery.of(context).size.width * 0.96,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                  ),
-                                  image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        state.trips[index].photoUrl),
-                                    fit: BoxFit.cover,
+                              Hero(
+                                tag: '${state.trips[index].photoUrl}$index',
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.96,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                    ),
+                                    image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                          state.trips[index].photoUrl),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -9,7 +9,7 @@ class Trip {
   String name;
   String photoUrl;
   String? description;
-  List<String>? placesId;
+  List placesId;
 
   Trip({
     required this.id,
@@ -20,7 +20,7 @@ class Trip {
     required this.name,
     required this.photoUrl,
     this.description,
-    this.placesId,
+    required this.placesId,
   });
 
   TripEntity toEntity() {
