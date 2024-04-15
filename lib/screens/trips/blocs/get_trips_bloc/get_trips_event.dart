@@ -8,3 +8,9 @@ sealed class GetTripsEvent extends Equatable {
 }
 
 class GetTripsRequired extends GetTripsEvent {}
+
+class GetTripByIdRequired extends GetTripsEvent {
+  final String tripId;
+
+  const GetTripByIdRequired(this.tripId);
+}

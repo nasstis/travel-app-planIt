@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/screens/trips/blocs/create_trip_bloc/create_trip_bloc.dart';
+import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -22,6 +23,7 @@ class _NewTripState extends State<NewTrip> {
   bool _creationRequired = false;
   City? pickedCity;
   DateTimeRange? pickedDate;
+  String id = const Uuid().v4();
 
   @override
   void initState() {
@@ -31,11 +33,10 @@ class _NewTripState extends State<NewTrip> {
 
   void planTripHandle(BuildContext context) {
     if (pickedCity != null && pickedDate != null) {
-      var uuid = const Uuid();
       context.read<CreateTripBloc>().add(
             CreateTripRequired(
               Trip(
-                id: uuid.v4(),
+                id: id,
                 userId: '',
                 cityId: pickedCity!.cityId,
                 startDate: pickedDate!.start,
@@ -50,7 +51,7 @@ class _NewTripState extends State<NewTrip> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Fill all fields'),
+          content: Text('Please, fill all fields'),
         ),
       );
     }
@@ -58,28 +59,46 @@ class _NewTripState extends State<NewTrip> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateTripBloc, CreateTripState>(
-      listener: (context, state) {
-        if (state is CreateTripLoading) {
-          setState(() {
-            _creationRequired = true;
-          });
-        } else if (state is CreateTripSuccess) {
-          setState(() {
-            _creationRequired = false;
-          });
-          // TODO: Add redirect to created trip page
-        } else if (state is CreateTripFailure) {
-          setState(() {
-            _creationRequired = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Something went wrong...'),
-            ),
-          );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<CreateTripBloc, CreateTripState>(
+          listener: (context, state) {
+            if (state is CreateTripLoading) {
+              setState(() {
+                _creationRequired = true;
+              });
+            } else if (state is CreateTripSuccess) {
+              setState(() {
+                _creationRequired = false;
+              });
+              context.read<GetTripsBloc>().add(
+                    GetTripByIdRequired(id),
+                  );
+            } else if (state is CreateTripFailure) {
+              setState(() {
+                _creationRequired = false;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Something went wrong...'),
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<GetTripsBloc, GetTripsState>(
+          listener: (context, state) {
+            if (state is GetTripByIdSuccess) {
+              context.go(
+                PageName.tripRoute,
+                extra: {
+                  'trip': state.trip,
+                },
+              );
+            }
+          },
+        ),
+      ],
       child: Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -197,7 +216,7 @@ class _NewTripState extends State<NewTrip> {
                           setState(
                             () {
                               _dateController.text =
-                                  '${DateFormat.yMMMMd().format(pickedDate!.start).toString()} / ${DateFormat.yMMMMd().format(pickedDate!.end).toString()}';
+                                  '//${DateFormat.yMMMMd().format(pickedDate!.start).toString()} / ${DateFormat.yMMMMd().format(pickedDate!.end).toString()}';
                             },
                           );
                         }

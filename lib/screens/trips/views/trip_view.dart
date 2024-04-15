@@ -1,6 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:travel_app/screens/trips/components/trip_header.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -15,7 +14,7 @@ class TripView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Trip trip = extra!['trip'];
-    final String tag = extra!['tag'];
+    final String? tag = extra!['tag'];
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -39,79 +38,21 @@ class TripView extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Hero(
-                tag: tag,
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 250,
-                            width: MediaQuery.of(context).size.width,
-                            child: CachedNetworkImage(
-                              imageUrl: trip.photoUrl,
-                              color: Colors.black.withOpacity(0.3),
-                              colorBlendMode: BlendMode.srcOver,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height - 250,
-                          )
-                        ],
-                      ),
+              tag != null
+                  ? Hero(
+                      tag: tag,
+                      child: TripHeader(
+                        photoUrl: trip.photoUrl,
+                        name: trip.name,
+                        startDate: trip.startDate,
+                        endDate: trip.endDate,
+                      ))
+                  : TripHeader(
+                      photoUrl: trip.photoUrl,
+                      name: trip.name,
+                      startDate: trip.startDate,
+                      endDate: trip.endDate,
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 100),
-                          Text(
-                            trip.name,
-                            style: const TextStyle(
-                              color: MyColors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 26,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(1, 2),
-                                  blurRadius: 8.0,
-                                  color: Color(0xFF000000),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      top: 170,
-                      left: 15,
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_month,
-                            color: MyColors.white,
-                            size: 15,
-                          ),
-                          Text(
-                            ' ${DateFormat.MMMd().format(trip.startDate).toString()} - ${DateFormat.MMMd().format(trip.endDate).toString()}',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: MyColors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
               Positioned(
                 top: 200,
                 child: Container(

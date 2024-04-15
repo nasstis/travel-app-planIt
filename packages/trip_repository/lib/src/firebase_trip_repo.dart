@@ -40,4 +40,16 @@ class FirebaseTripRepo extends TripRepo {
       rethrow;
     }
   }
+
+  @override
+  Future<Trip> getTrip(String tripId) async {
+    Trip trip = await tripColection.doc(tripId).get().then(
+          (doc) => Trip.fromEntity(
+            TripEntity.fromDocument(
+              doc.data() as Map<String, dynamic>,
+            ),
+          ),
+        );
+    return trip;
+  }
 }

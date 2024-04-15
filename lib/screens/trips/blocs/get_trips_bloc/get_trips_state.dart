@@ -18,3 +18,13 @@ final class GetTripsSuccess extends GetTripsState {
 }
 
 final class GetTripsFailure extends GetTripsState {}
+
+final class GetTripByIdLoading extends GetTripsState {}
+
+final class GetTripByIdSuccess extends GetTripsState {
+  final Trip trip;
+
+  const GetTripByIdSuccess(this.trip);
+}
+
+final class GetTripByIdFailure extends GetTripsState {}

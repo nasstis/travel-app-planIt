@@ -123,8 +123,16 @@ GoRouter router(AuthBloc authBloc) {
                 routes: <RouteBase>[
                   GoRoute(
                     path: PageName.newTripPathName,
-                    builder: (context, state) => BlocProvider(
-                      create: (context) => CreateTripBloc(_firebaseTripRepo),
+                    builder: (context, state) => MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (context) =>
+                              CreateTripBloc(_firebaseTripRepo),
+                        ),
+                        BlocProvider(
+                          create: (context) => GetTripsBloc(_firebaseTripRepo),
+                        ),
+                      ],
                       child: const NewTrip(),
                     ),
                   ),
