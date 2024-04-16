@@ -48,4 +48,9 @@ class FirebaseTripRepo extends TripRepo {
         );
     return trip;
   }
+
+  @override
+  Future<void> deleteTrip(String tripId) async {
+    await tripCollection.doc(tripId).delete();
+  }
 }

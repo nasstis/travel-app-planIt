@@ -31,7 +31,7 @@ class TripView extends StatelessWidget {
               Icons.edit,
               size: 20,
             ),
-          )
+          ),
         ],
       ),
       body: Column(

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:travel_app/screens/trips/blocs/create_trip_bloc/create_trip_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
+import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -33,8 +33,8 @@ class _NewTripState extends State<NewTrip> {
 
   void planTripHandle(BuildContext context) {
     if (pickedCity != null && pickedDate != null) {
-      context.read<CreateTripBloc>().add(
-            CreateTripRequired(
+      context.read<TripBloc>().add(
+            CreateTrip(
               Trip(
                 id: id,
                 userId: '',
@@ -61,7 +61,7 @@ class _NewTripState extends State<NewTrip> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<CreateTripBloc, CreateTripState>(
+        BlocListener<TripBloc, TripState>(
           listener: (context, state) {
             if (state is CreateTripLoading) {
               setState(() {
@@ -216,7 +216,7 @@ class _NewTripState extends State<NewTrip> {
                           setState(
                             () {
                               _dateController.text =
-                                  '//${DateFormat.yMMMMd().format(pickedDate!.start).toString()} / ${DateFormat.yMMMMd().format(pickedDate!.end).toString()}';
+                                  '${DateFormat.yMMMMd().format(pickedDate!.start).toString()} / ${DateFormat.yMMMMd().format(pickedDate!.end).toString()}';
                             },
                           );
                         }

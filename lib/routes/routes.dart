@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -17,7 +18,6 @@ import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.da
 import 'package:travel_app/screens/home/views/home_screen.dart';
 import 'package:travel_app/screens/place/components/full_screen_image.dart';
 import 'package:travel_app/screens/search/views/new_trip_search.dart';
-import 'package:travel_app/screens/trips/blocs/create_trip_bloc/create_trip_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/views/my_trips.dart';
 import 'package:travel_app/screens/trips/views/new_trip.dart';
@@ -115,9 +115,16 @@ GoRouter router(AuthBloc authBloc) {
             routes: <RouteBase>[
               GoRoute(
                 path: PageName.tripsRoute,
-                builder: (context, state) => BlocProvider(
-                  create: (context) => GetTripsBloc(_firebaseTripRepo)
-                    ..add(GetTripsRequired(null)),
+                builder: (context, state) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => GetTripsBloc(_firebaseTripRepo)
+                        ..add(const GetTripsRequired(null)),
+                    ),
+                    BlocProvider(
+                      create: (context) => TripBloc(_firebaseTripRepo),
+                    ),
+                  ],
                   child: const MyTrips(),
                 ),
                 routes: <RouteBase>[
@@ -126,8 +133,7 @@ GoRouter router(AuthBloc authBloc) {
                     builder: (context, state) => MultiBlocProvider(
                       providers: [
                         BlocProvider(
-                          create: (context) =>
-                              CreateTripBloc(_firebaseTripRepo),
+                          create: (context) => TripBloc(_firebaseTripRepo),
                         ),
                         BlocProvider(
                           create: (context) => GetTripsBloc(_firebaseTripRepo),
