@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -9,13 +10,20 @@ part 'get_trips_state.dart';
 
 class GetTripsBloc extends Bloc<GetTripsEvent, GetTripsState> {
   final TripRepo _tripRepository;
+  late final StreamSubscription<List<Trip>> _tripsSubscription;
   GetTripsBloc(this._tripRepository) : super(GetTripsInitial()) {
+    _tripsSubscription = _tripRepository.trips.listen(
+      (trips) {
+        add(GetTripsRequired(trips));
+      },
+    );
+
     on<GetTripsRequired>(
-      (event, emit) async {
+      (event, emit) {
         emit(GetTripsLoading());
         try {
-          final trips = await _tripRepository.getTrips();
-          emit(GetTripsSuccess(trips));
+          // final trips = _tripRepository.getTrips();
+          emit(GetTripsSuccess(event.trips!));
         } catch (e) {
           log(e.toString());
           emit(GetTripsFailure());
@@ -35,5 +43,11 @@ class GetTripsBloc extends Bloc<GetTripsEvent, GetTripsState> {
         }
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    _tripsSubscription.cancel();
+    return super.close();
   }
 }

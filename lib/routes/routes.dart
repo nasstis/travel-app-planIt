@@ -116,8 +116,8 @@ GoRouter router(AuthBloc authBloc) {
               GoRoute(
                 path: PageName.tripsRoute,
                 builder: (context, state) => BlocProvider(
-                  create: (context) =>
-                      GetTripsBloc(_firebaseTripRepo)..add(GetTripsRequired()),
+                  create: (context) => GetTripsBloc(_firebaseTripRepo)
+                    ..add(GetTripsRequired(null)),
                   child: const MyTrips(),
                 ),
                 routes: <RouteBase>[

@@ -7,7 +7,11 @@ sealed class GetTripsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetTripsRequired extends GetTripsEvent {}
+class GetTripsRequired extends GetTripsEvent {
+  final List<Trip>? trips;
+
+  const GetTripsRequired(this.trips);
+}
 
 class GetTripByIdRequired extends GetTripsEvent {
   final String tripId;

@@ -6,33 +6,29 @@ import 'package:trip_repository/trip_repository.dart';
 
 class FirebaseTripRepo extends TripRepo {
   final FirebaseAuth _firebaseAuth;
-  final tripColection = FirebaseFirestore.instance.collection('trips');
+  final tripCollection = FirebaseFirestore.instance.collection('trips');
 
   FirebaseTripRepo({
     FirebaseAuth? firebaseAuth,
   }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   @override
-  Future<List<Trip>> getTrips() async {
-    final tripQuery = await tripColection
+  Stream<List<Trip>> get trips {
+    return tripCollection
         .where('userId', isEqualTo: _firebaseAuth.currentUser!.uid)
-        .get();
-    List<Trip> trips = tripQuery.docs
-        .map(
-          (e) => Trip.fromEntity(
-            TripEntity.fromDocument(e.data()),
-          ),
-        )
-        .toList();
-
-    return trips;
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        return Trip.fromEntity(TripEntity.fromDocument(doc.data()));
+      }).toList();
+    });
   }
 
   @override
   Future<void> addTrip(Trip newTrip) async {
     try {
       newTrip.userId = _firebaseAuth.currentUser!.uid;
-      await tripColection.doc(newTrip.id).set(
+      await tripCollection.doc(newTrip.id).set(
             newTrip.toEntity().toDocument(),
           );
     } catch (e) {
@@ -43,7 +39,7 @@ class FirebaseTripRepo extends TripRepo {
 
   @override
   Future<Trip> getTrip(String tripId) async {
-    Trip trip = await tripColection.doc(tripId).get().then(
+    Trip trip = await tripCollection.doc(tripId).get().then(
           (doc) => Trip.fromEntity(
             TripEntity.fromDocument(
               doc.data() as Map<String, dynamic>,

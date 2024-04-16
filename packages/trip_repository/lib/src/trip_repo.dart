@@ -1,7 +1,9 @@
 import '../trip_repository.dart';
 
 abstract class TripRepo {
-  Future<List<Trip>> getTrips();
+  Stream<List<Trip>> get trips;
+
+  // Stream<List<Trip>> getTrips();
 
   Future<Trip> getTrip(String tripId);
 
