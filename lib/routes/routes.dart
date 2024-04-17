@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
+import 'package:travel_app/screens/trips/views/edit_trip.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -174,6 +175,13 @@ GoRouter router(AuthBloc authBloc) {
         builder: (context, state) => BlocProvider(
           create: (context) => SearchBloc(_firebaseCityRepo),
           child: const NewTripSearch(),
+        ),
+      ),
+      GoRoute(
+        path: PageName.editTripRoue,
+        builder: (context, state) => BlocProvider(
+          create: (context) => TripBloc(_firebaseTripRepo),
+          child: EditTrip(trip: state.extra as Trip),
         ),
       ),
     ],

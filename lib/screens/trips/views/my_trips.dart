@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
+import 'package:travel_app/screens/trips/components/delete_dialog.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 
@@ -43,48 +44,8 @@ class MyTrips extends StatelessWidget {
                           return await showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text(
-                                  "Confirm deletion",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                backgroundColor: MyColors.light,
-                                surfaceTintColor: MyColors.light,
-                                content: Text(
-                                  "Are you sure you want to delete ${state.trips[index].name} trip?",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.only(
-                                  left: 24.0,
-                                  top: 16.0,
-                                  right: 24.0,
-                                  bottom: 5.0,
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(false),
-                                    child: const Text(
-                                      "Cancel",
-                                      style: TextStyle(
-                                        color: MyColors.primary,
-                                      ),
-                                    ),
-                                  ),
-                                  TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(true),
-                                      child: const Text(
-                                        "Delete",
-                                        style: TextStyle(
-                                          color: MyColors.primary,
-                                        ),
-                                      )),
-                                ],
+                              return DeleteConfirmDialog(
+                                name: state.trips[index].name,
                               );
                             },
                           );

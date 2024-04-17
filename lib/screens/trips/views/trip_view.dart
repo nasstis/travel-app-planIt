@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/trips/components/trip_header.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class TripView extends StatelessWidget {
@@ -25,7 +27,7 @@ class TripView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // TODO: Add edit page
+              context.push(PageName.editTripRoue, extra: trip);
             },
             icon: const Icon(
               Icons.edit,
