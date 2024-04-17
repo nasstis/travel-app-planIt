@@ -27,7 +27,8 @@ class _EditTripState extends State<EditTrip> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   DateTimeRange? pickedDate;
-  String? newPhotoUrl;
+  File? newPhoto;
+  bool _editRequired = false;
 
   @override
   void initState() {
@@ -38,13 +39,16 @@ class _EditTripState extends State<EditTrip> {
     super.initState();
   }
 
-  // Future _pickImageFromGallery() async {
-  //   final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future _pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
-  //   setState(() {
-  //     newPhotoUrl = File(returnedImage!.path);
-  //   });
-  // }
+    if (returnedImage != null) {
+      setState(() {
+        newPhoto = File(returnedImage.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,29 +167,34 @@ class _EditTripState extends State<EditTrip> {
                   ),
                 ),
               ),
-              Container(
-                height: 125,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.black,
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                      newPhotoUrl ?? widget.trip.photoUrl,
+              InkWell(
+                onTap: _pickImageFromGallery,
+                child: Container(
+                  height: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.black,
+                    image: DecorationImage(
+                      image: newPhoto != null
+                          ? FileImage(newPhoto!)
+                          : CachedNetworkImageProvider(
+                              widget.trip.photoUrl,
+                            ) as ImageProvider,
+                      fit: BoxFit.cover,
+                      opacity: 0.5,
                     ),
-                    fit: BoxFit.cover,
-                    opacity: 0.5,
                   ),
-                ),
-                child: const Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.image,
-                    color: MyColors.white,
-                    size: 40,
+                  child: const Center(
+                    child: FaIcon(
+                      FontAwesomeIcons.image,
+                      color: MyColors.white,
+                      size: 40,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               TextButton.icon(
                 icon: const Icon(
                   Icons.delete,
@@ -194,7 +203,6 @@ class _EditTripState extends State<EditTrip> {
                 ),
                 onPressed: () async {
                   final currentContext = context;
-
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -210,9 +218,55 @@ class _EditTripState extends State<EditTrip> {
                   });
                 },
                 label: const Text(
-                  'Delete',
+                  'Delete trip',
                   style: TextStyle(
                     color: MyColors.red,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              BlocListener<TripBloc, TripState>(
+                listener: (context, state) {
+                  if (state is EditTripLoading) {
+                    setState(() {
+                      _editRequired = true;
+                    });
+                  }
+                  if (state is EditTripSuccess) {
+                    setState(() {
+                      _editRequired = false;
+                    });
+                    context.pop();
+                  }
+                  if (state is EditTripSuccess) {
+                    setState(() {
+                      _editRequired = false;
+                    });
+                  }
+                },
+                child: Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<TripBloc>().add(
+                              EditTripEvent(newPhoto,
+                                  tripId: widget.trip.id,
+                                  name: _nameController.text,
+                                  description: _descriptionController.text,
+                                  startDate: pickedDate != null
+                                      ? pickedDate!.start
+                                      : widget.trip.startDate,
+                                  endDate: pickedDate != null
+                                      ? pickedDate!.end
+                                      : widget.trip.endDate),
+                            );
+                      },
+                      child: _editRequired
+                          ? const CircularProgressIndicator()
+                          : const Text('Save'),
+                    ),
                   ),
                 ),
               ),

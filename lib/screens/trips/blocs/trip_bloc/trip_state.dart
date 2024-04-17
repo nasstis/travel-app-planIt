@@ -20,3 +20,9 @@ final class DeleteTripLoading extends TripState {}
 final class DeleteTripSuccess extends TripState {}
 
 final class DeleteTripFailure extends TripState {}
+
+final class EditTripSuccess extends TripState {}
+
+final class EditTripLoading extends TripState {}
+
+final class EditTripFailure extends TripState {}

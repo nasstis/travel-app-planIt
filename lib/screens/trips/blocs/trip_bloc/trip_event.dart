@@ -18,3 +18,21 @@ class DeleteTrip extends TripEvent {
 
   const DeleteTrip(this.tripId);
 }
+
+class EditTripEvent extends TripEvent {
+  final String tripId;
+  final String name;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
+  final File? photo;
+
+  const EditTripEvent(
+    this.photo, {
+    required this.tripId,
+    required this.name,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+  });
+}

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../trip_repository.dart';
 
 abstract class TripRepo {
@@ -8,4 +10,14 @@ abstract class TripRepo {
   Future<void> addTrip(Trip newTrip);
 
   Future<void> deleteTrip(String tripId);
+
+  Future<void> editPhoto(String tripId, File photo);
+
+  Future<void> editTrip({
+    required String tripId,
+    required String name,
+    String? description,
+    required DateTime startDate,
+    required DateTime endDate,
+  });
 }
