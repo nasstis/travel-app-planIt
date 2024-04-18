@@ -148,16 +148,6 @@ GoRouter router(AuthBloc authBloc) {
                     builder: (context, state) => TripView(
                       extra: state.extra as Map<String, dynamic>?,
                     ),
-                    // pageBuilder: (context, state) {
-                    //   CustomTransitionPage(
-                    //     child: TripView(
-                    //       extra: state.extra as Map<String, dynamic>?,
-                    //     ),
-                    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-
-                    //     },
-                    //   );
-                    // },
                   ),
                 ],
               ),
@@ -179,8 +169,15 @@ GoRouter router(AuthBloc authBloc) {
       ),
       GoRoute(
         path: PageName.editTripRoue,
-        builder: (context, state) => BlocProvider(
-          create: (context) => TripBloc(_firebaseTripRepo),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => TripBloc(_firebaseTripRepo),
+            ),
+            BlocProvider(
+              create: (context) => GetTripsBloc(_firebaseTripRepo),
+            ),
+          ],
           child: EditTrip(trip: state.extra as Trip),
         ),
       ),

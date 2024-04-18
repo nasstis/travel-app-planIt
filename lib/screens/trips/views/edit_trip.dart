@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/components/delete_dialog.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -225,25 +226,40 @@ class _EditTripState extends State<EditTrip> {
                 ),
               ),
               const SizedBox(height: 15),
-              BlocListener<TripBloc, TripState>(
-                listener: (context, state) {
-                  if (state is EditTripLoading) {
-                    setState(() {
-                      _editRequired = true;
-                    });
-                  }
-                  if (state is EditTripSuccess) {
-                    setState(() {
-                      _editRequired = false;
-                    });
-                    context.pop();
-                  }
-                  if (state is EditTripSuccess) {
-                    setState(() {
-                      _editRequired = false;
-                    });
-                  }
-                },
+              MultiBlocListener(
+                listeners: [
+                  BlocListener<TripBloc, TripState>(
+                    listener: (context, state) {
+                      if (state is EditTripLoading) {
+                        setState(() {
+                          _editRequired = true;
+                        });
+                      }
+                      if (state is EditTripSuccess) {
+                        setState(() {
+                          _editRequired = false;
+                        });
+                        context.read<GetTripsBloc>().add(
+                              GetTripByIdRequired(widget.trip.id),
+                            );
+                      }
+                      if (state is EditTripSuccess) {
+                        setState(() {
+                          _editRequired = false;
+                        });
+                      }
+                    },
+                  ),
+                  BlocListener<GetTripsBloc, GetTripsState>(
+                    listener: (context, state) {
+                      if (state is GetTripByIdSuccess) {
+                        context.go(PageName.tripRoute, extra: {
+                          'trip': state.trip,
+                        });
+                      }
+                    },
+                  ),
+                ],
                 child: Center(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.85,
