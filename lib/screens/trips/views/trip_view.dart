@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/trips/components/trip_header.dart';
+import 'package:travel_app/screens/trips/components/trip_info.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -78,9 +79,9 @@ class TripView extends StatelessWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: MediaQuery.of(context).size.height - 230,
-                          child: const TabBarView(
+                          child: TabBarView(
                             children: [
-                              Text('Info'),
+                              TripInfo(trip: trip),
                               Text('Itinerary'),
                             ],
                           ),

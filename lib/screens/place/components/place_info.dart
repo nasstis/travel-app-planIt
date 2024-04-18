@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:readmore/readmore.dart';
-import 'package:travel_app/screens/place/blocs/get_working_hours_bloc.dart/get_working_hours_bloc.dart';
 import 'package:travel_app/screens/place/components/place_types.dart';
 import 'package:travel_app/screens/place/components/working_hours.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/helpers/get_working_hours.dart';
 
 class PlaceInfo extends StatefulWidget {
   const PlaceInfo({super.key, required this.place});
@@ -26,21 +25,16 @@ class _PlaceInfoState extends State<PlaceInfo> {
 
   @override
   void initState() {
-    super.initState();
     if (widget.place.openingHours != null) {
-      final bloc = context.read<GetWorkingHoursBloc>();
-      bloc.add(
-          GetWotkingHoursRequired(openingHours: widget.place.openingHours!));
-      bloc.stream.listen((state) {
-        if (state is GetWorkingHoursSucces) {
-          setState(() {
-            isOpen = state.isOpen;
-            workingHours = state.workingHours;
-            currentDay = state.currentDay;
-          });
-        }
+      final Map<String, dynamic> workingHoursInfo =
+          getPlaceWorkingHoursInfo(widget.place.openingHours!);
+      setState(() {
+        isOpen = workingHoursInfo['isOpen'];
+        workingHours = workingHoursInfo['workingHours'];
+        currentDay = workingHoursInfo['currentDay'];
       });
     }
+    super.initState();
   }
 
   @override

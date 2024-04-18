@@ -9,7 +9,7 @@ class Trip {
   String name;
   String photoUrl;
   String? description;
-  List placesId;
+  List places;
 
   Trip({
     required this.id,
@@ -20,7 +20,7 @@ class Trip {
     required this.name,
     required this.photoUrl,
     this.description,
-    required this.placesId,
+    required this.places,
   });
 
   TripEntity toEntity() {
@@ -33,16 +33,16 @@ class Trip {
       photoUrl: photoUrl,
       description: description,
       cityId: cityId,
-      placesId: placesId,
+      placesId: places,
     );
   }
 
-  static Trip fromEntity(TripEntity entity) {
+  static Future<Trip> fromEntity(TripEntity entity) async {
     return Trip(
       id: entity.id,
       userId: entity.userId,
       cityId: entity.cityId,
-      placesId: entity.placesId,
+      places: await FirebaseTripRepo().getPlaces(entity.placesId),
       startDate: entity.startDate,
       endDate: entity.endDate,
       name: entity.name,

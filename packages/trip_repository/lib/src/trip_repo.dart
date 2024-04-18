@@ -20,4 +20,6 @@ abstract class TripRepo {
     required DateTime startDate,
     required DateTime endDate,
   });
+
+  Future<List> getPlaces(List placesId);
 }

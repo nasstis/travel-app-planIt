@@ -4,11 +4,13 @@ import 'package:path/path.dart' as Path;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:place_repository/place_repository.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class FirebaseTripRepo extends TripRepo {
   final FirebaseAuth _firebaseAuth;
   final tripCollection = FirebaseFirestore.instance.collection('trips');
+  final placeCollection = FirebaseFirestore.instance.collection('places');
   final FirebaseStorage storage = FirebaseStorage.instance;
 
   FirebaseTripRepo({
@@ -20,10 +22,13 @@ class FirebaseTripRepo extends TripRepo {
     return tripCollection
         .where('userId', isEqualTo: _firebaseAuth.currentUser!.uid)
         .snapshots()
-        .map((querySnapshot) {
-      return querySnapshot.docs.map((doc) {
-        return Trip.fromEntity(TripEntity.fromDocument(doc.data()));
-      }).toList();
+        .asyncMap((querySnapshot) async {
+      List<Trip> trips = [];
+      for (var doc in querySnapshot.docs) {
+        var trip = await Trip.fromEntity(TripEntity.fromDocument(doc.data()));
+        trips.add(trip);
+      }
+      return trips;
     });
   }
 
@@ -41,14 +46,27 @@ class FirebaseTripRepo extends TripRepo {
   }
 
   @override
-  Future<Trip> getTrip(String tripId) async {
-    Trip trip = await tripCollection.doc(tripId).get().then(
-          (doc) => Trip.fromEntity(
-            TripEntity.fromDocument(
-              doc.data() as Map<String, dynamic>,
-            ),
+  Future<List> getPlaces(List placesId) async {
+    List places = [];
+
+    for (var placeId in placesId) {
+      await placeCollection.doc(placeId).get().then((doc) {
+        places.add(
+          Place.fromEntity(
+            PlaceEntity.fromDocument(doc.data()!),
           ),
         );
+      });
+    }
+    return places;
+  }
+
+  @override
+  Future<Trip> getTrip(String tripId) async {
+    Trip trip = await tripCollection
+        .doc(tripId)
+        .get()
+        .then((doc) => Trip.fromEntity(TripEntity.fromDocument(doc.data()!)));
     return trip;
   }
 
