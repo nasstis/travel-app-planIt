@@ -4,24 +4,28 @@ import 'package:travel_app/utils/constants/colors.dart';
 class DeleteConfirmDialog extends StatelessWidget {
   const DeleteConfirmDialog({
     super.key,
-    required this.name,
+    required this.title,
+    required this.content,
+    required this.action,
   });
 
-  final String name;
+  final String title;
+  final String content;
+  final String action;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        "Confirm deletion",
-        style: TextStyle(
+      title: Text(
+        title,
+        style: const TextStyle(
           fontSize: 20,
         ),
       ),
       backgroundColor: MyColors.light,
       surfaceTintColor: MyColors.light,
       content: Text(
-        "Are you sure you want to delete $name trip?",
+        content,
         style: const TextStyle(
           fontSize: 14,
         ),
@@ -44,9 +48,9 @@ class DeleteConfirmDialog extends StatelessWidget {
         ),
         TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text(
-              "Delete",
-              style: TextStyle(
+            child: Text(
+              action,
+              style: const TextStyle(
                 color: MyColors.primary,
               ),
             )),

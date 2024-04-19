@@ -36,3 +36,15 @@ class EditTripEvent extends TripEvent {
     required this.endDate,
   });
 }
+
+class RemovePlaceFromTrip extends TripEvent {
+  final String tripId;
+  final List places;
+  final String placeId;
+
+  const RemovePlaceFromTrip({
+    required this.tripId,
+    required this.places,
+    required this.placeId,
+  });
+}

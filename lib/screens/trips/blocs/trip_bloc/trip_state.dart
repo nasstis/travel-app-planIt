@@ -26,3 +26,9 @@ final class EditTripSuccess extends TripState {}
 final class EditTripLoading extends TripState {}
 
 final class EditTripFailure extends TripState {}
+
+final class RemovePlaceFromTripSuccess extends TripState {}
+
+final class RemovePlaceFromTripLoading extends TripState {}
+
+final class RemovePlaceFromTripFailure extends TripState {}

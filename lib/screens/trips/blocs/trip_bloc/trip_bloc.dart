@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:place_repository/place_repository.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 part 'trip_event.dart';
@@ -46,6 +47,17 @@ class TripBloc extends Bloc<TripEvent, TripState> {
         emit(EditTripSuccess());
       } catch (e) {
         emit(EditTripFailure());
+      }
+    });
+
+    on<RemovePlaceFromTrip>((event, emit) async {
+      emit(RemovePlaceFromTripLoading());
+      try {
+        await _tripRepository.removePlaceFromTrip(
+            event.tripId, event.places, event.placeId);
+        emit(RemovePlaceFromTripSuccess());
+      } catch (e) {
+        emit(RemovePlaceFromTripFailure());
       }
     });
   }

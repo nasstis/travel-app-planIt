@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -79,7 +79,7 @@ class FirebaseTripRepo extends TripRepo {
   Future<void> editPhoto(String tripId, File photo) async {
     String? imageUrl;
 
-    String fileName = Path.basename(photo.path);
+    String fileName = path.basename(photo.path);
     Reference ref = storage
         .ref()
         .child("${_firebaseAuth.currentUser!.uid}/$tripId/Image-$fileName");
@@ -112,5 +112,13 @@ class FirebaseTripRepo extends TripRepo {
     };
 
     await tripCollection.doc(tripId).update(updates);
+  }
+
+  @override
+  Future<void> removePlaceFromTrip(
+      String tripId, List tripPlaces, String placeId) async {
+    tripPlaces = tripPlaces.map((place) => place.id).toList();
+    tripPlaces.remove(placeId);
+    await tripCollection.doc(tripId).update({'placesId': tripPlaces});
   }
 }

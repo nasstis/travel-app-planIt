@@ -207,7 +207,12 @@ class _EditTripState extends State<EditTrip> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return DeleteConfirmDialog(name: widget.trip.name);
+                      return DeleteConfirmDialog(
+                        title: "Confirm deletion",
+                        content:
+                            "Are you sure you want to delete ${widget.trip.name} trip?",
+                        action: 'Delete',
+                      );
                     },
                   ).then((deleteConfirmed) {
                     if (deleteConfirmed != null && deleteConfirmed) {

@@ -22,4 +22,7 @@ abstract class TripRepo {
   });
 
   Future<List> getPlaces(List placesId);
+
+  Future<void> removePlaceFromTrip(
+      String tripId, List tripPlaces, String placeId);
 }
