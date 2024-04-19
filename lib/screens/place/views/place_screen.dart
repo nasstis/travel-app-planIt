@@ -7,20 +7,13 @@ import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/screens/place/components/reviews.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
-class PlaceScreen extends StatefulWidget {
-  const PlaceScreen({super.key, this.extra});
+class PlaceScreen extends StatelessWidget {
+  const PlaceScreen({super.key, required this.place});
 
-  final Map<String, dynamic>? extra;
+  final Place place;
 
-  @override
-  State<PlaceScreen> createState() => _PlaceScreenState();
-}
-
-class _PlaceScreenState extends State<PlaceScreen> {
   @override
   Widget build(BuildContext context) {
-    final Place place = widget.extra!['place'];
-    final String cityName = widget.extra!['cityName'];
     return Scaffold(
       backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,
@@ -92,7 +85,7 @@ class _PlaceScreenState extends State<PlaceScreen> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              cityName,
+                              place.cityName,
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: MyColors.light,

@@ -1,3 +1,4 @@
+import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
 
 class Place {
@@ -11,6 +12,7 @@ class Place {
   int ratingCount;
   List<dynamic> photos;
   String cityId;
+  String cityName;
   String? description;
   String? businessStatus;
   double? rating;
@@ -29,6 +31,7 @@ class Place {
     required this.ratingCount,
     required this.photos,
     required this.cityId,
+    required this.cityName,
     this.description,
     this.businessStatus,
     this.rating,
@@ -51,7 +54,7 @@ class Place {
   //   );
   // }
 
-  static Place fromEntity(PlaceEntity entity) {
+  static Future<Place> fromEntity(PlaceEntity entity) async {
     return Place(
       id: entity.id,
       name: entity.name,
@@ -63,6 +66,7 @@ class Place {
       ratingCount: entity.ratingCount,
       photos: entity.photos,
       cityId: entity.cityId,
+      cityName: await FirebaseCityRepo().getCityName(entity.cityId),
       description: entity.description,
       businessStatus: entity.businessStatus,
       rating: entity.rating,

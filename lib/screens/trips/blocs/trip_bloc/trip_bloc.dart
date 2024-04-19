@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:place_repository/place_repository.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 part 'trip_event.dart';

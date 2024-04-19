@@ -24,10 +24,7 @@ class MyInfoWindow extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
-          context.push(PageName.placeRoute, extra: {
-            'place': selectedPlace,
-            'cityName': cityName,
-          });
+          context.push(PageName.placeRoute, extra: selectedPlace);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

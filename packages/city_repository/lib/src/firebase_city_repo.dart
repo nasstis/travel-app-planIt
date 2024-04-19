@@ -26,13 +26,10 @@ class FirebaseCityRepo implements CityRepo {
   Future<List<City>?> getSearchResult({required String qSearch}) async {
     String newVal =
         qSearch[0].toUpperCase() + qSearch.substring(1).toLowerCase();
-    log(newVal);
     final city = await cityColection
         .where('name', isGreaterThanOrEqualTo: newVal)
         .where('name', isLessThanOrEqualTo: '$newVal\uf8ff')
         .get();
-
-    log(city.docs.toString());
 
     List<City> cities = city.docs
         .map(
@@ -42,5 +39,14 @@ class FirebaseCityRepo implements CityRepo {
         )
         .toList();
     return cities;
+  }
+
+  @override
+  Future<String> getCityName(String cityId) async {
+    String cityName = await cityColection
+        .doc(cityId)
+        .get()
+        .then((doc) => doc.data()!['name']);
+    return cityName;
   }
 }

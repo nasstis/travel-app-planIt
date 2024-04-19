@@ -36,10 +36,7 @@ class PlacesList extends StatelessWidget {
                     onTap: () {
                       context.push(
                         PageName.placeRoute,
-                        extra: {
-                          'place': state.places[index],
-                          'cityName': cityName,
-                        },
+                        extra: state.places[index],
                       );
                     },
                     child: CardView(

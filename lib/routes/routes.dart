@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
+import 'package:travel_app/screens/trips/views/add_place_search.dart';
 import 'package:travel_app/screens/trips/views/edit_trip.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -90,8 +91,8 @@ GoRouter router(AuthBloc authBloc) {
                     ),
                     GoRoute(
                       path: PageName.placePathName,
-                      builder: (context, state) => PlaceScreen(
-                          extra: state.extra as Map<String, dynamic>?),
+                      builder: (context, state) =>
+                          PlaceScreen(place: state.extra as Place),
                     ),
                     GoRoute(
                       path: PageName.mapPathName,
@@ -106,7 +107,8 @@ GoRouter router(AuthBloc authBloc) {
               GoRoute(
                 path: PageName.searchRoute,
                 builder: (context, state) => BlocProvider(
-                  create: (context) => SearchBloc(_firebaseCityRepo),
+                  create: (context) =>
+                      SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
                   child: const SearchScreen(),
                 ),
               ),
@@ -173,7 +175,8 @@ GoRouter router(AuthBloc authBloc) {
       GoRoute(
         path: PageName.newTripSearchRoute,
         builder: (context, state) => BlocProvider(
-          create: (context) => SearchBloc(_firebaseCityRepo),
+          create: (context) =>
+              SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
           child: const NewTripSearch(),
         ),
       ),
@@ -189,6 +192,14 @@ GoRouter router(AuthBloc authBloc) {
             ),
           ],
           child: EditTrip(trip: state.extra as Trip),
+        ),
+      ),
+      GoRoute(
+        path: PageName.addPlaceSearchRoute,
+        builder: (context, state) => BlocProvider(
+          create: (context) =>
+              SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
+          child: const AddPlaceSearch(),
         ),
       ),
     ],

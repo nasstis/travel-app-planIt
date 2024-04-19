@@ -121,4 +121,12 @@ class FirebaseTripRepo extends TripRepo {
     tripPlaces.remove(placeId);
     await tripCollection.doc(tripId).update({'placesId': tripPlaces});
   }
+
+  @override
+  Future<void> addPlaceToTrip(
+      String tripId, String placeId, List tripPlaces) async {
+    tripPlaces = tripPlaces.map((place) => place.id).toList();
+    tripPlaces.add(placeId);
+    await tripCollection.doc(tripId).update({'placesId': tripPlaces});
+  }
 }

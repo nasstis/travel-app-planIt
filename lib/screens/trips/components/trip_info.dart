@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/trips/components/places_list_view.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class TripInfo extends StatelessWidget {
@@ -45,7 +47,9 @@ class TripInfo extends StatelessWidget {
                     ),
                     const SizedBox(height: 25),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push(PageName.addPlaceSearchRoute);
+                      },
                       child: const Text('Add place'),
                     ),
                     const SizedBox(height: 50),

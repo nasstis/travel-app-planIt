@@ -13,6 +13,7 @@ abstract class PageName {
   static const tripRoute = '/trips/trip';
   static const newTripSearchRoute = '/trips/newtrip/search';
   static const editTripRoue = '/trips/trip/edit';
+  static const addPlaceSearchRoute = '/trips/trip/addplace';
 
   static const cityPathName = 'city';
   static const placePathName = 'place';
