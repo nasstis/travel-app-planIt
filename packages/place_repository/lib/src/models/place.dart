@@ -1,26 +1,27 @@
 import 'package:city_repository/city_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:place_repository/place_repository.dart';
 
-class Place {
-  String id;
-  String name;
-  List<dynamic> types;
-  double latitude;
-  double longitude;
-  String address;
-  List reviews;
-  int ratingCount;
-  List<dynamic> photos;
-  String cityId;
-  String cityName;
-  String? description;
-  String? businessStatus;
-  double? rating;
-  bool? goodForChildren;
-  List<dynamic>? openingHours;
-  bool? restroom;
+class Place extends Equatable {
+  final String id;
+  final String name;
+  final List<dynamic> types;
+  final double latitude;
+  final double longitude;
+  final String address;
+  final List reviews;
+  final int ratingCount;
+  final List<dynamic> photos;
+  final String cityId;
+  final String cityName;
+  final String? description;
+  final String? businessStatus;
+  final double? rating;
+  final bool? goodForChildren;
+  final List<dynamic>? openingHours;
+  final bool? restroom;
 
-  Place({
+  const Place({
     required this.id,
     required this.name,
     required this.types,
@@ -75,4 +76,7 @@ class Place {
       restroom: entity.restroom,
     );
   }
+
+  @override
+  List<Object?> get props => [id];
 }

@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:place_repository/place_repository.dart';
 
 import 'package:travel_app/screens/place/components/gallery.dart';
+import 'package:travel_app/screens/place/components/modal_bottom_sheet.dart';
 import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/screens/place/components/reviews.dart';
+import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
+import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:trip_repository/trip_repository.dart';
 
 class PlaceScreen extends StatelessWidget {
   const PlaceScreen({super.key, required this.place});
@@ -14,6 +19,7 @@ class PlaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tripRepo = FirebaseTripRepo();
     return Scaffold(
       backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,
@@ -29,10 +35,30 @@ class PlaceScreen extends StatelessWidget {
             icon: const Icon(Icons.share),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) => GetTripsBloc(tripRepo)
+                          ..add(const GetTripsRequired(null)),
+                      ),
+                      BlocProvider(
+                        create: (context) => TripBloc(tripRepo),
+                      ),
+                    ],
+                    child: ModalBottomSheet(
+                      placeId: place.id,
+                    ),
+                  );
+                },
+              );
+            },
             icon: const Icon(
-              Icons.star_border_outlined,
-              size: 28,
+              Icons.add,
+              size: 33,
             ),
           ),
         ],

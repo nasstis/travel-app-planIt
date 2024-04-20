@@ -81,7 +81,9 @@ class _PlacesListViewState extends State<PlacesListView> {
                       borderRadius: BorderRadius.circular(15),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(15),
-                        onTap: () {},
+                        onTap: () {
+                          context.push('/trips/trip/place', extra: place);
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.6,
                           decoration: BoxDecoration(

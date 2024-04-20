@@ -146,21 +146,29 @@ GoRouter router(AuthBloc authBloc) {
                     ),
                   ),
                   GoRoute(
-                    path: PageName.tripPathName,
-                    builder: (context, state) => MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (context) => TripBloc(_firebaseTripRepo),
+                      path: PageName.tripPathName,
+                      builder: (context, state) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) =>
+                                    TripBloc(_firebaseTripRepo),
+                              ),
+                              BlocProvider(
+                                create: (context) =>
+                                    GetTripsBloc(_firebaseTripRepo),
+                              ),
+                            ],
+                            child: TripView(
+                              extra: state.extra as Map<String, dynamic>?,
+                            ),
+                          ),
+                      routes: [
+                        GoRoute(
+                          path: PageName.placePathName,
+                          builder: (context, state) =>
+                              PlaceScreen(place: state.extra as Place),
                         ),
-                        BlocProvider(
-                          create: (context) => GetTripsBloc(_firebaseTripRepo),
-                        ),
-                      ],
-                      child: TripView(
-                        extra: state.extra as Map<String, dynamic>?,
-                      ),
-                    ),
-                  ),
+                      ]),
                 ],
               ),
             ],
