@@ -32,3 +32,13 @@ final class RemovePlaceFromTripSuccess extends TripState {}
 final class RemovePlaceFromTripLoading extends TripState {}
 
 final class RemovePlaceFromTripFailure extends TripState {}
+
+final class AddPlaceToTripSuccess extends TripState {
+  final Trip trip;
+
+  const AddPlaceToTripSuccess(this.trip);
+}
+
+final class AddPlaceToTripLoading extends TripState {}
+
+final class AddPlaceToTripFailure extends TripState {}

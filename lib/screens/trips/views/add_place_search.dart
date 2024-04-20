@@ -5,9 +5,12 @@ import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/trips/components/search_place_results.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:trip_repository/trip_repository.dart';
 
 class AddPlaceSearch extends StatefulWidget {
-  const AddPlaceSearch({super.key});
+  const AddPlaceSearch({super.key, required this.trip});
+
+  final Trip trip;
 
   @override
   State<AddPlaceSearch> createState() => _AddPlaceSearchState();
@@ -63,7 +66,12 @@ class _AddPlaceSearchState extends State<AddPlaceSearch> {
         ),
       ),
       body: Column(
-        children: [SearchPlaceResults(places: places, controller: _controller)],
+        children: [
+          SearchPlaceResults(
+            places: places,
+            trip: widget.trip,
+          )
+        ],
       ),
     );
   }

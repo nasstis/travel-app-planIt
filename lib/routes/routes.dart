@@ -195,13 +195,28 @@ GoRouter router(AuthBloc authBloc) {
         ),
       ),
       GoRoute(
-        path: PageName.addPlaceSearchRoute,
-        builder: (context, state) => BlocProvider(
-          create: (context) =>
-              SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
-          child: const AddPlaceSearch(),
-        ),
-      ),
+          path: PageName.addPlaceSearchRoute,
+          builder: (context, state) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) =>
+                        SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
+                  ),
+                  BlocProvider(
+                    create: (context) => TripBloc(_firebaseTripRepo),
+                  ),
+                ],
+                child: AddPlaceSearch(
+                  trip: state.extra as Trip,
+                ),
+              ),
+          routes: [
+            GoRoute(
+              path: PageName.placePathName,
+              builder: (context, state) =>
+                  PlaceScreen(place: state.extra as Place),
+            ),
+          ]),
     ],
   );
 }

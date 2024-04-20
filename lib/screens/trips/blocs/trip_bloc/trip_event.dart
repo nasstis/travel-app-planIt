@@ -48,3 +48,15 @@ class RemovePlaceFromTrip extends TripEvent {
     required this.placeId,
   });
 }
+
+class AddPlaceToTrip extends TripEvent {
+  final String tripId;
+  final List places;
+  final String placeId;
+
+  const AddPlaceToTrip({
+    required this.tripId,
+    required this.places,
+    required this.placeId,
+  });
+}

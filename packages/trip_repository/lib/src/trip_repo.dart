@@ -26,5 +26,5 @@ abstract class TripRepo {
   Future<void> removePlaceFromTrip(
       String tripId, List tripPlaces, String placeId);
 
-  Future<void> addPlaceToTrip(String tripId, String placeId, List tripPlaces);
+  Future<Trip> addPlaceToTrip(String tripId, String placeId, List tripPlaces);
 }

@@ -59,5 +59,16 @@ class TripBloc extends Bloc<TripEvent, TripState> {
         emit(RemovePlaceFromTripFailure());
       }
     });
+
+    on<AddPlaceToTrip>((event, emit) async {
+      emit(AddPlaceToTripLoading());
+      try {
+        final trip = await _tripRepository.addPlaceToTrip(
+            event.tripId, event.placeId, event.places);
+        emit(AddPlaceToTripSuccess(trip));
+      } catch (e) {
+        emit(AddPlaceToTripFailure());
+      }
+    });
   }
 }

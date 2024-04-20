@@ -13,7 +13,7 @@ class FirebasePlaceRepo extends PlaceRepo {
         )
         .get();
 
-    final places = await Future.wait(placesQuery.docs
+    final places = Future.wait(placesQuery.docs
         .map(
           (e) => Place.fromEntity(
             PlaceEntity.fromDocument(e.data()),
@@ -33,7 +33,7 @@ class FirebasePlaceRepo extends PlaceRepo {
         .where('name', isLessThanOrEqualTo: '$newVal\uf8ff')
         .get();
 
-    List<Place> places = await Future.wait(place.docs
+    final places = Future.wait(place.docs
         .map(
           (e) => Place.fromEntity(
             PlaceEntity.fromDocument(e.data()),

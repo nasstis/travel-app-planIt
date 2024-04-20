@@ -50,9 +50,9 @@ class FirebaseTripRepo extends TripRepo {
     List places = [];
 
     for (var placeId in placesId) {
-      await placeCollection.doc(placeId).get().then((doc) {
+      await placeCollection.doc(placeId).get().then((doc) async {
         places.add(
-          Place.fromEntity(
+          await Place.fromEntity(
             PlaceEntity.fromDocument(doc.data()!),
           ),
         );
@@ -123,10 +123,12 @@ class FirebaseTripRepo extends TripRepo {
   }
 
   @override
-  Future<void> addPlaceToTrip(
+  Future<Trip> addPlaceToTrip(
       String tripId, String placeId, List tripPlaces) async {
     tripPlaces = tripPlaces.map((place) => place.id).toList();
     tripPlaces.add(placeId);
     await tripCollection.doc(tripId).update({'placesId': tripPlaces});
+    final trip = await getTrip(tripId);
+    return trip;
   }
 }
