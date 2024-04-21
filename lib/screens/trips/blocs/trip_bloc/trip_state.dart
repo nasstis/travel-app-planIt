@@ -41,4 +41,6 @@ final class AddPlaceToTripSuccess extends TripState {
 
 final class AddPlaceToTripLoading extends TripState {}
 
+final class PlaceAlreadyInTrip extends TripState {}
+
 final class AddPlaceToTripFailure extends TripState {}

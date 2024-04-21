@@ -43,7 +43,7 @@ class PlaceScreen extends StatelessWidget {
                     providers: [
                       BlocProvider(
                         create: (context) => GetTripsBloc(tripRepo)
-                          ..add(const GetTripsRequired(null)),
+                          ..add(const GetTripsRequired()),
                       ),
                       BlocProvider(
                         create: (context) => TripBloc(tripRepo),

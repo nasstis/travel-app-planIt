@@ -47,19 +47,23 @@ class TripHeader extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 100),
-              Text(
-                name,
-                style: const TextStyle(
-                  color: MyColors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 26,
-                  shadows: <Shadow>[
-                    Shadow(
-                      offset: Offset(1, 2),
-                      blurRadius: 8.0,
-                      color: Color(0xFF000000),
-                    ),
-                  ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: MyColors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 26,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(1, 2),
+                        blurRadius: 8.0,
+                        color: Color(0xFF000000),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

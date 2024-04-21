@@ -10,7 +10,7 @@ sealed class GetTripsEvent extends Equatable {
 class GetTripsRequired extends GetTripsEvent {
   final List<Trip>? trips;
 
-  const GetTripsRequired(this.trips);
+  const GetTripsRequired([this.trips]);
 }
 
 class GetTripByIdRequired extends GetTripsEvent {

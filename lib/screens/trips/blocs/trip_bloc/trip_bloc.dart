@@ -63,9 +63,14 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     on<AddPlaceToTrip>((event, emit) async {
       emit(AddPlaceToTripLoading());
       try {
-        final trip = await _tripRepository.addPlaceToTrip(
-            event.tripId, event.placeId, event.places);
-        emit(AddPlaceToTripSuccess(trip));
+        final placesId = event.places.map((e) => e.id).toList();
+        if (placesId.contains(event.placeId)) {
+          emit(PlaceAlreadyInTrip());
+        } else {
+          final trip = await _tripRepository.addPlaceToTrip(
+              event.tripId, event.placeId, event.places);
+          emit(AddPlaceToTripSuccess(trip));
+        }
       } catch (e) {
         emit(AddPlaceToTripFailure());
       }

@@ -122,7 +122,7 @@ GoRouter router(AuthBloc authBloc) {
                   providers: [
                     BlocProvider(
                       create: (context) => GetTripsBloc(_firebaseTripRepo)
-                        ..add(const GetTripsRequired(null)),
+                        ..add(const GetTripsRequired()),
                     ),
                     BlocProvider(
                       create: (context) => TripBloc(_firebaseTripRepo),

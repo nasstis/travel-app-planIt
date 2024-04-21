@@ -105,6 +105,19 @@ class _ModalBottomSheetState extends State<ModalBottomSheet> {
                                     addPlaceRequired = true;
                                   });
                                 }
+                                if (state is PlaceAlreadyInTrip) {
+                                  setState(() {
+                                    addPlaceRequired = false;
+                                  });
+                                  if (index == tripIndex) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'This place has already been added to this trip!'),
+                                      ),
+                                    );
+                                  }
+                                }
                                 if (state is AddPlaceToTripFailure) {
                                   setState(() {
                                     addPlaceRequired = false;

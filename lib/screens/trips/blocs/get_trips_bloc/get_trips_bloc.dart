@@ -22,11 +22,15 @@ class GetTripsBloc extends Bloc<GetTripsEvent, GetTripsState> {
       (event, emit) {
         emit(GetTripsLoading());
         try {
-          List<Trip> trips = event.trips!;
-          trips.sort(
-            (a, b) => a.startDate.compareTo(b.startDate),
-          );
-          emit(GetTripsSuccess(trips));
+          if (event.trips != null) {
+            List<Trip> trips = event.trips!;
+            trips.sort(
+              (a, b) => a.startDate.compareTo(b.startDate),
+            );
+            emit(GetTripsSuccess(trips));
+          } else {
+            emit(GetTripsLoading());
+          }
         } catch (e) {
           log(e.toString());
           emit(GetTripsFailure());

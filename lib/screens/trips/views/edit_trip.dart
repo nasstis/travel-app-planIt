@@ -75,6 +75,7 @@ class _EditTripState extends State<EditTrip> {
             children: [
               TextField(
                 controller: _nameController,
+                maxLength: 50,
                 style: const TextStyle(color: MyColors.darkGrey),
                 cursorColor: MyColors.darkGrey,
                 decoration: const InputDecoration(

@@ -39,6 +39,11 @@ class SearchPlaceResults extends StatelessWidget {
                 content: Text('Place successfully added to trip!')));
             context.go(PageName.tripRoute, extra: {'trip': state.trip});
           }
+          if (state is PlaceAlreadyInTrip) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content:
+                    Text('This place has already been added to this trip!')));
+          }
         },
         child: Expanded(
           child: SizedBox(
