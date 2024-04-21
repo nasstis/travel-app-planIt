@@ -24,29 +24,6 @@ class _CardViewState extends State<CardView> {
   String photo = '';
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        loadData(widget.imageUrl);
-      },
-    );
-  }
-
-  Future<void> loadData(String imageUrl) async {
-    setState(() => isLoading = true);
-
-    photo = await cacheImage(context, imageUrl);
-
-    setState(() => isLoading = false);
-  }
-
-  Future<String> cacheImage(BuildContext context, String url) async {
-    await precacheImage(CachedNetworkImageProvider(url), context);
-    return url;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
@@ -68,7 +45,7 @@ class _CardViewState extends State<CardView> {
                     minWidth: 200,
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: photo,
+                    imageUrl: widget.imageUrl,
                     fit: BoxFit.cover,
                     color: Colors.black.withOpacity(0.1),
                     colorBlendMode: BlendMode.srcOver,

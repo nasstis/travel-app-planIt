@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:place_repository/place_repository.dart';
-import 'package:travel_app/screens/trips/components/is_open_text.dart';
+import 'package:travel_app/utils/components/is_open_text.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class PlaceCard extends StatelessWidget {

@@ -56,54 +56,6 @@ class _PlaceInfoState extends State<PlaceInfo> {
               },
             ),
             const SizedBox(height: 15),
-            if (isOpen != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.solidClock,
-                          size: 17,
-                          color: isOpen! ? MyColors.green : MyColors.red,
-                        ),
-                        const SizedBox(width: 15),
-                        Text(
-                          isOpen! ? 'Open Now' : 'Closed Now',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: isOpen! ? MyColors.green : MyColors.red,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 5),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          seeWorkingHoursRequired = !seeWorkingHoursRequired;
-                        });
-                      },
-                      icon: Icon(
-                        seeWorkingHoursRequired
-                            ? Icons.arrow_drop_up
-                            : Icons.arrow_drop_down,
-                        color: isOpen! ? MyColors.green : MyColors.red,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            if (seeWorkingHoursRequired)
-              WorkingHoursElement(
-                workingHours: workingHours,
-                currentDay: currentDay,
-                lenght: widget.place.openingHours!.length,
-              ),
-            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -118,13 +70,57 @@ class _PlaceInfoState extends State<PlaceInfo> {
                   child: Text(
                     widget.place.address,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            if (isOpen != null)
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    seeWorkingHoursRequired = !seeWorkingHoursRequired;
+                  });
+                },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const SizedBox(width: 5),
+                          const FaIcon(
+                            FontAwesomeIcons.solidClock,
+                            size: 15,
+                            color: MyColors.primary,
+                          ),
+                          const SizedBox(width: 15),
+                          Text(
+                            seeWorkingHoursRequired
+                                ? 'Hide'
+                                : 'See working hours',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: MyColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(seeWorkingHoursRequired
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down),
+                    ]),
+              ),
+            if (seeWorkingHoursRequired)
+              WorkingHoursElement(
+                workingHours: workingHours,
+                currentDay: currentDay,
+                lenght: widget.place.openingHours!.length,
+              ),
             if (widget.place.description != null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

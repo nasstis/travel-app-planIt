@@ -9,6 +9,7 @@ import 'package:travel_app/screens/place/components/place_info.dart';
 import 'package:travel_app/screens/place/components/reviews.dart';
 import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
+import 'package:travel_app/utils/components/is_open_text.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -93,7 +94,7 @@ class PlaceScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.8,
+                          width: MediaQuery.of(context).size.width,
                           child: Text(
                             place.name,
                             style: const TextStyle(
@@ -104,19 +105,34 @@ class PlaceScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Icon(
-                              Icons.location_on,
-                              color: MyColors.light,
-                              size: 18,
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.location_on,
+                                  color: MyColors.light,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  place.cityName,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: MyColors.light,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 5),
-                            Text(
-                              place.cityName,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: MyColors.light,
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.5),
+                            if (place.openingHours != null)
+                              Column(
+                                children: [
+                                  const SizedBox(height: 5),
+                                  IsOpenText(openingHours: place.openingHours!),
+                                  const SizedBox(height: 5),
+                                ],
                               ),
-                            ),
                           ],
                         ),
                       ],
