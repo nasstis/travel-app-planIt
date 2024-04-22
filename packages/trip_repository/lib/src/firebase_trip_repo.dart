@@ -5,11 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:trip_repository/src/models/trip_calendar.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class FirebaseTripRepo extends TripRepo {
   final FirebaseAuth _firebaseAuth;
   final tripCollection = FirebaseFirestore.instance.collection('trips');
+  final tripCalendarCollection =
+      FirebaseFirestore.instance.collection('tripsCalendars');
   final placeCollection = FirebaseFirestore.instance.collection('places');
   final FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -33,11 +36,14 @@ class FirebaseTripRepo extends TripRepo {
   }
 
   @override
-  Future<void> addTrip(Trip newTrip) async {
+  Future<void> addTrip(Trip newTrip, TripCalendar tripCalendar) async {
     try {
       newTrip.userId = _firebaseAuth.currentUser!.uid;
       await tripCollection.doc(newTrip.id).set(
             newTrip.toEntity().toDocument(),
+          );
+      await tripCalendarCollection.doc(tripCalendar.id).set(
+            tripCalendar.toEntity().toDocument(),
           );
     } catch (e) {
       log(e.toString());
@@ -130,5 +136,15 @@ class FirebaseTripRepo extends TripRepo {
     await tripCollection.doc(tripId).update({'placesId': tripPlaces});
     final trip = await getTrip(tripId);
     return trip;
+  }
+
+  @override
+  Future<TripCalendar> getTripCalendar(String tripId) async {
+    TripCalendar tripCalendar = await tripCalendarCollection
+        .where('tripId', isEqualTo: tripId)
+        .get()
+        .then((doc) async => await TripCalendar.fromEntity(
+            TripCalendarEntity.fromDocument(doc.docs.first.data())));
+    return tripCalendar;
   }
 }

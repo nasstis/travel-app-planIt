@@ -18,3 +18,9 @@ class GetTripByIdRequired extends GetTripsEvent {
 
   const GetTripByIdRequired(this.tripId);
 }
+
+class GetTripCalendar extends GetTripsEvent {
+  final String tripId;
+
+  const GetTripCalendar(this.tripId);
+}

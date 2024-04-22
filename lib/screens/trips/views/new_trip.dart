@@ -7,6 +7,7 @@ import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dar
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/helpers/get_list_of_days.dart';
 import 'package:trip_repository/trip_repository.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,7 +24,8 @@ class _NewTripState extends State<NewTrip> {
   bool _creationRequired = false;
   City? pickedCity;
   DateTimeRange? pickedDate;
-  String id = const Uuid().v4();
+  final uuid = const Uuid();
+  final String tripId = const Uuid().v4();
 
   @override
   void initState() {
@@ -36,7 +38,7 @@ class _NewTripState extends State<NewTrip> {
       context.read<TripBloc>().add(
             CreateTrip(
               Trip(
-                id: id,
+                id: tripId,
                 userId: '',
                 cityId: pickedCity!.cityId,
                 startDate: pickedDate!.start,
@@ -45,6 +47,17 @@ class _NewTripState extends State<NewTrip> {
                     '${pickedCity!.name} ${DateFormat.yMMMM().format(pickedDate!.start).toString()}',
                 photoUrl: pickedCity!.picture,
                 places: [],
+              ),
+              TripCalendar(
+                id: uuid.v4(),
+                tripId: tripId,
+                places: Map.fromIterables(
+                    getListOfDaysInDateRange(pickedDate!.start, pickedDate!.end)
+                        .map((e) => e.toString()),
+                    List.generate(
+                        pickedDate!.end.difference(pickedDate!.start).inDays +
+                            1,
+                        (index) => [])),
               ),
             ),
           );
@@ -72,7 +85,7 @@ class _NewTripState extends State<NewTrip> {
                 _creationRequired = false;
               });
               context.read<GetTripsBloc>().add(
-                    GetTripByIdRequired(id),
+                    GetTripByIdRequired(tripId),
                   );
             } else if (state is CreateTripFailure) {
               setState(() {

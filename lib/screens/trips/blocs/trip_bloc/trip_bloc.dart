@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -13,9 +14,10 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     on<CreateTrip>((event, emit) async {
       emit(CreateTripLoading());
       try {
-        await _tripRepository.addTrip(event.trip);
+        await _tripRepository.addTrip(event.trip, event.tripCalendar);
         emit(CreateTripSuccess());
       } catch (e) {
+        log(e.toString());
         emit(CreateTripFailure());
       }
     });

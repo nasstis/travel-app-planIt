@@ -7,7 +7,7 @@ abstract class TripRepo {
 
   Future<Trip> getTrip(String tripId);
 
-  Future<void> addTrip(Trip newTrip);
+  Future<void> addTrip(Trip newTrip, TripCalendar tripCalendar);
 
   Future<void> deleteTrip(String tripId);
 
@@ -27,4 +27,6 @@ abstract class TripRepo {
       String tripId, List tripPlaces, String placeId);
 
   Future<Trip> addPlaceToTrip(String tripId, String placeId, List tripPlaces);
+
+  Future<TripCalendar> getTripCalendar(String tripId);
 }
