@@ -3,7 +3,7 @@ import 'package:trip_repository/trip_repository.dart';
 class TripCalendar {
   final String id;
   final String tripId;
-  final Map<String, dynamic> places;
+  final Map<String, List> places;
 
   TripCalendar({
     required this.id,

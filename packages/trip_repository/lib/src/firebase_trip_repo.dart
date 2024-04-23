@@ -147,4 +147,11 @@ class FirebaseTripRepo extends TripRepo {
             TripCalendarEntity.fromDocument(doc.docs.first.data())));
     return tripCalendar;
   }
+
+  @override
+  Future<void> deleteTripCalendar(String tripId) async {
+    final querySnapshot =
+        await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();
+    await querySnapshot.docs[0].reference.delete();
+  }
 }

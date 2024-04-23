@@ -43,7 +43,13 @@ class PlaceCard extends StatelessWidget {
                 Positioned(
                   top: 10,
                   left: 5,
-                  child: IsOpenText(openingHours: place.openingHours!),
+                  child: IsOpenText(
+                    openingHours: place.openingHours!,
+                    width: 80,
+                    height: 20,
+                    iconSize: 12,
+                    fontSize: 12,
+                  ),
                 ),
               Positioned(
                   right: 0,

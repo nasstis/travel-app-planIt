@@ -7,9 +7,17 @@ class IsOpenText extends StatelessWidget {
   const IsOpenText({
     super.key,
     required this.openingHours,
+    required this.width,
+    required this.height,
+    required this.iconSize,
+    required this.fontSize,
   });
 
   final List openingHours;
+  final double width;
+  final double height;
+  final double iconSize;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +29,8 @@ class IsOpenText extends StatelessWidget {
       elevation: 2,
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        width: 80,
-        height: 20,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: isOpen
@@ -34,14 +42,14 @@ class IsOpenText extends StatelessWidget {
           children: [
             FaIcon(
               FontAwesomeIcons.solidClock,
-              size: 12,
+              size: iconSize,
               color: isOpen ? MyColors.green : MyColors.red,
             ),
             const SizedBox(width: 5),
             Text(
               isOpen ? 'Open' : 'Closed',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: fontSize,
                 color: isOpen ? MyColors.green : MyColors.red,
                 fontWeight: FontWeight.w600,
               ),

@@ -9,16 +9,17 @@ abstract class PageName {
   static const cityRoute = '/home/city';
   static const placeRoute = '/home/place';
   static const mapRoute = '/home/map';
-  static const newTripRoute = '/trips/newtrip';
+  static const newTripRoute = '/trips/new_trip';
   static const tripRoute = '/trips/trip';
-  static const newTripSearchRoute = '/trips/newtrip/search';
+  static const newTripSearchRoute = '/trips/new_trip/search';
   static const editTripRoue = '/trips/trip/edit';
-  static const addPlaceSearchRoute = '/trips/trip/addplace';
-  static const placeRouteFromTrip = '/trips/trip/addplace/place';
+  static const addPlaceSearchRoute = '/trips/trip/add_place';
+  static const placeRouteFromTrip = '/trips/trip/add_place/place';
+  static const addPlaceToItinerary = '/trips/trip/add_place_itinerary';
 
   static const cityPathName = 'city';
   static const placePathName = 'place';
   static const mapPathName = 'map';
-  static const newTripPathName = 'newtrip';
+  static const newTripPathName = 'new_trip';
   static const tripPathName = 'trip';
 }

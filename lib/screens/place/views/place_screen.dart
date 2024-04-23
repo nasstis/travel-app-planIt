@@ -129,7 +129,13 @@ class PlaceScreen extends StatelessWidget {
                               Column(
                                 children: [
                                   const SizedBox(height: 5),
-                                  IsOpenText(openingHours: place.openingHours!),
+                                  IsOpenText(
+                                    openingHours: place.openingHours!,
+                                    width: 80,
+                                    height: 20,
+                                    iconSize: 12,
+                                    fontSize: 12,
+                                  ),
                                   const SizedBox(height: 5),
                                 ],
                               ),

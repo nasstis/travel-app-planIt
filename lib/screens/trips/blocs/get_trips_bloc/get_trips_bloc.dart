@@ -50,20 +50,6 @@ class GetTripsBloc extends Bloc<GetTripsEvent, GetTripsState> {
         }
       },
     );
-
-    on<GetTripCalendar>(
-      (event, emit) async {
-        emit(GetTripCalendarLoading());
-        try {
-          final tripCalendar =
-              await _tripRepository.getTripCalendar(event.tripId);
-          emit(GetTripCalendarSuccess(tripCalendar));
-        } catch (e) {
-          log(e.toString());
-          emit(GetTripCalendarFailure());
-        }
-      },
-    );
   }
 
   @override

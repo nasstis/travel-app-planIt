@@ -26,6 +26,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
       emit(DeleteTripLoading());
       try {
         await _tripRepository.deleteTrip(event.tripId);
+        await _tripRepository.deleteTripCalendar(event.tripId);
         emit(DeleteTripSuccess());
       } catch (e) {
         emit(DeleteTripFailure());

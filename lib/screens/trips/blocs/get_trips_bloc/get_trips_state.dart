@@ -28,13 +28,3 @@ final class GetTripByIdSuccess extends GetTripsState {
 }
 
 final class GetTripByIdFailure extends GetTripsState {}
-
-final class GetTripCalendarSuccess extends GetTripsState {
-  final TripCalendar tripCalendar;
-
-  const GetTripCalendarSuccess(this.tripCalendar);
-}
-
-final class GetTripCalendarLoading extends GetTripsState {}
-
-final class GetTripCalendarFailure extends GetTripsState {}

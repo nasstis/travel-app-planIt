@@ -29,4 +29,6 @@ abstract class TripRepo {
   Future<Trip> addPlaceToTrip(String tripId, String placeId, List tripPlaces);
 
   Future<TripCalendar> getTripCalendar(String tripId);
+
+  Future<void> deleteTripCalendar(String tripId);
 }
