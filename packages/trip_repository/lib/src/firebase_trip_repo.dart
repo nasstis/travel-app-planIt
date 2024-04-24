@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:place_repository/place_repository.dart';
-import 'package:trip_repository/src/models/trip_calendar.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class FirebaseTripRepo extends TripRepo {
@@ -153,5 +152,16 @@ class FirebaseTripRepo extends TripRepo {
     final querySnapshot =
         await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();
     await querySnapshot.docs[0].reference.delete();
+  }
+
+  @override
+  Future<void> addPlaceToItinerary(
+      String tripId, String date, List places) async {
+    final querySnapshot =
+        await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();
+    final Map<String, dynamic> map =
+        await querySnapshot.docs[0].data()['places'];
+    map[date].addAll(places);
+    await querySnapshot.docs[0].reference.update({'places': map});
   }
 }

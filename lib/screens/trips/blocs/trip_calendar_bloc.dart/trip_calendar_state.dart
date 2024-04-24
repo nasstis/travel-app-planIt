@@ -19,7 +19,11 @@ final class GetTripCalendarLoading extends TripCalendarState {}
 
 final class GetTripCalendarFailure extends TripCalendarState {}
 
-final class AddPlacesToItineraryFailure extends TripCalendarState {}
+final class AddPlacesToItineraryFailure extends TripCalendarState {
+  final String errorMessage;
+
+  const AddPlacesToItineraryFailure(this.errorMessage);
+}
 
 final class AddPlacesToItinerarySuccess extends TripCalendarState {}
 

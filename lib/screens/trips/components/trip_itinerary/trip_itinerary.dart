@@ -4,21 +4,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
-import 'package:travel_app/screens/trips/components/places_itinerary.dart';
+import 'package:travel_app/screens/trips/components/trip_itinerary/places_itinerary.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:travel_app/utils/helpers/get_list_of_days.dart';
 import 'package:trip_repository/trip_repository.dart';
 
-class Itinerary extends StatelessWidget {
+class Itinerary extends StatefulWidget {
   const Itinerary({super.key, required this.trip});
 
   final Trip trip;
 
   @override
+  State<Itinerary> createState() => _ItineraryState();
+}
+
+class _ItineraryState extends State<Itinerary> {
+  @override
   Widget build(BuildContext context) {
     final List<DateTime> days =
-        getListOfDaysInDateRange(trip.startDate, trip.endDate);
+        getListOfDaysInDateRange(widget.trip.startDate, widget.trip.endDate);
     return BlocBuilder<TripCalendarBloc, TripCalendarState>(
       builder: (context, state) {
         if (state is GetTripCalendarSuccess) {
@@ -131,14 +136,28 @@ class Itinerary extends StatelessWidget {
                                           onPressed: () {
                                             context.push(
                                                 PageName.addPlaceToItinerary,
-                                                extra: trip.places);
+                                                extra: {
+                                                  'trip': widget.trip,
+                                                  'date': days[index],
+                                                }).then((value) {
+                                              setState(() {
+                                                context
+                                                    .read<TripCalendarBloc>()
+                                                    .add(GetTripCalendar(
+                                                        widget.trip.id));
+                                              });
+                                            });
                                           },
                                           child: const Text('Add place'),
                                         ),
                                         const SizedBox(height: 60),
                                       ],
                                     )
-                                  : PlacesItineraryView(places: places),
+                                  : PlacesItineraryView(
+                                      places: places,
+                                      trip: widget.trip,
+                                      date: days[index],
+                                    ),
                             ],
                           ),
                         ));
@@ -147,6 +166,11 @@ class Itinerary extends StatelessWidget {
               ),
               const SizedBox(height: 30),
             ],
+          );
+        }
+        if (state is GetTripCalendarLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         }
         return const Center();

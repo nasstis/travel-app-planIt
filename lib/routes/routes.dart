@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
+import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/views/add_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/add_place_search.dart';
 import 'package:travel_app/screens/trips/views/edit_trip.dart';
@@ -229,9 +230,11 @@ GoRouter router(AuthBloc authBloc) {
       GoRoute(
         path: PageName.addPlaceToItinerary,
         builder: (context, state) => BlocProvider(
-          create: (context) => TripBloc(_firebaseTripRepo),
+          create: (context) {
+            return TripCalendarBloc(_firebaseTripRepo);
+          },
           child: AddPlaceItinerary(
-            places: state.extra as List,
+            extra: state.extra as Map<String, dynamic>,
           ),
         ),
       ),

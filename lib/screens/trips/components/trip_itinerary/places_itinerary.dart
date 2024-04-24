@@ -1,19 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/utils/components/is_open_text.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:trip_repository/trip_repository.dart';
 
-class PlacesItineraryView extends StatelessWidget {
+class PlacesItineraryView extends StatefulWidget {
   const PlacesItineraryView({
     super.key,
     required this.places,
+    required this.date,
+    required this.trip,
   });
 
   final List places;
+  final Trip trip;
+  final DateTime date;
 
+  @override
+  State<PlacesItineraryView> createState() => _PlacesItineraryViewState();
+}
+
+class _PlacesItineraryViewState extends State<PlacesItineraryView> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +34,7 @@ class PlacesItineraryView extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           padding: EdgeInsets.zero,
-          itemCount: places.length,
+          itemCount: widget.places.length,
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
             child: Row(
@@ -37,17 +49,17 @@ class PlacesItineraryView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                           image: CachedNetworkImageProvider(
-                              places[index].photos[0]),
+                              widget.places[index].photos[0]),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    if (places[index].openingHours != null)
+                    if (widget.places[index].openingHours != null)
                       Positioned(
                         top: 5,
                         left: 5,
                         child: IsOpenText(
-                          openingHours: places[index].openingHours!,
+                          openingHours: widget.places[index].openingHours!,
                           width: 55,
                           height: 15,
                           iconSize: 10,
@@ -93,7 +105,7 @@ class PlacesItineraryView extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: Text(
-                              places[index].name,
+                              widget.places[index].name,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -103,8 +115,8 @@ class PlacesItineraryView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 5),
-                      places[index].description != null
-                          ? Text(places[index].description)
+                      widget.places[index].description != null
+                          ? Text(widget.places[index].description)
                           : const Text(
                               'Oops! It looks like we couldn\'t find a description for this place',
                             ),
@@ -118,7 +130,16 @@ class PlacesItineraryView extends StatelessWidget {
         const SizedBox(height: 15),
         ElevatedButton(
           onPressed: () {
-            context.push(PageName.addPlaceToItinerary, extra: places);
+            context.push(PageName.addPlaceToItinerary, extra: {
+              'trip': widget.trip,
+              'date': widget.date,
+            }).then((value) {
+              setState(() {
+                context
+                    .read<TripCalendarBloc>()
+                    .add(GetTripCalendar(widget.trip.id));
+              });
+            });
           },
           child: const Text('Add more places'),
         ),

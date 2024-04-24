@@ -53,7 +53,7 @@ class _NewTripState extends State<NewTrip> {
                 tripId: tripId,
                 places: Map.fromIterables(
                     getListOfDaysInDateRange(pickedDate!.start, pickedDate!.end)
-                        .map((e) => e.toString()),
+                        .map((date) => date.toString()),
                     List.generate(
                         pickedDate!.end.difference(pickedDate!.start).inDays +
                             1,

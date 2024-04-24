@@ -30,5 +30,9 @@ abstract class TripRepo {
 
   Future<TripCalendar> getTripCalendar(String tripId);
 
+  // Stream<TripCalendar> getTripCalendarStream(String tripId);
+
   Future<void> deleteTripCalendar(String tripId);
+
+  Future<void> addPlaceToItinerary(String tripId, String date, List places);
 }
