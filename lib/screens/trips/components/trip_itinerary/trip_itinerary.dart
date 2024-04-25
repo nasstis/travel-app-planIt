@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
-import 'package:travel_app/screens/trips/components/trip_itinerary/places_itinerary.dart';
+import 'package:travel_app/screens/trips/components/trip_itinerary/itinerary_view.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:travel_app/utils/helpers/get_list_of_days.dart';
@@ -20,6 +20,37 @@ class Itinerary extends StatefulWidget {
 }
 
 class _ItineraryState extends State<Itinerary> {
+  final ItemScrollController itemScrollController = ItemScrollController();
+  int initialIndex = 0;
+
+  void editPlaceHandle(
+      BuildContext context, List places, DateTime date, int index) {
+    context.push(PageName.editPlacesItinerary, extra: {
+      'places': places,
+      'tripId': widget.trip.id,
+      'date': date,
+    }).then((value) {
+      setState(() {
+        context.read<TripCalendarBloc>().add(GetTripCalendar(widget.trip.id));
+        initialIndex = index;
+      });
+    });
+  }
+
+  void addPlaceHandle(
+      BuildContext context, DateTime date, List places, int index) {
+    context.push(PageName.addPlaceToItinerary, extra: {
+      'places': widget.trip.places.where((e) => !places.contains(e)).toList(),
+      'tripId': widget.trip.id,
+      'date': date,
+    }).then((value) {
+      setState(() {
+        context.read<TripCalendarBloc>().add(GetTripCalendar(widget.trip.id));
+        initialIndex = index;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<DateTime> days =
@@ -39,7 +70,12 @@ class _ItineraryState extends State<Itinerary> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        itemScrollController.scrollTo(
+                            index: index,
+                            duration: const Duration(milliseconds: 800),
+                            curve: Curves.easeInOutCubic);
+                      },
                       child: Container(
                         width: 70,
                         decoration: BoxDecoration(
@@ -62,7 +98,9 @@ class _ItineraryState extends State<Itinerary> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
+                child: ScrollablePositionedList.builder(
+                  initialScrollIndex: initialIndex,
+                  itemScrollController: itemScrollController,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   itemCount: days.length,
                   itemBuilder: (context, index) {
@@ -72,110 +110,18 @@ class _ItineraryState extends State<Itinerary> {
 
                     final List places = sortedPlacesMap.values.toList()[index];
 
-                    return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${DateFormat.E().format(days[index]).toString()}, ${DateFormat.MMMMd().format(days[index]).toString()}',
-                                        style: const TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                              Icons.arrow_drop_down)),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const FaIcon(
-                                            FontAwesomeIcons.solidMap,
-                                            size: 16,
-                                          )),
-                                      IconButton(
-                                          onPressed: () {
-                                            context.push(
-                                                PageName.editPlacesItinerary,
-                                                extra: {
-                                                  'places': places,
-                                                  'tripId': widget.trip.id,
-                                                  'date': days[index],
-                                                }).then((value) {
-                                              setState(() {
-                                                context
-                                                    .read<TripCalendarBloc>()
-                                                    .add(GetTripCalendar(
-                                                        widget.trip.id));
-                                              });
-                                            });
-                                          },
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            size: 16,
-                                          )),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              places.isEmpty
-                                  ? Column(
-                                      children: [
-                                        const SizedBox(height: 60),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8,
-                                          child: const Text(
-                                            'Build your itinerary by adding places from your saves',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 15),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            context.push(
-                                                PageName.addPlaceToItinerary,
-                                                extra: {
-                                                  'trip': widget.trip,
-                                                  'date': days[index],
-                                                }).then((value) {
-                                              setState(() {
-                                                context
-                                                    .read<TripCalendarBloc>()
-                                                    .add(GetTripCalendar(
-                                                        widget.trip.id));
-                                              });
-                                            });
-                                          },
-                                          child: const Text('Add place'),
-                                        ),
-                                        const SizedBox(height: 60),
-                                      ],
-                                    )
-                                  : PlacesItineraryView(
-                                      places: places,
-                                      trip: widget.trip,
-                                      date: days[index],
-                                    ),
-                            ],
-                          ),
-                        ));
+                    return ItineraryView(
+                      date: days[index],
+                      places: places,
+                      trip: widget.trip,
+                      seePlaces: index == initialIndex,
+                      editPlace: () {
+                        editPlaceHandle(context, places, days[index], index);
+                      },
+                      addPlace: () {
+                        addPlaceHandle(context, days[index], places, index);
+                      },
+                    );
                   },
                 ),
               ),

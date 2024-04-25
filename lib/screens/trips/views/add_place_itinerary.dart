@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
-import 'package:trip_repository/trip_repository.dart';
 
 class AddPlaceItinerary extends StatefulWidget {
   const AddPlaceItinerary({
@@ -21,13 +20,15 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
   late List<bool> selectedCheckboxes;
   bool addPlacesRequired = false;
   late final DateTime date;
-  late final Trip trip;
+  late final String tripId;
+  late final List places;
 
   @override
   void initState() {
     date = widget.extra!['date'];
-    trip = widget.extra!['trip'];
-    selectedCheckboxes = List.generate(trip.places.length, (index) => false);
+    tripId = widget.extra!['tripId'];
+    places = widget.extra!['places'];
+    selectedCheckboxes = List.generate(places.length, (index) => false);
     super.initState();
   }
 
@@ -74,7 +75,7 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: ListTile(
                             title: Text(
-                              trip.places[index].name,
+                              places[index].name,
                               style:
                                   const TextStyle(fontWeight: FontWeight.w600),
                             ),
@@ -85,14 +86,14 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
                                 color: Colors.black,
                                 image: DecorationImage(
                                   image: CachedNetworkImageProvider(
-                                      trip.places[index].photos[0]),
+                                      places[index].photos[0]),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            subtitle: trip.places[index].description != null
+                            subtitle: places[index].description != null
                                 ? Text(
-                                    trip.places[index].description,
+                                    places[index].description,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(fontSize: 12),
@@ -125,8 +126,9 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
                         context.read<TripCalendarBloc>().add(
                               AddPlacesToItinerary(
                                   selectedCheckboxes: selectedCheckboxes,
-                                  trip: widget.extra!['trip'],
-                                  date: date.toString()),
+                                  places: places,
+                                  date: date.toString(),
+                                  tripId: tripId),
                             );
                       },
                 child: addPlacesRequired

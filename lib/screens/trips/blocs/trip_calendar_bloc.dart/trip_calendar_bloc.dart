@@ -34,7 +34,7 @@ class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
           int index = 0;
           for (var checkbox in event.selectedCheckboxes) {
             if (checkbox) {
-              selectedPlaces.add(event.trip.places[index].id);
+              selectedPlaces.add(event.places[index].id);
             }
             index++;
           }
@@ -43,7 +43,7 @@ class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
                 'You haven\'t selected any place'));
           } else {
             await _tripRepository.addPlaceToItinerary(
-                event.trip.id, event.date, selectedPlaces);
+                event.tripId, event.date, selectedPlaces);
           }
           emit(AddPlacesToItinerarySuccess());
         } catch (e) {

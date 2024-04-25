@@ -131,7 +131,10 @@ class _PlacesItineraryViewState extends State<PlacesItineraryView> {
         ElevatedButton(
           onPressed: () {
             context.push(PageName.addPlaceToItinerary, extra: {
-              'trip': widget.trip,
+              'places': widget.trip.places
+                  .where((e) => !widget.places.contains(e))
+                  .toList(),
+              'tripId': widget.trip.id,
               'date': widget.date,
             }).then((value) {
               setState(() {

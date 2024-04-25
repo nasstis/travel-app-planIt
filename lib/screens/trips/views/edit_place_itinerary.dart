@@ -55,22 +55,22 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
                 const SnackBar(content: Text('Something went wrong...')));
           }
         },
-        child: places.isEmpty
-            ? const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Center(
-                  child: Text(
-                    'There is nothing to edit here.\n Try adding some places first.',
-                    style: TextStyle(
-                      fontSize: 18,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            places.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Text(
+                        'There is nothing to edit here.\n Try adding some places first.',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
+                  )
+                : Expanded(
                     child: ReorderableListView.builder(
                       onReorder: (oldIndex, newIndex) {
                         if (newIndex > oldIndex) {
@@ -148,27 +148,27 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 18, top: 10),
-                    child: ElevatedButton(
-                      onPressed: editRequired
-                          ? null
-                          : () {
-                              context.read<TripCalendarBloc>().add(
-                                    EditItinerary(
-                                        tripId: tripId,
-                                        date: date.toString(),
-                                        places: places),
-                                  );
-                            },
-                      child: editRequired
-                          ? const CircularProgressIndicator()
-                          : const Text('Save changes'),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
+            Padding(
+              padding: const EdgeInsets.only(right: 18, top: 10),
+              child: ElevatedButton(
+                onPressed: editRequired
+                    ? null
+                    : () {
+                        context.read<TripCalendarBloc>().add(
+                              EditItinerary(
+                                  tripId: tripId,
+                                  date: date.toString(),
+                                  places: places),
+                            );
+                      },
+                child: editRequired
+                    ? const CircularProgressIndicator()
+                    : const Text('Save changes'),
               ),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
