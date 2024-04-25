@@ -107,7 +107,22 @@ class _ItineraryState extends State<Itinerary> {
                                             size: 16,
                                           )),
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            context.push(
+                                                PageName.editPlacesItinerary,
+                                                extra: {
+                                                  'places': places,
+                                                  'tripId': widget.trip.id,
+                                                  'date': days[index],
+                                                }).then((value) {
+                                              setState(() {
+                                                context
+                                                    .read<TripCalendarBloc>()
+                                                    .add(GetTripCalendar(
+                                                        widget.trip.id));
+                                              });
+                                            });
+                                          },
                                           icon: const Icon(
                                             Icons.edit,
                                             size: 16,
@@ -164,7 +179,7 @@ class _ItineraryState extends State<Itinerary> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 100),
             ],
           );
         }

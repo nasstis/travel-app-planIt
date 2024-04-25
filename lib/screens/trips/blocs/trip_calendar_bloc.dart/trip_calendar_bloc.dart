@@ -42,13 +42,27 @@ class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
             emit(const AddPlacesToItineraryFailure(
                 'You haven\'t selected any place'));
           } else {
-            _tripRepository.addPlaceToItinerary(
+            await _tripRepository.addPlaceToItinerary(
                 event.trip.id, event.date, selectedPlaces);
           }
           emit(AddPlacesToItinerarySuccess());
         } catch (e) {
           log(e.toString());
           emit(AddPlacesToItineraryFailure(e.toString()));
+        }
+      },
+    );
+
+    on<EditItinerary>(
+      (event, emit) async {
+        emit(EditItineraryLoading());
+        try {
+          final places = event.places.map((e) => e.id).toList();
+          await _tripRepository.editItinerary(event.tripId, event.date, places);
+          emit(EditItinerarySuccess());
+        } catch (e) {
+          log(e.toString());
+          emit(EditItineraryFailure(e.toString()));
         }
       },
     );

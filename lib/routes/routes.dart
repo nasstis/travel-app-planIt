@@ -8,6 +8,7 @@ import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/views/add_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/add_place_search.dart';
+import 'package:travel_app/screens/trips/views/edit_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/edit_trip.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -234,6 +235,17 @@ GoRouter router(AuthBloc authBloc) {
             return TripCalendarBloc(_firebaseTripRepo);
           },
           child: AddPlaceItinerary(
+            extra: state.extra as Map<String, dynamic>,
+          ),
+        ),
+      ),
+      GoRoute(
+        path: PageName.editPlacesItinerary,
+        builder: (context, state) => BlocProvider(
+          create: (context) {
+            return TripCalendarBloc(_firebaseTripRepo);
+          },
+          child: EditPlacesItinerary(
             extra: state.extra as Map<String, dynamic>,
           ),
         ),

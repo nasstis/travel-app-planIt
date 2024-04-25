@@ -23,3 +23,15 @@ class AddPlacesToItinerary extends TripCalendarEvent {
       required this.trip,
       required this.date});
 }
+
+class EditItinerary extends TripCalendarEvent {
+  final String tripId;
+  final String date;
+  final List places;
+
+  const EditItinerary({
+    required this.tripId,
+    required this.date,
+    required this.places,
+  });
+}

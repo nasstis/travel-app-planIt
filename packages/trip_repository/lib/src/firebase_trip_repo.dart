@@ -164,4 +164,14 @@ class FirebaseTripRepo extends TripRepo {
     map[date].addAll(places);
     await querySnapshot.docs[0].reference.update({'places': map});
   }
+
+  @override
+  Future<void> editItinerary(String tripId, String date, List places) async {
+    final querySnapshot =
+        await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();
+    final Map<String, dynamic> map =
+        await querySnapshot.docs[0].data()['places'];
+    map[date] = places;
+    await querySnapshot.docs[0].reference.update({'places': map});
+  }
 }

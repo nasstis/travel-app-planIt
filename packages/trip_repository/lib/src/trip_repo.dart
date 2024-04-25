@@ -35,4 +35,6 @@ abstract class TripRepo {
   Future<void> deleteTripCalendar(String tripId);
 
   Future<void> addPlaceToItinerary(String tripId, String date, List places);
+
+  Future<void> editItinerary(String tripId, String date, List places);
 }

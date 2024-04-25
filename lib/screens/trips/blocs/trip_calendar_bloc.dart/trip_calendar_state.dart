@@ -28,3 +28,13 @@ final class AddPlacesToItineraryFailure extends TripCalendarState {
 final class AddPlacesToItinerarySuccess extends TripCalendarState {}
 
 final class AddPlacesToItineraryLoading extends TripCalendarState {}
+
+final class EditItineraryFailure extends TripCalendarState {
+  final String errorMessage;
+
+  const EditItineraryFailure(this.errorMessage);
+}
+
+final class EditItinerarySuccess extends TripCalendarState {}
+
+final class EditItineraryLoading extends TripCalendarState {}
