@@ -13,6 +13,7 @@ class ItineraryView extends StatefulWidget {
     required this.editPlace,
     required this.addPlace,
     required this.seePlaces,
+    required this.showMap,
   });
 
   final DateTime date;
@@ -21,6 +22,7 @@ class ItineraryView extends StatefulWidget {
   final bool seePlaces;
   final void Function() editPlace;
   final void Function() addPlace;
+  final void Function() showMap;
 
   @override
   State<ItineraryView> createState() => _ItineraryViewState();
@@ -73,6 +75,7 @@ class _ItineraryViewState extends State<ItineraryView> {
                           return ItineraryModalBottomSheet(
                             editPlace: widget.editPlace,
                             addPlace: widget.addPlace,
+                            showMap: widget.showMap,
                           );
                         },
                       );

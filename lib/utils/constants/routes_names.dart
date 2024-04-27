@@ -17,6 +17,7 @@ abstract class PageName {
   static const placeRouteFromTrip = '/trips/trip/add_place/place';
   static const addPlaceToItinerary = '/trips/trip/add_place_itinerary';
   static const editPlacesItinerary = '/trips/trip/edit_places_itinerary';
+  static const tripMap = '/trips/trip/map';
 
   static const cityPathName = 'city';
   static const placePathName = 'place';

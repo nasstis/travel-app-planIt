@@ -10,6 +10,7 @@ import 'package:travel_app/screens/trips/views/add_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/add_place_search.dart';
 import 'package:travel_app/screens/trips/views/edit_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/edit_trip.dart';
+import 'package:travel_app/screens/trips/views/trip_map_screen.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -250,6 +251,10 @@ GoRouter router(AuthBloc authBloc) {
           ),
         ),
       ),
+      GoRoute(
+          path: PageName.tripMap,
+          builder: (context, state) =>
+              TripMapScreen(extra: state.extra as Map<String, dynamic>)),
     ],
   );
 }

@@ -51,6 +51,17 @@ class _ItineraryState extends State<Itinerary> {
     });
   }
 
+  void showMap(BuildContext context, List places, int index) {
+    context.push(PageName.tripMap, extra: {
+      'places': places,
+      'isItinerary': true,
+    }).then((value) {
+      setState(() {
+        initialIndex = index;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<DateTime> days =
@@ -120,6 +131,9 @@ class _ItineraryState extends State<Itinerary> {
                       },
                       addPlace: () {
                         addPlaceHandle(context, days[index], places, index);
+                      },
+                      showMap: () {
+                        showMap(context, places, index);
                       },
                     );
                   },

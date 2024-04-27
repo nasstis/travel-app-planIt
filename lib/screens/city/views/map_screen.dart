@@ -23,9 +23,10 @@ class MapScreen extends StatelessWidget {
         create: (context) =>
             GetPlacesBloc(FirebasePlaceRepo())..add(GetPlaces(city.cityId)),
         child: MapView(
-          city: city,
+          latLng: LatLng(city.latitude, city.longitude),
           zoomControlsEnabled: true,
           mapType: MapType.normal,
+          isItinerary: false,
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:city_repository/city_repository.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,18 +5,23 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/info_window.dart';
+import 'package:travel_app/utils/helpers/get_custom_icon.dart';
 import 'package:travel_app/utils/helpers/get_json.dart';
 
 class MapView extends StatefulWidget {
   const MapView(
       {super.key,
-      required this.city,
       required this.mapType,
-      required this.zoomControlsEnabled});
+      required this.zoomControlsEnabled,
+      required this.latLng,
+      this.places,
+      required this.isItinerary});
 
-  final City city;
+  final LatLng latLng;
   final MapType mapType;
   final bool zoomControlsEnabled;
+  final List? places;
+  final bool isItinerary;
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -40,7 +44,11 @@ class _MapViewState extends State<MapView> {
     changeMapMode(_customInfoWindowController.googleMapController!);
   }
 
-  void _upsertMarker(Place place) {
+  void _upsertMarker(Place place, int? index) async {
+    BitmapDescriptor? customIcon;
+    if (index != null) {
+      customIcon = await getCustomIcon(index);
+    }
     setState(() {
       _markers.add(Marker(
         markerId: MarkerId(place.id),
@@ -48,52 +56,68 @@ class _MapViewState extends State<MapView> {
         onTap: () {
           _customInfoWindowController.addInfoWindow!(
             MyInfoWindow(
-              cityName: widget.city.name,
               selectedPlace: place,
+              routingToPlaceAllowed: widget.places == null,
             ),
             LatLng(place.latitude, place.longitude),
           );
         },
-        icon: BitmapDescriptor.defaultMarkerWithHue(280),
+        icon: customIcon ?? BitmapDescriptor.defaultMarkerWithHue(280),
       ));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetPlacesBloc, GetPlacesState>(
-      listener: (context, state) {
-        if (state is GetPlacesSuccess) {
-          for (final place in state.places) {
-            _upsertMarker(place);
-          }
-        }
-      },
-      child: Stack(
-        children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            mapType: widget.mapType,
-            zoomControlsEnabled: widget.zoomControlsEnabled,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(widget.city.latitude, widget.city.longitude),
-              zoom: 12.0,
-            ),
-            markers: _markers,
-            onTap: (_) {
-              _customInfoWindowController.hideInfoWindow!();
-            },
-            onCameraMove: (_) {
-              _customInfoWindowController.onCameraMove!();
-            },
+    Widget mainWidget = Stack(
+      children: [
+        GoogleMap(
+          onMapCreated: _onMapCreated,
+          mapType: widget.mapType,
+          zoomControlsEnabled: widget.zoomControlsEnabled,
+          initialCameraPosition: CameraPosition(
+            target: widget.latLng,
+            zoom: 13.0,
           ),
-          CustomInfoWindow(
-            controller: _customInfoWindowController,
-            height: 150,
-            width: 200,
-          ),
-        ],
-      ),
+          markers: _markers,
+          onTap: (_) {
+            _customInfoWindowController.hideInfoWindow!();
+          },
+          onCameraMove: (_) {
+            _customInfoWindowController.onCameraMove!();
+          },
+        ),
+        CustomInfoWindow(
+          controller: _customInfoWindowController,
+          height: 140,
+          width: 250,
+        ),
+      ],
     );
+
+    if (widget.places != null) {
+      if (widget.isItinerary) {
+        int counter = 1;
+        for (final place in widget.places!) {
+          _upsertMarker(place, counter);
+          counter++;
+        }
+      } else {
+        for (final place in widget.places!) {
+          _upsertMarker(place, null);
+        }
+      }
+      return mainWidget;
+    } else {
+      return BlocListener<GetPlacesBloc, GetPlacesState>(
+          listener: (context, state) {
+            if (state is GetPlacesSuccess) {
+              for (final place in state.places) {
+                _upsertMarker(place, null);
+              }
+            }
+          },
+          child: mainWidget);
+    }
   }
 }

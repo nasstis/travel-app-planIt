@@ -25,9 +25,10 @@ class CityMap extends StatelessWidget {
             create: (context) =>
                 GetPlacesBloc(FirebasePlaceRepo())..add(GetPlaces(city.cityId)),
             child: MapView(
-              city: city,
+              latLng: LatLng(city.latitude, city.longitude),
               zoomControlsEnabled: false,
               mapType: MapType.terrain,
+              isItinerary: false,
             ),
           )),
     );

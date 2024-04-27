@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_header.dart';
@@ -40,70 +41,83 @@ class TripView extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Stack(
-            children: [
-              tag != null
-                  ? Hero(
-                      tag: tag,
-                      child: TripHeader(
-                        photoUrl: trip.photoUrl,
-                        name: trip.name,
-                        startDate: trip.startDate,
-                        endDate: trip.endDate,
-                      ))
-                  : TripHeader(
-                      photoUrl: trip.photoUrl,
-                      name: trip.name,
-                      startDate: trip.startDate,
-                      endDate: trip.endDate,
-                    ),
-              Positioned(
-                top: 200,
-                child: Container(
-                  height: MediaQuery.of(context).size.height - 185,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white),
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Column(
-                      children: [
-                        const TabBar(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          dividerColor: Colors.transparent,
-                          tabs: [
-                            Text('Info'),
-                            Text('Itinerary'),
-                          ],
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: MediaQuery.of(context).size.height - 230,
-                          child: TabBarView(
-                            children: [
-                              TripInfo(trip: trip),
-                              BlocProvider(
-                                create: (context) =>
-                                    TripCalendarBloc(FirebaseTripRepo())
-                                      ..add(GetTripCalendar(trip.id)),
-                                child: Itinerary(
-                                  trip: trip,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+          tag != null
+              ? Hero(
+                  tag: tag,
+                  child: TripHeader(
+                    photoUrl: trip.photoUrl,
+                    name: trip.name,
+                    startDate: trip.startDate,
+                    endDate: trip.endDate,
+                  ))
+              : TripHeader(
+                  photoUrl: trip.photoUrl,
+                  name: trip.name,
+                  startDate: trip.startDate,
+                  endDate: trip.endDate,
+                ),
+          Positioned(
+            top: 200,
+            child: Container(
+              height: MediaQuery.of(context).size.height - 185,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30), color: Colors.white),
+              child: DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    const TabBar(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      dividerColor: Colors.transparent,
+                      tabs: [
+                        Text('Info'),
+                        Text('Itinerary'),
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height - 230,
+                      child: TabBarView(
+                        children: [
+                          TripInfo(trip: trip),
+                          BlocProvider(
+                            create: (context) =>
+                                TripCalendarBloc(FirebaseTripRepo())
+                                  ..add(GetTripCalendar(trip.id)),
+                            child: Itinerary(
+                              trip: trip,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          )
+            ),
+          ),
         ],
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 80),
+        child: FloatingActionButton(
+          onPressed: () {
+            context.push(PageName.tripMap, extra: {
+              'places': trip.places,
+              'isItinerary': false,
+            });
+          },
+          backgroundColor: MyColors.primary,
+          shape: const CircleBorder(),
+          child: const FaIcon(
+            FontAwesomeIcons.solidMap,
+            color: MyColors.white,
+            size: 20,
+          ),
+        ),
       ),
     );
   }
