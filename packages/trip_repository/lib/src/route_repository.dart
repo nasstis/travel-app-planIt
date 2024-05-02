@@ -33,7 +33,7 @@ class RouteRepository {
     );
 
     final doc = TripRoute(
-      id: response.data['uuid'],
+      id: '$day, $profile',
       tripId: tripId,
       day: day,
       duration: response.data['routes'][0]['duration'].toDouble(),
@@ -42,7 +42,7 @@ class RouteRepository {
       profile: profile,
     ).toEntity().toDocument();
 
-    await routeCollection.doc(response.data['uuid']).set(doc);
+    await routeCollection.doc('$day, $profile').set(doc);
   }
 
   Future<TripRoute> getRoute(String tripId, String day) async {

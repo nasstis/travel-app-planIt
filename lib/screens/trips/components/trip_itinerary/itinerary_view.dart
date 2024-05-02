@@ -56,12 +56,15 @@ class _ItineraryViewState extends State<ItineraryView> {
           widget.trip.places.where((e) => !widget.places.contains(e)).toList(),
       'tripId': widget.trip.id,
       'date': widget.date,
+      'allPlaces': widget.places,
     }).then((value) {
       setState(() {
-        context.read<TripCalendarBloc>().add(GetTripCalendar(
-              widget.trip.id,
-              index: widget.index,
-            ));
+        context.read<TripCalendarBloc>().add(
+              GetTripCalendar(
+                widget.trip.id,
+                index: widget.index,
+              ),
+            );
       });
     });
   }

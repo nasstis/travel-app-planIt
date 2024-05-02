@@ -15,16 +15,12 @@ class GetTripCalendar extends TripCalendarEvent {
 }
 
 class AddPlacesToItinerary extends TripCalendarEvent {
-  final List<bool> selectedCheckboxes;
+  final List selectedPlaces;
   final String date;
-  final List places;
   final String tripId;
 
   const AddPlacesToItinerary(
-      {required this.selectedCheckboxes,
-      required this.date,
-      required this.places,
-      required this.tripId});
+      {required this.selectedPlaces, required this.date, required this.tripId});
 }
 
 class EditItinerary extends TripCalendarEvent {

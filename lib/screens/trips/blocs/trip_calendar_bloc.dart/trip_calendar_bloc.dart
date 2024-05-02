@@ -30,20 +30,12 @@ class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
       (event, emit) async {
         emit(AddPlacesToItineraryLoading());
         try {
-          final List selectedPlaces = [];
-          int index = 0;
-          for (var checkbox in event.selectedCheckboxes) {
-            if (checkbox) {
-              selectedPlaces.add(event.places[index].id);
-            }
-            index++;
-          }
-          if (selectedPlaces.isEmpty) {
+          if (event.selectedPlaces.isEmpty) {
             emit(const AddPlacesToItineraryFailure(
                 'You haven\'t selected any place'));
           } else {
             await _tripRepository.addPlaceToItinerary(
-                event.tripId, event.date, selectedPlaces);
+                event.tripId, event.date, event.selectedPlaces);
           }
           emit(AddPlacesToItinerarySuccess());
         } catch (e) {

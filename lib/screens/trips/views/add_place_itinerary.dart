@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 
 class AddPlaceItinerary extends StatefulWidget {
@@ -22,12 +23,14 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
   late final DateTime date;
   late final String tripId;
   late final List places;
+  List allPlaces = [];
 
   @override
   void initState() {
     date = widget.extra!['date'];
     tripId = widget.extra!['tripId'];
     places = widget.extra!['places'];
+    allPlaces = widget.extra!['allPlaces'];
     selectedCheckboxes = List.generate(places.length, (index) => false);
     super.initState();
   }
@@ -123,12 +126,31 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
                 onPressed: addPlacesRequired
                     ? null
                     : () {
+                        final List selectedPlacesId = [];
+                        int index = 0;
+                        for (var checkbox in selectedCheckboxes) {
+                          if (checkbox) {
+                            selectedPlacesId.add(places[index].id);
+                            allPlaces.add(places[index]);
+                          }
+                          index++;
+                        }
                         context.read<TripCalendarBloc>().add(
                               AddPlacesToItinerary(
-                                  selectedCheckboxes: selectedCheckboxes,
-                                  places: places,
+                                  selectedPlaces: selectedPlacesId,
                                   date: date.toString(),
                                   tripId: tripId),
+                            );
+                        context.read<RouteBloc>().add(
+                              CreateRoute(
+                                tripId,
+                                allPlaces
+                                    .map((place) =>
+                                        '${place.longitude},${place.latitude}')
+                                    .toList(),
+                                date.toString(),
+                                'walking',
+                              ),
                             );
                       },
                 child: addPlacesRequired

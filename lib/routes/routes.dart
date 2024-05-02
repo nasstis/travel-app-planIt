@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/views/add_place_itinerary.dart';
@@ -38,6 +39,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final FirebaseCityRepo _firebaseCityRepo = FirebaseCityRepo();
 final FirebasePlaceRepo _firebasePlaceRepo = FirebasePlaceRepo();
 final FirebaseTripRepo _firebaseTripRepo = FirebaseTripRepo();
+final RouteRepository _routeRepository = RouteRepository();
 
 GoRouter router(AuthBloc authBloc) {
   return GoRouter(
@@ -231,10 +233,17 @@ GoRouter router(AuthBloc authBloc) {
           ]),
       GoRoute(
         path: PageName.addPlaceToItinerary,
-        builder: (context, state) => BlocProvider(
-          create: (context) {
-            return TripCalendarBloc(_firebaseTripRepo);
-          },
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) {
+                return TripCalendarBloc(_firebaseTripRepo);
+              },
+            ),
+            BlocProvider(
+              create: (context) => RouteBloc(_routeRepository),
+            ),
+          ],
           child: AddPlaceItinerary(
             extra: state.extra as Map<String, dynamic>,
           ),

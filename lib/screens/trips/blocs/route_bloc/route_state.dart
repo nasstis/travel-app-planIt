@@ -8,3 +8,5 @@ sealed class RouteState extends Equatable {
 }
 
 final class RouteInitial extends RouteState {}
+
+final class CreateRouteSuccess extends RouteState {}

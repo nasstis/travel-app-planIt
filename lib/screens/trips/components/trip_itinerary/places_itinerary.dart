@@ -138,6 +138,7 @@ class _PlacesItineraryViewState extends State<PlacesItineraryView> {
                   .toList(),
               'tripId': widget.trip.id,
               'date': widget.date,
+              'allPlaces': widget.places,
             }).then((value) {
               setState(() {
                 context

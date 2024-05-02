@@ -1,10 +1,12 @@
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/info_window.dart';
+import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/helpers/get_custom_icon.dart';
 import 'package:travel_app/utils/helpers/get_json.dart';
 
@@ -32,6 +34,11 @@ class _MapViewState extends State<MapView> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Set<Marker> _markers = {};
+  final decodedPolyline = PolylinePoints().decodePolyline(
+      r'}hhkFzzvv@f@?B?R?^IDJFHHJFFBBJHRDR@J@B?X?D?`@ILC?gAGIAEKSLMLB`@CLALGAQGq@?A@C@AAGEQKm@My@?C?C@E@A@AEIM[Wi@OQSQISQSCACG\@PWN[DK@@LRr@w@DYFIHAD?NHTVB?BBj@PFBLDPFNC?C?EDAB?\E@?F?H@FDJFLJDDHFFFFHBDBFNVLRFPBD?H?N?HGt@Gh@RxB?Ns@vBi@jBGPADQl@Wx@ENqAxEBL?B@HREBHJt@DP@HiCv@qBn@IBKB?@PlARlA?BRlARpAPjAPnABNB?@DBN@HC@BA?DA@Jt@?BG??HAHD?D??B@VDb@ALZdABFa@Rk@\DLPn@HGz@e@PMFCU{@EBMFCG[eA@MEc@AW?CE?E?@I?IF??CKu@@A?ECIA@BACOAEC?@HE@BR');
+  final Set<Polyline> _polylines = <Polyline>{};
+
+  int _polylineIdCounter = 1;
 
   void changeMapMode(GoogleMapController mapController) {
     getJsonFile("assets/styles/map_style.json").then(
@@ -67,6 +74,24 @@ class _MapViewState extends State<MapView> {
     });
   }
 
+  void _setPolyline() {
+    final String polylineIdVal = 'polyline_$_polylineIdCounter';
+    _polylineIdCounter++;
+
+    _polylines.add(
+      Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 4,
+        color: MyColors.primary,
+        points: decodedPolyline
+            .map(
+              (point) => LatLng(point.latitude, point.longitude),
+            )
+            .toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget mainWidget = Stack(
@@ -77,9 +102,10 @@ class _MapViewState extends State<MapView> {
           zoomControlsEnabled: widget.zoomControlsEnabled,
           initialCameraPosition: CameraPosition(
             target: widget.latLng,
-            zoom: 13.0,
+            zoom: 15.0,
           ),
           markers: _markers,
+          polylines: _polylines,
           onTap: (_) {
             _customInfoWindowController.hideInfoWindow!();
           },
@@ -96,6 +122,7 @@ class _MapViewState extends State<MapView> {
     );
 
     if (widget.places != null) {
+      _setPolyline();
       if (widget.isItinerary) {
         int counter = 1;
         for (final place in widget.places!) {
