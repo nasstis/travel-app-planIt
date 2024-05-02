@@ -9,8 +9,9 @@ sealed class TripCalendarEvent extends Equatable {
 
 class GetTripCalendar extends TripCalendarEvent {
   final String tripId;
+  final int index;
 
-  const GetTripCalendar(this.tripId);
+  const GetTripCalendar(this.tripId, {this.index = 0});
 }
 
 class AddPlacesToItinerary extends TripCalendarEvent {

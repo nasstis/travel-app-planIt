@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/itinerary_view.dart';
 import 'package:travel_app/utils/constants/colors.dart';
-import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:travel_app/utils/helpers/get_list_of_days.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -21,46 +19,6 @@ class Itinerary extends StatefulWidget {
 
 class _ItineraryState extends State<Itinerary> {
   final ItemScrollController itemScrollController = ItemScrollController();
-  int initialIndex = 0;
-
-  void editPlaceHandle(
-      BuildContext context, List places, DateTime date, int index) {
-    context.push(PageName.editPlacesItinerary, extra: {
-      'places': places,
-      'tripId': widget.trip.id,
-      'date': date,
-    }).then((value) {
-      setState(() {
-        context.read<TripCalendarBloc>().add(GetTripCalendar(widget.trip.id));
-        initialIndex = index;
-      });
-    });
-  }
-
-  void addPlaceHandle(
-      BuildContext context, DateTime date, List places, int index) {
-    context.push(PageName.addPlaceToItinerary, extra: {
-      'places': widget.trip.places.where((e) => !places.contains(e)).toList(),
-      'tripId': widget.trip.id,
-      'date': date,
-    }).then((value) {
-      setState(() {
-        context.read<TripCalendarBloc>().add(GetTripCalendar(widget.trip.id));
-        initialIndex = index;
-      });
-    });
-  }
-
-  void showMap(BuildContext context, List places, int index) {
-    context.push(PageName.tripMap, extra: {
-      'places': places,
-      'isItinerary': true,
-    }).then((value) {
-      setState(() {
-        initialIndex = index;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +27,7 @@ class _ItineraryState extends State<Itinerary> {
     return BlocBuilder<TripCalendarBloc, TripCalendarState>(
       builder: (context, state) {
         if (state is GetTripCalendarSuccess) {
+          int initialIndex = state.index;
           final TripCalendar tripCalendar = state.tripCalendar;
           return Column(
             children: [
@@ -126,15 +85,7 @@ class _ItineraryState extends State<Itinerary> {
                       places: places,
                       trip: widget.trip,
                       seePlaces: index == initialIndex,
-                      editPlace: () {
-                        editPlaceHandle(context, places, days[index], index);
-                      },
-                      addPlace: () {
-                        addPlaceHandle(context, days[index], places, index);
-                      },
-                      showMap: () {
-                        showMap(context, places, index);
-                      },
+                      index: index,
                     );
                   },
                 ),

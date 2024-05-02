@@ -11,8 +11,9 @@ final class TripCalendarInitial extends TripCalendarState {}
 
 final class GetTripCalendarSuccess extends TripCalendarState {
   final TripCalendar tripCalendar;
+  final int index;
 
-  const GetTripCalendarSuccess(this.tripCalendar);
+  const GetTripCalendarSuccess(this.tripCalendar, this.index);
 }
 
 final class GetTripCalendarLoading extends TripCalendarState {}

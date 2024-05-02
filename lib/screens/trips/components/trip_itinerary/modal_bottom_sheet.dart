@@ -4,15 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
 class ItineraryModalBottomSheet extends StatelessWidget {
-  const ItineraryModalBottomSheet(
-      {super.key,
-      required this.editPlace,
-      required this.addPlace,
-      required this.showMap});
-
-  final void Function() editPlace;
-  final void Function() addPlace;
-  final void Function() showMap;
+  const ItineraryModalBottomSheet({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +25,7 @@ class ItineraryModalBottomSheet extends StatelessWidget {
           children: [
             TextButton.icon(
               onPressed: () {
-                context.pop();
-                showMap();
+                context.pop('Map');
               },
               icon: const FaIcon(
                 FontAwesomeIcons.solidMap,
@@ -49,8 +42,7 @@ class ItineraryModalBottomSheet extends StatelessWidget {
             ),
             TextButton.icon(
               onPressed: () {
-                context.pop();
-                editPlace();
+                context.pop('Edit');
               },
               icon: const FaIcon(
                 FontAwesomeIcons.pencil,
@@ -67,8 +59,7 @@ class ItineraryModalBottomSheet extends StatelessWidget {
             ),
             TextButton.icon(
               onPressed: () {
-                context.pop();
-                addPlace();
+                context.pop('Add');
               },
               icon: const FaIcon(
                 FontAwesomeIcons.plus,

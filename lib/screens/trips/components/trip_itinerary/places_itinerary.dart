@@ -15,11 +15,13 @@ class PlacesItineraryView extends StatefulWidget {
     required this.places,
     required this.date,
     required this.trip,
+    required this.index,
   });
 
   final List places;
   final Trip trip;
   final DateTime date;
+  final int index;
 
   @override
   State<PlacesItineraryView> createState() => _PlacesItineraryViewState();
@@ -140,7 +142,7 @@ class _PlacesItineraryViewState extends State<PlacesItineraryView> {
               setState(() {
                 context
                     .read<TripCalendarBloc>()
-                    .add(GetTripCalendar(widget.trip.id));
+                    .add(GetTripCalendar(widget.trip.id, index: widget.index));
               });
             });
           },

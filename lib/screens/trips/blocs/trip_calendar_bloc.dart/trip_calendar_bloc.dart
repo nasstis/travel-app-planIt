@@ -18,7 +18,7 @@ class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
         try {
           final tripCalendar =
               await _tripRepository.getTripCalendar(event.tripId);
-          emit(GetTripCalendarSuccess(tripCalendar));
+          emit(GetTripCalendarSuccess(tripCalendar, event.index));
         } catch (e) {
           log(e.toString());
           emit(GetTripCalendarFailure());

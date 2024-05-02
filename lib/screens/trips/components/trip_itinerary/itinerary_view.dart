@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/modal_bottom_sheet.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/places_itinerary.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class ItineraryView extends StatefulWidget {
@@ -10,19 +14,15 @@ class ItineraryView extends StatefulWidget {
     required this.date,
     required this.places,
     required this.trip,
-    required this.editPlace,
-    required this.addPlace,
     required this.seePlaces,
-    required this.showMap,
+    required this.index,
   });
 
   final DateTime date;
   final List places;
   final Trip trip;
   final bool seePlaces;
-  final void Function() editPlace;
-  final void Function() addPlace;
-  final void Function() showMap;
+  final int index;
 
   @override
   State<ItineraryView> createState() => _ItineraryViewState();
@@ -34,6 +34,43 @@ class _ItineraryViewState extends State<ItineraryView> {
   void initState() {
     seePlaces = widget.seePlaces;
     super.initState();
+  }
+
+  void editPlaceHandle(BuildContext context) {
+    context.push(PageName.editPlacesItinerary, extra: {
+      'places': widget.places,
+      'tripId': widget.trip.id,
+      'date': widget.date,
+    }).then((value) {
+      setState(() {
+        context
+            .read<TripCalendarBloc>()
+            .add(GetTripCalendar(widget.trip.id, index: widget.index));
+      });
+    });
+  }
+
+  void addPlaceHandle(BuildContext context) {
+    context.push(PageName.addPlaceToItinerary, extra: {
+      'places':
+          widget.trip.places.where((e) => !widget.places.contains(e)).toList(),
+      'tripId': widget.trip.id,
+      'date': widget.date,
+    }).then((value) {
+      setState(() {
+        context.read<TripCalendarBloc>().add(GetTripCalendar(
+              widget.trip.id,
+              index: widget.index,
+            ));
+      });
+    });
+  }
+
+  void showMap(BuildContext context) {
+    context.push(PageName.tripMap, extra: {
+      'places': widget.places,
+      'isItinerary': true,
+    });
   }
 
   @override
@@ -69,16 +106,16 @@ class _ItineraryViewState extends State<ItineraryView> {
                   ),
                   IconButton(
                     onPressed: () {
-                      showModalBottomSheet<void>(
+                      showModalBottomSheet<String>(
                         context: context,
                         builder: (BuildContext context) {
-                          return ItineraryModalBottomSheet(
-                            editPlace: widget.editPlace,
-                            addPlace: widget.addPlace,
-                            showMap: widget.showMap,
-                          );
+                          return const ItineraryModalBottomSheet();
                         },
-                      );
+                      ).then((value) {
+                        if (value == 'Edit') editPlaceHandle(context);
+                        if (value == 'Add') addPlaceHandle(context);
+                        if (value == 'Map') showMap(context);
+                      });
                     },
                     icon: const Icon(Icons.more_vert),
                   )
@@ -99,7 +136,9 @@ class _ItineraryViewState extends State<ItineraryView> {
                           ),
                           const SizedBox(height: 15),
                           ElevatedButton(
-                            onPressed: widget.addPlace,
+                            onPressed: () {
+                              addPlaceHandle(context);
+                            },
                             child: const Text('Add place'),
                           ),
                           const SizedBox(height: 60),
@@ -109,6 +148,7 @@ class _ItineraryViewState extends State<ItineraryView> {
                         places: widget.places,
                         trip: widget.trip,
                         date: widget.date,
+                        index: widget.index,
                       ),
             ],
           ),
