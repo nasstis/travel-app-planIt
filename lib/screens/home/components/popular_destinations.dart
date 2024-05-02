@@ -22,7 +22,7 @@ class PopularDestinations extends StatelessWidget {
               style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () async {},
               child: const Text(
                 'See All',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
