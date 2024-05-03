@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -32,6 +34,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
             event.tripId, event.day, event.coordinates);
         emit(EditRouteSuccess());
       } catch (e) {
+        log(e.toString());
         emit(EditRouteFailure());
       }
     });

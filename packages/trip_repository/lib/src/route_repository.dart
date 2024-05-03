@@ -74,6 +74,7 @@ class RouteRepository {
         .then((doc) async {
       for (var doc in doc.docs) {
         String profile = doc.data()['profile'];
+
         final response = await dio.get(
           '/directions/v5/mapbox/$profile/$coordinatesString',
         );

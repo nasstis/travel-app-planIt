@@ -166,7 +166,7 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
                                 tripId,
                                 places
                                     .map((place) =>
-                                        '${place.longitude}, ${place.latitude}')
+                                        '${place.longitude},${place.latitude}')
                                     .toList(),
                                 date.toString(),
                               ),
