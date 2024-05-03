@@ -112,7 +112,7 @@ class _MapViewState extends State<MapView> {
           zoomControlsEnabled: widget.zoomControlsEnabled,
           initialCameraPosition: CameraPosition(
             target: widget.latLng,
-            zoom: 15.0,
+            zoom: 13.0,
           ),
           markers: _markers,
           polylines: _polylines ?? {},

@@ -24,25 +24,28 @@ final dio = Dio(
 class RouteRepository {
   final routeCollection = FirebaseFirestore.instance.collection('tripsRoutes');
 
-  Future<void> createRoute(String tripId, List<String> coordinates, String day,
-      String profile) async {
+  Future<void> createRoute(
+      String tripId, List<String> coordinates, String day) async {
     String coordinatesString = coordinates.join(';');
+    List<String> profiles = ['walking', 'cycling', 'driving'];
 
-    final response = await dio.get(
-      '/directions/v5/mapbox/$profile/$coordinatesString',
-    );
+    for (var profile in profiles) {
+      final response = await dio.get(
+        '/directions/v5/mapbox/$profile/$coordinatesString',
+      );
 
-    final doc = TripRoute(
-      id: '$day, $profile',
-      tripId: tripId,
-      day: day,
-      duration: response.data['routes'][0]['duration'].toDouble(),
-      distance: response.data['routes'][0]['distance'].toDouble(),
-      geometry: response.data['routes'][0]['geometry'],
-      profile: profile,
-    ).toEntity().toDocument();
+      final doc = TripRoute(
+        id: '$day, $profile',
+        tripId: tripId,
+        day: day,
+        duration: response.data['routes'][0]['duration'].toDouble(),
+        distance: response.data['routes'][0]['distance'].toDouble(),
+        geometry: response.data['routes'][0]['geometry'],
+        profile: profile,
+      ).toEntity().toDocument();
 
-    await routeCollection.doc('$day, $profile').set(doc);
+      await routeCollection.doc('$day, $profile').set(doc);
+    }
   }
 
   Future<TripRoute> getRoute(String tripId, String day, String profile) async {
@@ -59,5 +62,28 @@ class RouteRepository {
         );
 
     return route;
+  }
+
+  Future<void> editRoute(
+      String tripId, String day, List<String> coordinates) async {
+    String coordinatesString = coordinates.join(';');
+    await routeCollection
+        .where('tripId', isEqualTo: tripId)
+        .where('day', isEqualTo: day)
+        .get()
+        .then((doc) async {
+      for (var doc in doc.docs) {
+        String profile = doc.data()['profile'];
+        final response = await dio.get(
+          '/directions/v5/mapbox/$profile/$coordinatesString',
+        );
+
+        await routeCollection.doc('$day, $profile').update({
+          'duration': response.data['routes'][0]['duration'].toDouble(),
+          'distance': response.data['routes'][0]['distance'].toDouble(),
+          'geometry': response.data['routes'][0]['geometry'],
+        });
+      }
+    });
   }
 }

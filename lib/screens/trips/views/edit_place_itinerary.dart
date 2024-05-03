@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 
@@ -159,6 +160,16 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
                                   tripId: tripId,
                                   date: date.toString(),
                                   places: places),
+                            );
+                        context.read<RouteBloc>().add(
+                              EditRoute(
+                                tripId,
+                                places
+                                    .map((place) =>
+                                        '${place.longitude}, ${place.latitude}')
+                                    .toList(),
+                                date.toString(),
+                              ),
                             );
                       },
                 child: editRequired

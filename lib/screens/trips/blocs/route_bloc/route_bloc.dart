@@ -10,7 +10,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
   RouteBloc(this._routeRepository) : super(RouteInitial()) {
     on<CreateRoute>((event, emit) async {
       await _routeRepository.createRoute(
-          event.tripId, event.coordinates, event.day, event.profile);
+          event.tripId, event.coordinates, event.day);
       emit(CreateRouteSuccess());
     });
 
@@ -22,6 +22,17 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
         emit(GetRouteSuccess(route));
       } catch (e) {
         emit(GetRouteFailure());
+      }
+    });
+
+    on<EditRoute>((event, emit) async {
+      emit(EditRouteLoading());
+      try {
+        await _routeRepository.editRoute(
+            event.tripId, event.day, event.coordinates);
+        emit(EditRouteSuccess());
+      } catch (e) {
+        emit(EditRouteFailure());
       }
     });
   }

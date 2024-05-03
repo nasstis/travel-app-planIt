@@ -24,3 +24,9 @@ final class GetRouteSuccess extends RouteState {
 final class GetRouteLoading extends RouteState {}
 
 final class GetRouteFailure extends RouteState {}
+
+final class EditRouteSuccess extends RouteState {}
+
+final class EditRouteLoading extends RouteState {}
+
+final class EditRouteFailure extends RouteState {}

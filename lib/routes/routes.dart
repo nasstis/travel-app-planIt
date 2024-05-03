@@ -252,10 +252,17 @@ GoRouter router(AuthBloc authBloc) {
       ),
       GoRoute(
         path: PageName.editPlacesItinerary,
-        builder: (context, state) => BlocProvider(
-          create: (context) {
-            return TripCalendarBloc(_firebaseTripRepo);
-          },
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) {
+                return TripCalendarBloc(_firebaseTripRepo);
+              },
+            ),
+            BlocProvider(
+              create: (context) => RouteBloc(_routeRepository),
+            ),
+          ],
           child: EditPlacesItinerary(
             extra: state.extra as Map<String, dynamic>,
           ),

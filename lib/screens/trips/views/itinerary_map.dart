@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -57,6 +58,66 @@ class ItineraryMap extends StatelessWidget {
                     ),
                   ),
                 ),
+                Positioned(
+                  top: 110,
+                  right: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: MyColors.light.withOpacity(0.6),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            context.read<RouteBloc>().add(
+                                  GetRoute(state.route.tripId, state.route.day,
+                                      'cycling'),
+                                );
+                          },
+                          icon: FaIcon(
+                            FontAwesomeIcons.personBiking,
+                            color: state.route.profile == 'cycling'
+                                ? MyColors.primary
+                                : null,
+                            size: state.route.profile == 'cycling' ? 28 : null,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            context.read<RouteBloc>().add(
+                                  GetRoute(state.route.tripId, state.route.day,
+                                      'walking'),
+                                );
+                          },
+                          icon: FaIcon(
+                            FontAwesomeIcons.personWalking,
+                            color: state.route.profile == 'walking'
+                                ? MyColors.primary
+                                : null,
+                            size: state.route.profile == 'walking' ? 30 : null,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            context.read<RouteBloc>().add(
+                                  GetRoute(state.route.tripId, state.route.day,
+                                      'driving'),
+                                );
+                          },
+                          icon: FaIcon(
+                            FontAwesomeIcons.car,
+                            color: state.route.profile == 'driving'
+                                ? MyColors.primary
+                                : null,
+                            size: state.route.profile == 'driving' ? 28 : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               ],
             );
           }

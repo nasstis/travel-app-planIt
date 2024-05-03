@@ -149,7 +149,6 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
                                         '${place.longitude},${place.latitude}')
                                     .toList(),
                                 date.toString(),
-                                'walking',
                               ),
                             );
                       },
