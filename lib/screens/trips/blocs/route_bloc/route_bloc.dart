@@ -13,5 +13,16 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
           event.tripId, event.coordinates, event.day, event.profile);
       emit(CreateRouteSuccess());
     });
+
+    on<GetRoute>((event, emit) async {
+      emit(GetRouteLoading());
+      try {
+        final TripRoute route = await _routeRepository.getRoute(
+            event.tripId, event.day, event.profile);
+        emit(GetRouteSuccess(route));
+      } catch (e) {
+        emit(GetRouteFailure());
+      }
+    });
   }
 }

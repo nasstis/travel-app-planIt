@@ -15,3 +15,11 @@ class CreateRoute extends RouteEvent {
 
   const CreateRoute(this.tripId, this.coordinates, this.day, this.profile);
 }
+
+class GetRoute extends RouteEvent {
+  final String tripId;
+  final String day;
+  final String profile;
+
+  const GetRoute(this.tripId, this.day, this.profile);
+}

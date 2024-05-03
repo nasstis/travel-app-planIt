@@ -70,9 +70,11 @@ class _ItineraryViewState extends State<ItineraryView> {
   }
 
   void showMap(BuildContext context) {
-    context.push(PageName.tripMap, extra: {
+    context.push(PageName.itineraryMap, extra: {
       'places': widget.places,
-      'isItinerary': true,
+      'tripId': widget.trip.id,
+      'day': widget.date.toString(),
+      'profile': 'walking',
     });
   }
 

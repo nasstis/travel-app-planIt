@@ -45,15 +45,18 @@ class RouteRepository {
     await routeCollection.doc('$day, $profile').set(doc);
   }
 
-  Future<TripRoute> getRoute(String tripId, String day) async {
-    final route =
-        await routeCollection.where('tripId', isEqualTo: tripId).get().then(
-              (doc) => TripRoute.fromEntity(
-                TripRouteEntity.fromDocument(
-                  doc.docs.first.data(),
-                ),
-              ),
-            );
+  Future<TripRoute> getRoute(String tripId, String day, String profile) async {
+    final route = await routeCollection
+        .where('tripId', isEqualTo: tripId)
+        .where('id', isEqualTo: '$day, $profile')
+        .get()
+        .then(
+          (doc) => TripRoute.fromEntity(
+            TripRouteEntity.fromDocument(
+              doc.docs.first.data(),
+            ),
+          ),
+        );
 
     return route;
   }

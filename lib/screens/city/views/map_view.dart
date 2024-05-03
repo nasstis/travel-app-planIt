@@ -17,13 +17,15 @@ class MapView extends StatefulWidget {
       required this.zoomControlsEnabled,
       required this.latLng,
       this.places,
-      required this.isItinerary});
+      required this.isItinerary,
+      this.polyline});
 
   final LatLng latLng;
   final MapType mapType;
   final bool zoomControlsEnabled;
   final List? places;
   final bool isItinerary;
+  final String? polyline;
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -34,11 +36,19 @@ class _MapViewState extends State<MapView> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Set<Marker> _markers = {};
-  final decodedPolyline = PolylinePoints().decodePolyline(
-      r'}hhkFzzvv@f@?B?R?^IDJFHHJFFBBJHRDR@J@B?X?D?`@ILC?gAGIAEKSLMLB`@CLALGAQGq@?A@C@AAGEQKm@My@?C?C@E@A@AEIM[Wi@OQSQISQSCACG\@PWN[DK@@LRr@w@DYFIHAD?NHTVB?BBj@PFBLDPFNC?C?EDAB?\E@?F?H@FDJFLJDDHFFFFHBDBFNVLRFPBD?H?N?HGt@Gh@RxB?Ns@vBi@jBGPADQl@Wx@ENqAxEBL?B@HREBHJt@DP@HiCv@qBn@IBKB?@PlARlA?BRlARpAPjAPnABNB?@DBN@HC@BA?DA@Jt@?BG??HAHD?D??B@VDb@ALZdABFa@Rk@\DLPn@HGz@e@PMFCU{@EBMFCG[eA@MEc@AW?CE?E?@I?IF??CKu@@A?ECIA@BACOAEC?@HE@BR');
-  final Set<Polyline> _polylines = <Polyline>{};
+  List<PointLatLng>? decodedPolyline;
+  Set<Polyline>? _polylines;
+  int? _polylineIdCounter;
 
-  int _polylineIdCounter = 1;
+  @override
+  void initState() {
+    if (widget.isItinerary) {
+      decodedPolyline = PolylinePoints().decodePolyline(widget.polyline!);
+      _polylines = <Polyline>{};
+      _polylineIdCounter = 1;
+    }
+    super.initState();
+  }
 
   void changeMapMode(GoogleMapController mapController) {
     getJsonFile("assets/styles/map_style.json").then(
@@ -76,14 +86,14 @@ class _MapViewState extends State<MapView> {
 
   void _setPolyline() {
     final String polylineIdVal = 'polyline_$_polylineIdCounter';
-    _polylineIdCounter++;
+    _polylineIdCounter = _polylineIdCounter! + 1;
 
-    _polylines.add(
+    _polylines!.add(
       Polyline(
         polylineId: PolylineId(polylineIdVal),
         width: 4,
         color: MyColors.primary,
-        points: decodedPolyline
+        points: decodedPolyline!
             .map(
               (point) => LatLng(point.latitude, point.longitude),
             )
@@ -105,7 +115,7 @@ class _MapViewState extends State<MapView> {
             zoom: 15.0,
           ),
           markers: _markers,
-          polylines: _polylines,
+          polylines: _polylines ?? {},
           onTap: (_) {
             _customInfoWindowController.hideInfoWindow!();
           },
@@ -122,9 +132,10 @@ class _MapViewState extends State<MapView> {
     );
 
     if (widget.places != null) {
-      _setPolyline();
       if (widget.isItinerary) {
         int counter = 1;
+
+        _setPolyline();
         for (final place in widget.places!) {
           _upsertMarker(place, counter);
           counter++;

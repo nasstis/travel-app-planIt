@@ -105,10 +105,7 @@ class TripView extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 80),
         child: FloatingActionButton(
           onPressed: () {
-            context.push(PageName.tripMap, extra: {
-              'places': trip.places,
-              'isItinerary': false,
-            });
+            context.push(PageName.tripMap, extra: trip.places);
           },
           backgroundColor: MyColors.primary,
           shape: const CircleBorder(),
