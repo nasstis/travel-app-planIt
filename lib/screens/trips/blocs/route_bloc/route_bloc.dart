@@ -23,6 +23,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
             event.tripId, event.day, event.profile);
         emit(GetRouteSuccess(route));
       } catch (e) {
+        log(e.toString());
         emit(GetRouteFailure());
       }
     });

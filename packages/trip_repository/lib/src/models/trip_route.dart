@@ -1,4 +1,5 @@
 import 'package:trip_repository/src/entities/entities.dart';
+import 'package:trip_repository/src/models/route_leg.dart';
 
 class TripRoute {
   final String id;
@@ -8,6 +9,7 @@ class TripRoute {
   final double distance;
   final String geometry;
   final String profile;
+  final List<RouteLeg> legs;
 
   TripRoute({
     required this.id,
@@ -17,17 +19,20 @@ class TripRoute {
     required this.distance,
     required this.geometry,
     required this.profile,
+    required this.legs,
   });
 
   static TripRoute fromEntity(TripRouteEntity entity) {
     return TripRoute(
-        id: entity.id,
-        tripId: entity.tripId,
-        day: entity.day,
-        duration: entity.duration,
-        distance: entity.distance,
-        geometry: entity.geometry,
-        profile: entity.profile);
+      id: entity.id,
+      tripId: entity.tripId,
+      day: entity.day,
+      duration: entity.duration,
+      distance: entity.distance,
+      geometry: entity.geometry,
+      profile: entity.profile,
+      legs: entity.legs,
+    );
   }
 
   TripRouteEntity toEntity() {
@@ -39,6 +44,7 @@ class TripRoute {
       distance: distance,
       geometry: geometry,
       profile: profile,
+      legs: legs,
     );
   }
 

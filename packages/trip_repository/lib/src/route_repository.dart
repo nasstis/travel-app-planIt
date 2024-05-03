@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:trip_repository/src/entities/entities.dart';
+import 'package:trip_repository/src/models/route_leg.dart';
 import 'package:trip_repository/src/models/trip_route.dart';
 
 final dio = Dio(
@@ -34,15 +35,29 @@ class RouteRepository {
         '/directions/v5/mapbox/$profile/$coordinatesString',
       );
 
+      List<RouteLeg> legs = [];
+
+      for (var leg in response.data['routes'][0]['legs']) {
+        legs.add(
+          RouteLeg(
+            duration: leg['duration'].toDouble(),
+            distance: leg['distance'].toDouble(),
+            geometry: leg['steps'].map((step) => step['geometry']).toList(),
+          ),
+        );
+      }
+
       final doc = TripRoute(
-        id: '$day, $profile',
-        tripId: tripId,
-        day: day,
-        duration: response.data['routes'][0]['duration'].toDouble(),
-        distance: response.data['routes'][0]['distance'].toDouble(),
-        geometry: response.data['routes'][0]['geometry'],
-        profile: profile,
-      ).toEntity().toDocument();
+              id: '$day, $profile',
+              tripId: tripId,
+              day: day,
+              duration: response.data['routes'][0]['duration'].toDouble(),
+              distance: response.data['routes'][0]['distance'].toDouble(),
+              geometry: response.data['routes'][0]['geometry'],
+              profile: profile,
+              legs: legs)
+          .toEntity()
+          .toDocument();
 
       await routeCollection.doc('$day, $profile').set(doc);
     }

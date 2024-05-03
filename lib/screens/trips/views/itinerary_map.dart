@@ -31,6 +31,7 @@ class ItineraryMap extends StatelessWidget {
                   places: places,
                   isItinerary: true,
                   polyline: state.route.geometry,
+                  polylines: state.route.legs[0].geometry,
                 ),
                 Positioned(
                   top: 120,

@@ -1,3 +1,6 @@
+import 'package:trip_repository/src/entities/route_leg_entity.dart';
+import 'package:trip_repository/src/models/route_leg.dart';
+
 class TripRouteEntity {
   final String id;
   final String tripId;
@@ -6,6 +9,7 @@ class TripRouteEntity {
   final double distance;
   final String geometry;
   final String profile;
+  final List<RouteLeg> legs;
 
   TripRouteEntity({
     required this.id,
@@ -15,6 +19,7 @@ class TripRouteEntity {
     required this.distance,
     required this.geometry,
     required this.profile,
+    required this.legs,
   });
 
   Map<String, Object> toDocument() {
@@ -26,6 +31,7 @@ class TripRouteEntity {
       'distance': distance,
       'geometry': geometry,
       'profile': profile,
+      'legs': legs.map((leg) => leg.toEntity().toDocument()),
     };
   }
 
@@ -38,6 +44,10 @@ class TripRouteEntity {
       distance: doc['distance'],
       geometry: doc['geometry'],
       profile: doc['profile'],
+      legs: doc['legs']
+          .map<RouteLeg>(
+              (leg) => RouteLeg.fromEntity(RouteLegEntity.fromDocument(leg)))
+          .toList(),
     );
   }
 }

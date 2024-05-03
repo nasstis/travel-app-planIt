@@ -18,13 +18,15 @@ class MapView extends StatefulWidget {
       required this.latLng,
       this.places,
       required this.isItinerary,
-      this.polyline});
+      this.polyline,
+      this.polylines});
 
   final LatLng latLng;
   final MapType mapType;
   final bool zoomControlsEnabled;
   final List? places;
   final bool isItinerary;
+  final List? polylines;
   final String? polyline;
 
   @override
@@ -36,14 +38,18 @@ class _MapViewState extends State<MapView> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Set<Marker> _markers = {};
-  List<PointLatLng>? decodedPolyline;
+  List<List<PointLatLng>>? decodedPolylines;
   Set<Polyline>? _polylines;
   int? _polylineIdCounter;
 
   @override
   void initState() {
     if (widget.isItinerary) {
-      decodedPolyline = PolylinePoints().decodePolyline(widget.polyline!);
+      decodedPolylines = widget.polylines!
+          .map(
+            (e) => PolylinePoints().decodePolyline(e),
+          )
+          .toList();
       _polylines = <Polyline>{};
       _polylineIdCounter = 1;
     }
@@ -84,7 +90,7 @@ class _MapViewState extends State<MapView> {
     });
   }
 
-  void _setPolyline() {
+  void _setPolyline(decodedPolyline) {
     final String polylineIdVal = 'polyline_$_polylineIdCounter';
     _polylineIdCounter = _polylineIdCounter! + 1;
 
@@ -94,7 +100,7 @@ class _MapViewState extends State<MapView> {
         width: 4,
         color: MyColors.primary,
         points: decodedPolyline!
-            .map(
+            .map<LatLng>(
               (point) => LatLng(point.latitude, point.longitude),
             )
             .toList(),
@@ -135,7 +141,9 @@ class _MapViewState extends State<MapView> {
       if (widget.isItinerary) {
         int counter = 1;
 
-        _setPolyline();
+        for (var decodedPolyline in decodedPolylines!) {
+          _setPolyline(decodedPolyline);
+        }
         for (final place in widget.places!) {
           _upsertMarker(place, counter);
           counter++;
