@@ -10,6 +10,7 @@ part 'trip_state.dart';
 
 class TripBloc extends Bloc<TripEvent, TripState> {
   final TripRepo _tripRepository;
+
   TripBloc(this._tripRepository) : super(TripInitial()) {
     on<CreateTrip>((event, emit) async {
       emit(CreateTripLoading());
@@ -27,6 +28,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
       try {
         await _tripRepository.deleteTrip(event.tripId);
         await _tripRepository.deleteTripCalendar(event.tripId);
+        await RouteRepository().deleteTripRoutes(event.tripId);
         emit(DeleteTripSuccess());
       } catch (e) {
         emit(DeleteTripFailure());

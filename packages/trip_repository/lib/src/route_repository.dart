@@ -94,12 +94,47 @@ class RouteRepository {
           '/directions/v5/mapbox/$profile/$coordinatesString',
         );
 
+        List<Map<String, dynamic>> legs = [];
+
+        for (var leg in response.data['routes'][0]['legs']) {
+          legs.add(
+            RouteLeg(
+              duration: leg['duration'].toDouble(),
+              distance: leg['distance'].toDouble(),
+              geometry: leg['steps'].map((step) => step['geometry']).toList(),
+            ).toEntity().toDocument(),
+          );
+        }
+
         await routeCollection.doc('$day, $profile').update({
           'duration': response.data['routes'][0]['duration'].toDouble(),
           'distance': response.data['routes'][0]['distance'].toDouble(),
           'geometry': response.data['routes'][0]['geometry'],
+          'legs': legs,
         });
       }
     });
+  }
+
+  Future<void> deleteTripRoutes(String tripId) async {
+    final querySnapshot =
+        await routeCollection.where('tripId', isEqualTo: tripId).get();
+
+    for (final doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
+
+  Future<void> deleteRoute(String tripId, String day) async {
+    List<String> profiles = ['walking', 'cycling', 'driving'];
+    for (var profile in profiles) {
+      final querySnapshot = await routeCollection
+          .where('tripId', isEqualTo: tripId)
+          .where('id', isEqualTo: '$day, $profile')
+          .get();
+      for (final doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    }
   }
 }

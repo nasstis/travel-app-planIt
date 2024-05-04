@@ -116,6 +116,34 @@ class FirebaseTripRepo extends TripRepo {
       'endDate': endDate,
     };
 
+    final querySnapshot =
+        await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();
+    final Map<String, dynamic> datesMap =
+        await querySnapshot.docs[0].data()['places'];
+
+    final int daysToGenerate = endDate.difference(startDate).inDays + 1;
+    final List<DateTime> days = List.generate(
+      daysToGenerate,
+      (i) => DateTime(
+        startDate.year,
+        startDate.month,
+        startDate.day + (i),
+      ),
+    );
+
+    await querySnapshot.docs[0].reference.update({
+      'places': Map.fromIterables(
+        days.map((date) => date.toString()),
+        List.generate(daysToGenerate, (index) {
+          if (datesMap[days[index].toString()] != null) {
+            return datesMap[days[index].toString()];
+          } else {
+            return [];
+          }
+        }),
+      )
+    });
+
     await tripCollection.doc(tripId).update(updates);
   }
 

@@ -8,8 +8,6 @@ class MyColors {
   static const Color darkPrimary = Color(0xFF362766);
   static const Color secondary = Color(0xFFe39ec1);
   static const Color accent = Color(0xFFFFA400);
-  static const Color colorForMap = Color(0xFF009FFD);
-  static const Color colorForMap2 = Color(0xFF00CC99);
 
   static const Color white = Colors.white;
   static const Color light = Color(0xFFEFEEEE);
@@ -33,7 +31,7 @@ class MyColors {
     Color(0xFFEA7317),
     Color(0xFF094D92),
     Color(0xFF47A025),
-    Color(0xFFFFFC31),
+    Color(0xFF8F8D1B),
     Color(0xFFDD9787),
     Color(0xFF8C1A6A),
     Color(0xFFEE964B),
