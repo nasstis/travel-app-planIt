@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
@@ -7,13 +8,42 @@ import 'package:travel_app/utils/constants/colors.dart';
 
 import '../../city/views/map_view.dart';
 
-class ItineraryMap extends StatelessWidget {
+class ItineraryMap extends StatefulWidget {
   const ItineraryMap({super.key, required this.places});
 
   final List places;
 
   @override
+  State<ItineraryMap> createState() => _ItineraryMapState();
+}
+
+class _ItineraryMapState extends State<ItineraryMap> {
+  @override
   Widget build(BuildContext context) {
+    Set<Polyline> polylines = <Polyline>{};
+    List polylineLegs = [];
+    int polylineIdCounter = 1;
+
+    void setPolyline(decodedPolyline, color) {
+      final String polylineIdVal = 'polyline_$polylineIdCounter';
+      polylineIdCounter++;
+
+      polylines.add(
+        Polyline(
+          polylineId: PolylineId(polylineIdVal),
+          width: 7,
+          color: color,
+          points: decodedPolyline!
+              .map<LatLng>(
+                (point) => LatLng(point.latitude, point.longitude),
+              )
+              .toList(),
+        ),
+      );
+    }
+
+    int colorsCounter = 0;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -22,16 +52,32 @@ class ItineraryMap extends StatelessWidget {
       body: BlocBuilder<RouteBloc, RouteState>(
         builder: (context, state) {
           if (state is GetRouteSuccess) {
+            for (var leg in state.route.legs) {
+              polylineLegs.add(leg.geometry
+                  .map(
+                    (e) => PolylinePoints().decodePolyline(e),
+                  )
+                  .toList());
+            }
+            for (var polylineLeg in polylineLegs) {
+              for (var decodedPolyline in polylineLeg!) {
+                setPolyline(
+                    decodedPolyline, MyColors.colorsForMap[colorsCounter]);
+              }
+              colorsCounter++;
+            }
             return Stack(
               children: [
                 MapView(
-                  latLng: LatLng(places[0].latitude, places[0].longitude),
+                  latLng: LatLng(
+                      widget.places[0].latitude, widget.places[0].longitude),
                   zoomControlsEnabled: true,
                   mapType: MapType.normal,
-                  places: places,
+                  places: widget.places,
                   isItinerary: true,
-                  polyline: state.route.geometry,
-                  polylines: state.route.legs[0].geometry,
+                  // polyline: state.route.geometry,
+                  // legs: state.route.legs,
+                  polylines: polylines,
                 ),
                 Positioned(
                   top: 120,
@@ -72,6 +118,11 @@ class ItineraryMap extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
+                            setState(() {
+                              <Polyline>{};
+                              polylineLegs = [];
+                              polylineIdCounter = 1;
+                            });
                             context.read<RouteBloc>().add(
                                   GetRoute(state.route.tripId, state.route.day,
                                       'cycling'),
@@ -87,6 +138,11 @@ class ItineraryMap extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {
+                            setState(() {
+                              <Polyline>{};
+                              polylineLegs = [];
+                              polylineIdCounter = 1;
+                            });
                             context.read<RouteBloc>().add(
                                   GetRoute(state.route.tripId, state.route.day,
                                       'walking'),
@@ -102,6 +158,11 @@ class ItineraryMap extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {
+                            setState(() {
+                              <Polyline>{};
+                              polylineLegs = [];
+                              polylineIdCounter = 1;
+                            });
                             context.read<RouteBloc>().add(
                                   GetRoute(state.route.tripId, state.route.day,
                                       'driving'),

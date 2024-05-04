@@ -1,10 +1,13 @@
 [
     {
-        "featureType": "administrative.land_parcel",
-        "elementType": "labels",
+        "featureType": "landscape",
+        "elementType": "geometry",
         "stylers": [
             {
-                "visibility": "off"
+                "visibility": "simplified"
+            },
+            {
+                "weight": 3
             }
         ]
     },
@@ -27,6 +30,18 @@
     },
     {
         "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "saturation": 25
+            },
+            {
+                "lightness": -5
+            }
+        ]
+    },
+    {
+        "featureType": "road",
         "elementType": "labels.icon",
         "stylers": [
             {
@@ -35,37 +50,14 @@
         ]
     },
     {
-        "featureType": "road.arterial",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
         "featureType": "road.highway",
-        "elementType": "labels",
+        "elementType": "geometry",
         "stylers": [
             {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "stylers": [
+                "saturation": -20
+            },
             {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "visibility": "off"
+                "lightness": 10
             }
         ]
     },
@@ -74,6 +66,21 @@
         "stylers": [
             {
                 "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "saturation": 25
+            },
+            {
+                "lightness": -5
+            },
+            {
+                "visibility": "simplified"
             }
         ]
     }

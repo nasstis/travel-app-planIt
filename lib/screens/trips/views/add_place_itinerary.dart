@@ -102,7 +102,7 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
                                     style: const TextStyle(fontSize: 12),
                                   )
                                 : null,
-                            isThreeLine: true,
+                            // isThreeLine: true,
                             visualDensity: const VisualDensity(vertical: 3),
                           ),
                         ),
