@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:place_repository/place_repository.dart';
+
 import '../trip_repository.dart';
 
 abstract class TripRepo {
@@ -22,6 +24,8 @@ abstract class TripRepo {
   });
 
   Future<List> getPlaces(List placesId);
+
+  Future<List<Place>> getCityPlaces(String cityId);
 
   Future<void> removePlaceFromTrip(
       String tripId, List tripPlaces, String placeId);

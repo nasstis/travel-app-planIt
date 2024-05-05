@@ -218,7 +218,8 @@ GoRouter router(AuthBloc authBloc) {
                         SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
                   ),
                   BlocProvider(
-                    create: (context) => TripBloc(_firebaseTripRepo),
+                    create: (context) => TripBloc(_firebaseTripRepo)
+                      ..add(GetCityPlaces((state.extra as Trip).cityId)),
                   ),
                 ],
                 child: AddPlaceSearch(

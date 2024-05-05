@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
+import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/components/search_place_results.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -19,6 +20,8 @@ class AddPlaceSearch extends StatefulWidget {
 class _AddPlaceSearchState extends State<AddPlaceSearch> {
   final _controller = TextEditingController();
   List<Place>? places;
+  List<Place>? cityPlaces;
+  int counter = 0;
   @override
   Widget build(BuildContext context) {
     places = context.select((SearchBloc bloc) => bloc.state.places);
@@ -31,6 +34,7 @@ class _AddPlaceSearchState extends State<AddPlaceSearch> {
           child: TextField(
             controller: _controller,
             onChanged: (value) {
+              counter++;
               context.read<SearchBloc>().add(SearchWordPlace(value));
             },
             textAlignVertical: TextAlignVertical.bottom,
@@ -67,10 +71,23 @@ class _AddPlaceSearchState extends State<AddPlaceSearch> {
       ),
       body: Column(
         children: [
-          SearchPlaceResults(
-            places: places,
-            trip: widget.trip,
-          )
+          BlocBuilder<TripBloc, TripState>(
+            builder: (context, state) {
+              if (state is GetCityPlacesLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is GetCityPlacesSuccess) {
+                cityPlaces = state.places;
+              }
+
+              return SearchPlaceResults(
+                places: places!.isEmpty && counter == 0 ? cityPlaces : places,
+                trip: widget.trip,
+              );
+            },
+          ),
         ],
       ),
     );

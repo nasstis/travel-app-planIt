@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:place_repository/place_repository.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 part 'trip_event.dart';
@@ -79,6 +80,13 @@ class TripBloc extends Bloc<TripEvent, TripState> {
       } catch (e) {
         emit(AddPlaceToTripFailure());
       }
+    });
+
+    on<GetCityPlaces>((event, emit) async {
+      emit(GetCityPlacesLoading());
+      final List<Place> places =
+          await _tripRepository.getCityPlaces(event.cityId);
+      emit(GetCityPlacesSuccess(places));
     });
   }
 }

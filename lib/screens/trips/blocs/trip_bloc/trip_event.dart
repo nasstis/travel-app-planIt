@@ -61,3 +61,9 @@ class AddPlaceToTrip extends TripEvent {
     required this.placeId,
   });
 }
+
+class GetCityPlaces extends TripEvent {
+  final String cityId;
+
+  const GetCityPlaces(this.cityId);
+}

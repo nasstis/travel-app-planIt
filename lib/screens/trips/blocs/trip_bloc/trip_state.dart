@@ -44,3 +44,11 @@ final class AddPlaceToTripLoading extends TripState {}
 final class PlaceAlreadyInTrip extends TripState {}
 
 final class AddPlaceToTripFailure extends TripState {}
+
+final class GetCityPlacesSuccess extends TripState {
+  final List<Place> places;
+
+  const GetCityPlacesSuccess(this.places);
+}
+
+final class GetCityPlacesLoading extends TripState {}

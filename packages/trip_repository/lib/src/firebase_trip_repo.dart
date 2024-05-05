@@ -67,6 +67,26 @@ class FirebaseTripRepo extends TripRepo {
   }
 
   @override
+  Future<List<Place>> getCityPlaces(String cityId) async {
+    List<Place> places = [];
+
+    await placeCollection
+        .where('cityId', isEqualTo: cityId)
+        .get()
+        .then((docs) async {
+      for (var doc in docs.docs) {
+        places.add(
+          await Place.fromEntity(
+            PlaceEntity.fromDocument(doc.data()),
+          ),
+        );
+      }
+    });
+
+    return places;
+  }
+
+  @override
   Future<Trip> getTrip(String tripId) async {
     Trip trip = await tripCollection
         .doc(tripId)

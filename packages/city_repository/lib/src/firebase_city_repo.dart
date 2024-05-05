@@ -24,7 +24,8 @@ class FirebaseCityRepo implements CityRepo {
 
   @override
   Future<List<City>?> getSearchResult({required String qSearch}) async {
-    String newVal = qSearch.toUpperCase() + qSearch.substring(1).toLowerCase();
+    String newVal =
+        qSearch[0].toUpperCase() + qSearch.substring(1).toLowerCase();
     final city = await cityColection
         .where('name', isGreaterThanOrEqualTo: newVal)
         .where('name', isLessThanOrEqualTo: '$newVal\uf8ff')
