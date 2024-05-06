@@ -12,6 +12,7 @@ import 'package:travel_app/screens/trips/views/add_place_search.dart';
 import 'package:travel_app/screens/trips/views/edit_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/edit_trip.dart';
 import 'package:travel_app/screens/trips/views/itinerary_map.dart';
+import 'package:travel_app/screens/trips/views/started_itinerary_map.dart';
 import 'package:travel_app/screens/trips/views/trip_map_screen.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';
@@ -277,11 +278,36 @@ GoRouter router(AuthBloc authBloc) {
           path: PageName.itineraryMap,
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
+            if (extra['places'].length <= 1) {
+              return ItineraryMap(
+                places: extra['places'],
+                hasOnePlace: true,
+              );
+            } else {
+              return BlocProvider(
+                create: (context) => RouteBloc(_routeRepository)
+                  ..add(GetRoute(
+                      extra['tripId'], extra['day'], extra['profile'])),
+                child: ItineraryMap(
+                  places: extra['places'],
+                  hasOnePlace: false,
+                ),
+              );
+            }
+          }),
+      GoRoute(
+          path: PageName.itineraryStepsMap,
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>;
             return BlocProvider(
               create: (context) => RouteBloc(_routeRepository)
-                ..add(
-                    GetRoute(extra['tripId'], extra['day'], extra['profile'])),
-              child: ItineraryMap(places: extra['places']),
+                ..add(GetRouteStep(
+                    extra['tripId'], extra['day'], extra['profile'], 0)),
+              child: ItineraryStepsMap(
+                places: extra['places'],
+                tripId: extra['tripId'],
+                day: extra['day'],
+              ),
             );
           }),
     ],

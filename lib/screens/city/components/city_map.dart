@@ -29,6 +29,7 @@ class CityMap extends StatelessWidget {
               zoomControlsEnabled: false,
               mapType: MapType.terrain,
               isItinerary: false,
+              zoom: 13,
             ),
           )),
     );

@@ -16,7 +16,8 @@ class MapView extends StatefulWidget {
       required this.latLng,
       this.places,
       required this.isItinerary,
-      this.polylines});
+      this.polylines,
+      required this.zoom});
 
   final LatLng latLng;
   final MapType mapType;
@@ -24,6 +25,7 @@ class MapView extends StatefulWidget {
   final List? places;
   final bool isItinerary;
   final Set<Polyline>? polylines;
+  final double zoom;
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -79,7 +81,7 @@ class _MapViewState extends State<MapView> {
           zoomControlsEnabled: widget.zoomControlsEnabled,
           initialCameraPosition: CameraPosition(
             target: widget.latLng,
-            zoom: 13.0,
+            zoom: widget.zoom,
           ),
           markers: _markers,
           polylines: widget.polylines ?? {},

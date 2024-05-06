@@ -70,12 +70,20 @@ class _ItineraryViewState extends State<ItineraryView> {
   }
 
   void showMap(BuildContext context) {
-    context.push(PageName.itineraryMap, extra: {
-      'places': widget.places,
-      'tripId': widget.trip.id,
-      'day': widget.date.toString(),
-      'profile': 'walking',
-    });
+    if (widget.places.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('You need to add some places to this itinerary first.'),
+        ),
+      );
+    } else {
+      context.push(PageName.itineraryMap, extra: {
+        'places': widget.places,
+        'tripId': widget.trip.id,
+        'day': widget.date.toString(),
+        'profile': 'walking',
+      });
+    }
   }
 
   @override

@@ -28,6 +28,18 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
       }
     });
 
+    on<GetRouteStep>((event, emit) async {
+      emit(GetRouteStepLoading());
+      try {
+        final RouteLeg routeLeg = await _routeRepository.getRouteStep(
+            event.tripId, event.day, event.profile, event.index);
+        emit(GetRouteStepSuccess(routeLeg));
+      } catch (e) {
+        log(e.toString());
+        emit(GetRouteStepFailure());
+      }
+    });
+
     on<EditRoute>((event, emit) async {
       emit(EditRouteLoading());
       try {

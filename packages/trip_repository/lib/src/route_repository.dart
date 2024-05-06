@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:trip_repository/src/entities/entities.dart';
+import 'package:trip_repository/src/entities/route_leg_entity.dart';
 import 'package:trip_repository/src/models/route_leg.dart';
 import 'package:trip_repository/src/models/trip_route.dart';
 
@@ -43,6 +44,7 @@ class RouteRepository {
             duration: leg['duration'].toDouble(),
             distance: leg['distance'].toDouble(),
             geometry: leg['steps'].map((step) => step['geometry']).toList(),
+            profile: profile,
           ),
         );
       }
@@ -79,6 +81,18 @@ class RouteRepository {
     return route;
   }
 
+  Future<RouteLeg> getRouteStep(
+      String tripId, String day, String profile, int index) async {
+    final RouteLeg routeLeg = await routeCollection
+        .where('tripId', isEqualTo: tripId)
+        .where('id', isEqualTo: '$day, $profile')
+        .get()
+        .then((doc) => RouteLeg.fromEntity(
+            RouteLegEntity.fromDocument(doc.docs.first.data()['legs'][index])));
+
+    return routeLeg;
+  }
+
   Future<void> editRoute(
       String tripId, String day, List<String> coordinates) async {
     String coordinatesString = coordinates.join(';');
@@ -102,6 +116,7 @@ class RouteRepository {
               duration: leg['duration'].toDouble(),
               distance: leg['distance'].toDouble(),
               geometry: leg['steps'].map((step) => step['geometry']).toList(),
+              profile: profile,
             ).toEntity().toDocument(),
           );
         }

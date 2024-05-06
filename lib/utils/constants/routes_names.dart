@@ -19,6 +19,7 @@ abstract class PageName {
   static const editPlacesItinerary = '/trips/trip/edit_places_itinerary';
   static const tripMap = '/trips/trip/map';
   static const itineraryMap = '/trips/trip/itinerary_map';
+  static const itineraryStepsMap = '/trips/trip/itinerary_steps_map';
 
   static const cityPathName = 'city';
   static const placePathName = 'place';

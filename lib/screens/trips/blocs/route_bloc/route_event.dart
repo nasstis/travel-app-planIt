@@ -23,6 +23,15 @@ class GetRoute extends RouteEvent {
   const GetRoute(this.tripId, this.day, this.profile);
 }
 
+class GetRouteStep extends RouteEvent {
+  final String tripId;
+  final String day;
+  final String profile;
+  final int index;
+
+  const GetRouteStep(this.tripId, this.day, this.profile, this.index);
+}
+
 class EditRoute extends RouteEvent {
   final String tripId;
   final List<String> coordinates;

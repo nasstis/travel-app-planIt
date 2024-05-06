@@ -4,11 +4,13 @@ class RouteLeg {
   final double duration;
   final double distance;
   final List geometry;
+  final String profile;
 
   RouteLeg({
     required this.duration,
     required this.distance,
     required this.geometry,
+    required this.profile,
   });
 
   static RouteLeg fromEntity(RouteLegEntity entity) {
@@ -16,6 +18,7 @@ class RouteLeg {
       duration: entity.duration,
       distance: entity.distance,
       geometry: entity.geometry,
+      profile: entity.profile,
     );
   }
 
@@ -24,6 +27,7 @@ class RouteLeg {
       duration: duration,
       distance: distance,
       geometry: geometry,
+      profile: profile,
     );
   }
 }

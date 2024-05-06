@@ -25,6 +25,16 @@ final class GetRouteLoading extends RouteState {}
 
 final class GetRouteFailure extends RouteState {}
 
+final class GetRouteStepSuccess extends RouteState {
+  final RouteLeg leg;
+
+  const GetRouteStepSuccess(this.leg);
+}
+
+final class GetRouteStepLoading extends RouteState {}
+
+final class GetRouteStepFailure extends RouteState {}
+
 final class EditRouteSuccess extends RouteState {}
 
 final class EditRouteLoading extends RouteState {}
