@@ -93,6 +93,29 @@ class RouteRepository {
     return routeLeg;
   }
 
+  Future<Map<String, RouteLeg>> getRouteFromCurrentLocation(
+      List<String> coordinates) async {
+    String coordinatesString = coordinates.join(';');
+    List<String> profiles = ['walking', 'cycling', 'driving'];
+    Map<String, RouteLeg> mapProfileRoute = {};
+
+    for (var profile in profiles) {
+      final response = await dio.get(
+        '/directions/v5/mapbox/$profile/$coordinatesString',
+      );
+
+      mapProfileRoute[profile] = RouteLeg(
+        duration: response.data['routes'][0]['legs'][0]['duration'].toDouble(),
+        distance: response.data['routes'][0]['legs'][0]['distance'].toDouble(),
+        geometry: response.data['routes'][0]['legs'][0]['steps']
+            .map((step) => step['geometry'])
+            .toList(),
+        profile: profile,
+      );
+    }
+    return mapProfileRoute;
+  }
+
   Future<void> editRoute(
       String tripId, String day, List<String> coordinates) async {
     String coordinatesString = coordinates.join(';');

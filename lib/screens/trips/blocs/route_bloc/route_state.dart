@@ -40,3 +40,14 @@ final class EditRouteSuccess extends RouteState {}
 final class EditRouteLoading extends RouteState {}
 
 final class EditRouteFailure extends RouteState {}
+
+final class GetRouteFromCurrentLocationSuccess extends RouteState {
+  final Map<String, RouteLeg> mapProfileRoute;
+  final TripRoute route;
+
+  const GetRouteFromCurrentLocationSuccess(this.mapProfileRoute, this.route);
+}
+
+final class GetRouteFromCurrentLocationLoading extends RouteState {}
+
+final class GetRouteFromCurrentLocationFailure extends RouteState {}

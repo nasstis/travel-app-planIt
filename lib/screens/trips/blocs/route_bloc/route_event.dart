@@ -39,3 +39,10 @@ class EditRoute extends RouteEvent {
 
   const EditRoute(this.tripId, this.coordinates, this.day);
 }
+
+class GetRouteFromCurrentLocation extends RouteEvent {
+  final List<String> coordinates;
+  final TripRoute route;
+
+  const GetRouteFromCurrentLocation(this.coordinates, this.route);
+}

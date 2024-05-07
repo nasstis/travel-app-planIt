@@ -51,5 +51,17 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
         emit(EditRouteFailure());
       }
     });
+
+    on<GetRouteFromCurrentLocation>((event, emit) async {
+      emit(GetRouteFromCurrentLocationLoading());
+      try {
+        final Map<String, RouteLeg> mapProfileRoute = await _routeRepository
+            .getRouteFromCurrentLocation(event.coordinates);
+        emit(GetRouteFromCurrentLocationSuccess(mapProfileRoute, event.route));
+      } catch (e) {
+        log(e.toString());
+        emit(GetRouteFromCurrentLocationFailure());
+      }
+    });
   }
 }

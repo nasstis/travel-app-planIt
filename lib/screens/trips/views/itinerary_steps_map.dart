@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/profile_icon.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:trip_repository/trip_repository.dart';
 
 import '../../city/views/map_view.dart';
 
@@ -16,11 +17,15 @@ class ItineraryStepsMap extends StatefulWidget {
       {super.key,
       required this.places,
       required this.tripId,
-      required this.day});
+      required this.day,
+      required this.startingRoute,
+      required this.startingLocation});
 
   final List places;
   final String tripId;
   final String day;
+  final Map<String, RouteLeg> startingRoute;
+  final LatLng startingLocation;
 
   @override
   State<ItineraryStepsMap> createState() => _ItineraryStepsMapState();
@@ -28,6 +33,13 @@ class ItineraryStepsMap extends StatefulWidget {
 
 class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
   int index = 0;
+  late RouteLeg leg;
+  @override
+  void initState() {
+    leg = widget.startingRoute['walking']!;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Set<Polyline> polylines = <Polyline>{};
@@ -52,144 +64,143 @@ class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
       );
     }
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: MyColors.light.withOpacity(0.5),
-      ),
-      body: BlocBuilder<RouteBloc, RouteState>(
-        builder: (context, state) {
-          if (state is GetRouteStepSuccess) {
-            log('INDEX AAAAAAAAAAAAAAAAA $index');
+    log('INDEX $index');
 
-            polylineLegs.add(state.leg.geometry
-                .map(
-                  (e) => PolylinePoints().decodePolyline(e),
-                )
-                .toList());
-            for (var polylineLeg in polylineLegs) {
-              for (var decodedPolyline in polylineLeg!) {
-                setPolyline(decodedPolyline);
-              }
+    polylineLegs.add(leg.geometry
+        .map(
+          (e) => PolylinePoints().decodePolyline(e),
+        )
+        .toList());
+    for (var polylineLeg in polylineLegs) {
+      for (var decodedPolyline in polylineLeg!) {
+        setPolyline(decodedPolyline);
+      }
+    }
+
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: MyColors.light.withOpacity(0.5),
+        ),
+        body: BlocListener<RouteBloc, RouteState>(
+          listener: (context, state) {
+            if (state is GetRouteStepSuccess) {
+              setState(() {
+                leg = state.leg;
+              });
             }
-            return Stack(
-              children: [
-                MapView(
-                  latLng: LatLng(widget.places[index].latitude,
-                      widget.places[index].longitude),
-                  zoomControlsEnabled: true,
-                  mapType: MapType.normal,
-                  places: widget.places,
-                  isItinerary: true,
-                  polylines: polylines,
-                  zoom: 17,
-                ),
-                Positioned(
-                  top: 110,
-                  left: 140,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    elevation: 7,
-                    child: Container(
-                      width: 150,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: MyColors.primary,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${(state.leg.distance / 1000).toStringAsFixed(1)} km, ${(state.leg.duration / 60).toStringAsFixed(0)} mins',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: MyColors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 80,
-                  left: 160,
-                  child: ElevatedButton(
-                    onPressed: widget.places.length == index + 2
-                        ? () {}
-                        : () {
-                            setState(() {});
-                            context.read<RouteBloc>().add(
-                                  GetRouteStep(widget.tripId, widget.day,
-                                      state.leg.profile, ++index),
-                                );
-                          },
-                    child: widget.places.length == (index + 2)
-                        ? const Text('Done')
-                        : const Text('Next place'),
-                  ),
-                ),
-                Positioned(
-                  top: 110,
-                  right: 10,
+          },
+          child: Stack(
+            children: [
+              MapView(
+                latLng: index == 0
+                    ? widget.startingLocation
+                    : LatLng(widget.places[index - 1].latitude,
+                        widget.places[index - 1].longitude),
+                zoomControlsEnabled: true,
+                mapType: MapType.normal,
+                places: widget.places,
+                isItinerary: true,
+                polylines: polylines,
+                zoom: 17,
+              ),
+              Positioned(
+                top: 110,
+                left: 140,
+                child: Material(
+                  borderRadius: BorderRadius.circular(15),
+                  elevation: 7,
                   child: Container(
+                    width: 150,
+                    height: 32,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: MyColors.light.withOpacity(0.6),
+                      color: MyColors.primary,
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ProfileIcon(
-                          profile: 'cycling',
-                          currentProfile: state.leg.profile,
-                          onPressed: () {
-                            setState(() {});
-                            context.read<RouteBloc>().add(
-                                  GetRouteStep(widget.tripId, widget.day,
-                                      'cycling', index),
-                                );
-                          },
-                          icon: FontAwesomeIcons.personBiking,
+                    child: Center(
+                      child: Text(
+                        '${(leg.distance / 1000).toStringAsFixed(1)} km, ${(leg.duration / 60).toStringAsFixed(0)} mins',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: MyColors.white,
+                          fontWeight: FontWeight.w500,
                         ),
-                        ProfileIcon(
-                          profile: 'walking',
-                          currentProfile: state.leg.profile,
-                          onPressed: () {
-                            setState(() {});
-                            context.read<RouteBloc>().add(
-                                  GetRouteStep(widget.tripId, widget.day,
-                                      'walking', index),
-                                );
-                          },
-                          icon: FontAwesomeIcons.personWalking,
-                        ),
-                        ProfileIcon(
-                          profile: 'driving',
-                          currentProfile: state.leg.profile,
-                          onPressed: () {
-                            setState(() {});
-                            context.read<RouteBloc>().add(
-                                  GetRouteStep(widget.tripId, widget.day,
-                                      'driving', index),
-                                );
-                          },
-                          icon: FontAwesomeIcons.car,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                )
-              ],
-            );
-          }
-          if (state is GetRouteLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return const Center();
-        },
-      ),
-    );
+                ),
+              ),
+              Positioned(
+                bottom: 80,
+                left: 160,
+                child: ElevatedButton(
+                  onPressed: widget.places.length == index + 1
+                      ? () {}
+                      : () {
+                          setState(() {});
+                          context.read<RouteBloc>().add(
+                                GetRouteStep(widget.tripId, widget.day,
+                                    leg.profile, index++),
+                              );
+                        },
+                  child: widget.places.length == (index + 1)
+                      ? const Text('Done')
+                      : const Text('Next place'),
+                ),
+              ),
+              Positioned(
+                top: 110,
+                right: 10,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: MyColors.light.withOpacity(0.6),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ProfileIcon(
+                        profile: 'cycling',
+                        currentProfile: leg.profile,
+                        onPressed: () {
+                          setState(() {});
+                          context.read<RouteBloc>().add(
+                                GetRouteStep(widget.tripId, widget.day,
+                                    'cycling', index),
+                              );
+                        },
+                        icon: FontAwesomeIcons.personBiking,
+                      ),
+                      ProfileIcon(
+                        profile: 'walking',
+                        currentProfile: leg.profile,
+                        onPressed: () {
+                          setState(() {});
+                          context.read<RouteBloc>().add(
+                                GetRouteStep(widget.tripId, widget.day,
+                                    'walking', index),
+                              );
+                        },
+                        icon: FontAwesomeIcons.personWalking,
+                      ),
+                      ProfileIcon(
+                        profile: 'driving',
+                        currentProfile: leg.profile,
+                        onPressed: () {
+                          setState(() {});
+                          context.read<RouteBloc>().add(
+                                GetRouteStep(widget.tripId, widget.day,
+                                    'driving', index),
+                              );
+                        },
+                        icon: FontAwesomeIcons.car,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

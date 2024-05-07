@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
@@ -39,15 +38,6 @@ class _MapViewState extends State<MapView> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Set<Marker> _markers = {};
-
-  Future<Position> getUserCurrentLocation() async {
-    await Geolocator.requestPermission()
-        .then((value) {})
-        .onError((error, stackTrace) async {
-      await Geolocator.requestPermission();
-    });
-    return await Geolocator.getCurrentPosition();
-  }
 
   void changeMapMode(GoogleMapController mapController) {
     getJsonFile("assets/styles/map_style.json").then(
@@ -119,24 +109,6 @@ class _MapViewState extends State<MapView> {
           onCameraMove: (_) {
             _customInfoWindowController.onCameraMove!();
           },
-        ),
-        Positioned(
-          bottom: 120,
-          right: 5,
-          child: FloatingActionButton(
-            onPressed: () async {
-              getUserCurrentLocation().then((value) async {
-                _markers.add(Marker(
-                  markerId: const MarkerId("1"),
-                  position: LatLng(value.latitude, value.longitude),
-                  infoWindow: const InfoWindow(
-                    title: 'Your Current Location',
-                  ),
-                ));
-              });
-            },
-            child: const Icon(Icons.location_on),
-          ),
         ),
         CustomInfoWindow(
           controller: _customInfoWindowController,

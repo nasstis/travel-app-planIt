@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
@@ -27,6 +30,18 @@ class ItineraryMap extends StatefulWidget {
 }
 
 class _ItineraryMapState extends State<ItineraryMap> {
+  bool startItitneraryRequired = false;
+  late LatLng startingLocation;
+
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+    });
+    return await Geolocator.getCurrentPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     Set<Polyline> polylines = <Polyline>{};
@@ -67,7 +82,28 @@ class _ItineraryMapState extends State<ItineraryMap> {
               isItinerary: true,
               zoom: 14,
             )
-          : BlocBuilder<RouteBloc, RouteState>(
+          : BlocConsumer<RouteBloc, RouteState>(
+              listener: (context, state) {
+                if (state is GetRouteFromCurrentLocationFailure) {
+                  setState(() {
+                    startItitneraryRequired = false;
+                  });
+                }
+                if (state is GetRouteFromCurrentLocationSuccess) {
+                  log('aaaaaaaaaaa');
+                  context.pushReplacement(PageName.itineraryStepsMap, extra: {
+                    'places': widget.places,
+                    'tripId': state.route.tripId,
+                    'day': state.route.day,
+                    'profile': state.route.profile,
+                    'startingRoute': state.mapProfileRoute,
+                    'startingLocation': startingLocation,
+                  });
+                  setState(() {
+                    startItitneraryRequired = false;
+                  });
+                }
+              },
               builder: (context, state) {
                 if (state is GetRouteSuccess) {
                   for (var leg in state.route.legs) {
@@ -127,15 +163,29 @@ class _ItineraryMapState extends State<ItineraryMap> {
                         left: 140,
                         child: ElevatedButton(
                           onPressed: () {
-                            context.pushReplacement(PageName.itineraryStepsMap,
-                                extra: {
-                                  'places': widget.places,
-                                  'tripId': state.route.tripId,
-                                  'day': state.route.day,
-                                  'profile': state.route.profile,
-                                });
+                            setState(() {
+                              startItitneraryRequired = true;
+                            });
+                            getUserCurrentLocation().then((value) {
+                              context
+                                  .read<RouteBloc>()
+                                  .add(GetRouteFromCurrentLocation([
+                                    '${value.longitude},${value.latitude}',
+                                    '${widget.places[0].longitude},${widget.places[0].latitude}'
+                                  ], state.route));
+                              setState(() {
+                                startingLocation =
+                                    LatLng(value.latitude, value.longitude);
+                              });
+                            });
                           },
-                          child: const Text('Start itinerary'),
+                          child: startItitneraryRequired
+                              ? const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 30),
+                                  child: CircularProgressIndicator(),
+                                )
+                              : const Text('Start itinerary'),
                         ),
                       ),
                       Positioned(

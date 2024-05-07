@@ -300,13 +300,13 @@ GoRouter router(AuthBloc authBloc) {
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
             return BlocProvider(
-              create: (context) => RouteBloc(_routeRepository)
-                ..add(GetRouteStep(
-                    extra['tripId'], extra['day'], extra['profile'], 0)),
+              create: (context) => RouteBloc(_routeRepository),
               child: ItineraryStepsMap(
                 places: extra['places'],
                 tripId: extra['tripId'],
                 day: extra['day'],
+                startingRoute: extra['startingRoute'],
+                startingLocation: extra['startingLocation'],
               ),
             );
           }),
