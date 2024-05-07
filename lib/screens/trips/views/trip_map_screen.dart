@@ -24,7 +24,6 @@ class TripMapScreen extends StatelessWidget {
             mapType: MapType.normal,
             places: places,
             isItinerary: false,
-            zoom: 13,
           ),
         ],
       ),

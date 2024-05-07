@@ -4,7 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/helpers/widget_to_map_icon.dart';
 
-Future<BitmapDescriptor> getCustomIcon(int index, int length) async {
+Future<BitmapDescriptor> getCustomIcon(
+    int index, int length, bool oneColorNeeded) async {
   const String assetNameLeftLocation =
       'assets/icons/left-half-location-pin-solid-svg.svg';
   const String assetNameRightLocation =
@@ -22,7 +23,7 @@ Future<BitmapDescriptor> getCustomIcon(int index, int length) async {
           child: SvgPicture.asset(
             assetNameLeftLocation,
             colorFilter: ColorFilter.mode(
-                index == 1
+                index == 1 || oneColorNeeded
                     ? MyColors.primary
                     : MyColors.colorsForMap[index - 2],
                 BlendMode.srcIn),
@@ -34,7 +35,7 @@ Future<BitmapDescriptor> getCustomIcon(int index, int length) async {
           child: SvgPicture.asset(
             assetNameRightLocation,
             colorFilter: ColorFilter.mode(
-                index == 1
+                index == 1 || oneColorNeeded
                     ? MyColors.primary
                     : index == length
                         ? MyColors.colorsForMap[index - 2]

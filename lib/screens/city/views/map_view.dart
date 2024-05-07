@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
@@ -17,7 +20,7 @@ class MapView extends StatefulWidget {
       this.places,
       required this.isItinerary,
       this.polylines,
-      required this.zoom});
+      this.zoom});
 
   final LatLng latLng;
   final MapType mapType;
@@ -25,7 +28,7 @@ class MapView extends StatefulWidget {
   final List? places;
   final bool isItinerary;
   final Set<Polyline>? polylines;
-  final double zoom;
+  final double? zoom;
 
   @override
   State<MapView> createState() => _MapViewState();
@@ -36,6 +39,15 @@ class _MapViewState extends State<MapView> {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Set<Marker> _markers = {};
+
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) async {
+      await Geolocator.requestPermission();
+    });
+    return await Geolocator.getCurrentPosition();
+  }
 
   void changeMapMode(GoogleMapController mapController) {
     getJsonFile("assets/styles/map_style.json").then(
@@ -48,27 +60,42 @@ class _MapViewState extends State<MapView> {
     changeMapMode(_customInfoWindowController.googleMapController!);
   }
 
-  void _upsertMarker(Place place, int? index, int? length) async {
+  Future<void> _upsertMarker(Place place, int? index, int? length) async {
     BitmapDescriptor? customIcon;
     if (index != null) {
-      customIcon = await getCustomIcon(index, length!);
+      customIcon = await getCustomIcon(index, length!, widget.zoom != null);
     }
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(place.id),
-        position: LatLng(place.latitude, place.longitude),
-        onTap: () {
-          _customInfoWindowController.addInfoWindow!(
-            MyInfoWindow(
-              selectedPlace: place,
-              routingToPlaceAllowed: widget.places == null,
-            ),
-            LatLng(place.latitude, place.longitude),
-          );
-        },
-        icon: customIcon ?? BitmapDescriptor.defaultMarkerWithHue(280),
-      ));
-    });
+    _markers.add(Marker(
+      markerId: MarkerId(place.id),
+      position: LatLng(place.latitude, place.longitude),
+      onTap: () {
+        _customInfoWindowController.addInfoWindow!(
+          MyInfoWindow(
+            selectedPlace: place,
+            routingToPlaceAllowed: widget.places == null,
+          ),
+          LatLng(place.latitude, place.longitude),
+        );
+      },
+      icon: customIcon ?? BitmapDescriptor.defaultMarkerWithHue(280),
+    ));
+  }
+
+  Future<void> _addMarkers() async {
+    int counter = 1;
+    if (widget.isItinerary) {
+      for (final place in widget.places!) {
+        await _upsertMarker(place, counter, widget.places!.length);
+        counter++;
+      }
+    } else {
+      for (final place in widget.places!) {
+        _upsertMarker(place, null, null);
+      }
+    }
+    if (_markers.length == widget.places!.length) {
+      setState(() {});
+    }
   }
 
   @override
@@ -81,8 +108,9 @@ class _MapViewState extends State<MapView> {
           zoomControlsEnabled: widget.zoomControlsEnabled,
           initialCameraPosition: CameraPosition(
             target: widget.latLng,
-            zoom: widget.zoom,
+            zoom: widget.zoom ?? 13,
           ),
+          myLocationEnabled: widget.zoom != null,
           markers: _markers,
           polylines: widget.polylines ?? {},
           onTap: (_) {
@@ -91,6 +119,24 @@ class _MapViewState extends State<MapView> {
           onCameraMove: (_) {
             _customInfoWindowController.onCameraMove!();
           },
+        ),
+        Positioned(
+          bottom: 120,
+          right: 5,
+          child: FloatingActionButton(
+            onPressed: () async {
+              getUserCurrentLocation().then((value) async {
+                _markers.add(Marker(
+                  markerId: const MarkerId("1"),
+                  position: LatLng(value.latitude, value.longitude),
+                  infoWindow: const InfoWindow(
+                    title: 'Your Current Location',
+                  ),
+                ));
+              });
+            },
+            child: const Icon(Icons.location_on),
+          ),
         ),
         CustomInfoWindow(
           controller: _customInfoWindowController,
@@ -101,19 +147,12 @@ class _MapViewState extends State<MapView> {
     );
 
     if (widget.places != null) {
-      if (widget.isItinerary) {
-        int counter = 1;
-
-        for (final place in widget.places!) {
-          _upsertMarker(place, counter, widget.places!.length);
-          counter++;
-        }
-      } else {
-        for (final place in widget.places!) {
-          _upsertMarker(place, null, null);
-        }
-      }
-      return mainWidget;
+      return FutureBuilder(
+        future: _addMarkers(),
+        builder: (context, snapshot) {
+          return mainWidget;
+        },
+      );
     } else {
       return BlocListener<GetPlacesBloc, GetPlacesState>(
           listener: (context, state) {
@@ -121,6 +160,7 @@ class _MapViewState extends State<MapView> {
               for (final place in state.places) {
                 _upsertMarker(place, null, null);
               }
+              setState(() {});
             }
           },
           child: mainWidget);

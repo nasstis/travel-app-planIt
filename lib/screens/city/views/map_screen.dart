@@ -27,7 +27,6 @@ class MapScreen extends StatelessWidget {
           zoomControlsEnabled: true,
           mapType: MapType.normal,
           isItinerary: false,
-          zoom: 13,
         ),
       ),
     );

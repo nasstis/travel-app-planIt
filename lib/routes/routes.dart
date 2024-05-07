@@ -12,7 +12,7 @@ import 'package:travel_app/screens/trips/views/add_place_search.dart';
 import 'package:travel_app/screens/trips/views/edit_place_itinerary.dart';
 import 'package:travel_app/screens/trips/views/edit_trip.dart';
 import 'package:travel_app/screens/trips/views/itinerary_map.dart';
-import 'package:travel_app/screens/trips/views/started_itinerary_map.dart';
+import 'package:travel_app/screens/trips/views/itinerary_steps_map.dart';
 import 'package:travel_app/screens/trips/views/trip_map_screen.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
 import 'package:trip_repository/trip_repository.dart';

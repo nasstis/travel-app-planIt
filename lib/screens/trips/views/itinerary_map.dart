@@ -95,7 +95,6 @@ class _ItineraryMapState extends State<ItineraryMap> {
                         places: widget.places,
                         isItinerary: true,
                         polylines: polylines,
-                        zoom: 13,
                       ),
                       Positioned(
                         top: 110,
