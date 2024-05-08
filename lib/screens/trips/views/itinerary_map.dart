@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/profile_icon.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/helpers/get_user_location.dart';
 
 import '../../city/views/map_view.dart';
 
@@ -32,15 +32,6 @@ class ItineraryMap extends StatefulWidget {
 class _ItineraryMapState extends State<ItineraryMap> {
   bool startItitneraryRequired = false;
   late LatLng startingLocation;
-
-  Future<Position> getUserCurrentLocation() async {
-    await Geolocator.requestPermission()
-        .then((value) {})
-        .onError((error, stackTrace) async {
-      await Geolocator.requestPermission();
-    });
-    return await Geolocator.getCurrentPosition();
-  }
 
   @override
   Widget build(BuildContext context) {

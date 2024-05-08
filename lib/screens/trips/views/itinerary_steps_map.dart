@@ -34,9 +34,12 @@ class ItineraryStepsMap extends StatefulWidget {
 class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
   int index = 0;
   late RouteLeg leg;
+  late LatLng mapCenter;
+
   @override
   void initState() {
     leg = widget.startingRoute['walking']!;
+    mapCenter = widget.startingLocation;
     super.initState();
   }
 
@@ -87,16 +90,15 @@ class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
             if (state is GetRouteStepSuccess) {
               setState(() {
                 leg = state.leg;
+                mapCenter = LatLng(widget.places[index - 1].latitude,
+                    widget.places[index - 1].longitude);
               });
             }
           },
           child: Stack(
             children: [
               MapView(
-                latLng: index == 0
-                    ? widget.startingLocation
-                    : LatLng(widget.places[index - 1].latitude,
-                        widget.places[index - 1].longitude),
+                latLng: mapCenter,
                 zoomControlsEnabled: true,
                 mapType: MapType.normal,
                 places: widget.places,

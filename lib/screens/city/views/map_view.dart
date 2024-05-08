@@ -1,14 +1,18 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/info_window.dart';
+import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/helpers/get_custom_icon.dart';
 import 'package:travel_app/utils/helpers/get_json.dart';
+import 'package:travel_app/utils/helpers/get_user_location.dart';
 
 class MapView extends StatefulWidget {
   const MapView(
@@ -34,10 +38,12 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
+  int index = 0;
   late GoogleMapController mapController;
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
   final Set<Marker> _markers = {};
+  final Completer<GoogleMapController> _controller = Completer();
 
   void changeMapMode(GoogleMapController mapController) {
     getJsonFile("assets/styles/map_style.json").then(
@@ -48,6 +54,7 @@ class _MapViewState extends State<MapView> {
   void _onMapCreated(GoogleMapController controller) {
     _customInfoWindowController.googleMapController = controller;
     changeMapMode(_customInfoWindowController.googleMapController!);
+    _controller.complete(controller);
   }
 
   Future<void> _upsertMarker(Place place, int? index, int? length) async {
@@ -88,6 +95,14 @@ class _MapViewState extends State<MapView> {
     }
   }
 
+  void changeCameraPosition(LatLng position) async {
+    CameraPosition cameraPosition =
+        CameraPosition(target: position, zoom: widget.zoom ?? 13);
+
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget mainWidget = Stack(
@@ -115,13 +130,42 @@ class _MapViewState extends State<MapView> {
           height: 140,
           width: 250,
         ),
+        if (widget.zoom != null)
+          Positioned(
+            right: 7,
+            bottom: 100,
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color(0xFFfcfafa).withOpacity(0.8)),
+              child: IconButton(
+                onPressed: () {
+                  getUserCurrentLocation().then((value) {
+                    changeCameraPosition(
+                        LatLng(value.latitude, value.longitude));
+                  });
+                },
+                icon: const FaIcon(
+                  FontAwesomeIcons.locationCrosshairs,
+                  color: Color(0xFF666666),
+                ),
+              ),
+            ),
+          ),
       ],
     );
+
+    if (index > 0) {
+      changeCameraPosition(widget.latLng);
+    }
 
     if (widget.places != null) {
       return FutureBuilder(
         future: _addMarkers(),
         builder: (context, snapshot) {
+          index++;
           return mainWidget;
         },
       );
