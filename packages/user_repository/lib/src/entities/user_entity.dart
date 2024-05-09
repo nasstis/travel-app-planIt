@@ -4,6 +4,7 @@ class MyUserEntity {
   String email;
   List<dynamic> favoriteCities;
   List<dynamic> favoritePlaces;
+  List<String> recentlyViewed;
 
   MyUserEntity({
     required this.userId,
@@ -11,6 +12,7 @@ class MyUserEntity {
     required this.email,
     this.favoriteCities = const [],
     this.favoritePlaces = const [],
+    this.recentlyViewed = const [],
   });
 
   Map<String, Object?> toDocument() {
@@ -20,6 +22,7 @@ class MyUserEntity {
       'name': name,
       'favoriteCities': favoriteCities,
       'favoritePlaces': favoritePlaces,
+      'recentlyViewed': recentlyViewed,
     };
   }
 
@@ -30,6 +33,7 @@ class MyUserEntity {
       email: doc['email'],
       favoriteCities: doc['favoriteCities'],
       favoritePlaces: doc['favoritePlaces'],
+      recentlyViewed: doc['recentlyViewed'].cast<String>(),
     );
   }
 }

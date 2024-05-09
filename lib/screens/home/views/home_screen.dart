@@ -1,8 +1,8 @@
 import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_app/blocs/user_history_bloc/user_history_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
 import 'package:travel_app/screens/home/components/places_horizontal_list_view.dart';
@@ -32,26 +32,48 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              context.read<SignInBloc>().add(SignOutRequired());
-              context.go(PageName.initRoute);
-            },
-            icon: const FaIcon(
-              FontAwesomeIcons.arrowRightFromBracket,
-              size: 22,
-            ),
-          ),
+              onPressed: () {
+                context.read<SignInBloc>().add(SignOutRequired());
+                context.go(PageName.initRoute);
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.black,
+              )),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, top: 4),
+        padding: const EdgeInsets.only(left: 16),
         child: BlocBuilder<GetCitiesBloc, GetCitiesState>(
           builder: (context, state) {
             if (state is GetCitiesSuccess) {
               cities = state.cities;
               return Column(
                 children: [
-                  const PlacesHorizontalListView(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Where are you going?',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  BlocBuilder<UserHistoryBloc, UserHistoryState>(
+                    builder: (context, state) {
+                      if (state is GetUserHistorySuccess) {
+                        if (state.recentlyViewed.isNotEmpty) {
+                          return PlacesHorizontalListView(
+                            recentlyViewed: state.recentlyViewed,
+                          );
+                        }
+                      }
+                      return const SizedBox();
+                    },
+                  ),
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.only(right: 16),

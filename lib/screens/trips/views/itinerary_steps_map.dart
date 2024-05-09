@@ -19,28 +19,42 @@ class ItineraryStepsMap extends StatefulWidget {
       required this.tripId,
       required this.day,
       required this.startingRoute,
-      required this.startingLocation});
+      required this.startingLocation,
+      required this.profile});
 
   final List places;
   final String tripId;
   final String day;
   final Map<String, RouteLeg> startingRoute;
   final LatLng startingLocation;
+  final String profile;
 
   @override
   State<ItineraryStepsMap> createState() => _ItineraryStepsMapState();
 }
 
 class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
-  int index = 0;
+  int index = -1;
   late RouteLeg leg;
   late LatLng mapCenter;
 
   @override
   void initState() {
-    leg = widget.startingRoute['walking']!;
+    leg = widget.startingRoute[widget.profile]!;
     mapCenter = widget.startingLocation;
     super.initState();
+  }
+
+  void changeStepProfile(String profile) {
+    if (index == -1) {
+      setState(() {
+        leg = widget.startingRoute[profile]!;
+      });
+    }
+    setState(() {});
+    context.read<RouteBloc>().add(
+          GetRouteStep(widget.tripId, widget.day, profile, index),
+        );
   }
 
   @override
@@ -90,8 +104,8 @@ class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
             if (state is GetRouteStepSuccess) {
               setState(() {
                 leg = state.leg;
-                mapCenter = LatLng(widget.places[index - 1].latitude,
-                    widget.places[index - 1].longitude);
+                mapCenter = LatLng(widget.places[index].latitude,
+                    widget.places[index].longitude);
               });
             }
           },
@@ -136,16 +150,16 @@ class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
                 bottom: 80,
                 left: 160,
                 child: ElevatedButton(
-                  onPressed: widget.places.length == index + 1
+                  onPressed: widget.places.length == index + 2
                       ? () {}
                       : () {
                           setState(() {});
                           context.read<RouteBloc>().add(
                                 GetRouteStep(widget.tripId, widget.day,
-                                    leg.profile, index++),
+                                    leg.profile, ++index),
                               );
                         },
-                  child: widget.places.length == (index + 1)
+                  child: widget.places.length == (index + 2)
                       ? const Text('Done')
                       : const Text('Next place'),
                 ),
@@ -164,37 +178,19 @@ class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
                       ProfileIcon(
                         profile: 'cycling',
                         currentProfile: leg.profile,
-                        onPressed: () {
-                          setState(() {});
-                          context.read<RouteBloc>().add(
-                                GetRouteStep(widget.tripId, widget.day,
-                                    'cycling', index),
-                              );
-                        },
+                        onPressed: () => changeStepProfile('cycling'),
                         icon: FontAwesomeIcons.personBiking,
                       ),
                       ProfileIcon(
                         profile: 'walking',
                         currentProfile: leg.profile,
-                        onPressed: () {
-                          setState(() {});
-                          context.read<RouteBloc>().add(
-                                GetRouteStep(widget.tripId, widget.day,
-                                    'walking', index),
-                              );
-                        },
+                        onPressed: () => changeStepProfile('walking'),
                         icon: FontAwesomeIcons.personWalking,
                       ),
                       ProfileIcon(
                         profile: 'driving',
                         currentProfile: leg.profile,
-                        onPressed: () {
-                          setState(() {});
-                          context.read<RouteBloc>().add(
-                                GetRouteStep(widget.tripId, widget.day,
-                                    'driving', index),
-                              );
-                        },
+                        onPressed: () => changeStepProfile('driving'),
                         icon: FontAwesomeIcons.car,
                       ),
                     ],

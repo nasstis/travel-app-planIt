@@ -56,22 +56,20 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
                 const SnackBar(content: Text('Something went wrong...')));
           }
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            places.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                      child: Text(
-                        'There is nothing to edit here.\n Try adding some places first.',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  )
-                : Expanded(
+        child: places.isEmpty
+            ? const Center(
+                child: Text(
+                  'There is nothing to edit here...\n Try adding some places first.',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
                     child: ReorderableListView.builder(
                       onReorder: (oldIndex, newIndex) {
                         if (newIndex > oldIndex) {
@@ -149,37 +147,37 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
                       ),
                     ),
                   ),
-            Padding(
-              padding: const EdgeInsets.only(right: 18, top: 10),
-              child: ElevatedButton(
-                onPressed: editRequired
-                    ? null
-                    : () {
-                        context.read<TripCalendarBloc>().add(
-                              EditItinerary(
-                                  tripId: tripId,
-                                  date: date.toString(),
-                                  places: places),
-                            );
-                        context.read<RouteBloc>().add(
-                              EditRoute(
-                                tripId,
-                                places
-                                    .map((place) =>
-                                        '${place.longitude},${place.latitude}')
-                                    .toList(),
-                                date.toString(),
-                              ),
-                            );
-                      },
-                child: editRequired
-                    ? const CircularProgressIndicator()
-                    : const Text('Save changes'),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 18, top: 10),
+                    child: ElevatedButton(
+                      onPressed: editRequired
+                          ? null
+                          : () {
+                              context.read<TripCalendarBloc>().add(
+                                    EditItinerary(
+                                        tripId: tripId,
+                                        date: date.toString(),
+                                        places: places),
+                                  );
+                              context.read<RouteBloc>().add(
+                                    EditRoute(
+                                      tripId,
+                                      places
+                                          .map((place) =>
+                                              '${place.longitude},${place.latitude}')
+                                          .toList(),
+                                      date.toString(),
+                                    ),
+                                  );
+                            },
+                      child: editRequired
+                          ? const CircularProgressIndicator()
+                          : const Text('Save changes'),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                ],
               ),
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
       ),
     );
   }

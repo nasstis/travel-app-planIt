@@ -16,4 +16,8 @@ abstract class UserRepository {
   Future<MyUser> authWithGoogle();
 
   Future<void> signInWithFacebook();
+
+  Future<List<String>> getHistory();
+
+  Future<void> addToHistory(String id);
 }

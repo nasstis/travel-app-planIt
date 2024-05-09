@@ -62,104 +62,116 @@ class _AddPlaceItineraryState extends State<AddPlaceItinerary> {
             });
           }
         },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: selectedCheckboxes.length,
-                itemBuilder: (context, index) => Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: ListTile(
-                            title: Text(
-                              places[index].name,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                            leading: Container(
-                              width: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.black,
-                                image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
-                                      places[index].photos[0]),
-                                  fit: BoxFit.cover,
+        child: places.isEmpty
+            ? const Center(
+                child: Text(
+                  'It looks like it\'s empty here... \n You need to add new places to your trip first',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: selectedCheckboxes.length,
+                      itemBuilder: (context, index) => Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: ListTile(
+                                  title: Text(
+                                    places[index].name,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  leading: Container(
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.black,
+                                      image: DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                            places[index].photos[0]),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  subtitle: places[index].description != null
+                                      ? Text(
+                                          places[index].description,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontSize: 12),
+                                        )
+                                      : null,
+                                  // isThreeLine: true,
+                                  visualDensity:
+                                      const VisualDensity(vertical: 3),
                                 ),
                               ),
                             ),
-                            subtitle: places[index].description != null
-                                ? Text(
-                                    places[index].description,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 12),
-                                  )
-                                : null,
-                            // isThreeLine: true,
-                            visualDensity: const VisualDensity(vertical: 3),
-                          ),
+                            Checkbox(
+                              value: selectedCheckboxes[index],
+                              onChanged: (status) {
+                                setState(() {
+                                  selectedCheckboxes[index] = status!;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                      Checkbox(
-                        value: selectedCheckboxes[index],
-                        onChanged: (status) {
-                          setState(() {
-                            selectedCheckboxes[index] = status!;
-                          });
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: ElevatedButton(
+                      onPressed: addPlacesRequired
+                          ? null
+                          : () {
+                              final List selectedPlacesId = [];
+                              int index = 0;
+                              for (var checkbox in selectedCheckboxes) {
+                                if (checkbox) {
+                                  selectedPlacesId.add(places[index].id);
+                                  allPlaces.add(places[index]);
+                                }
+                                index++;
+                              }
+                              context.read<TripCalendarBloc>().add(
+                                    AddPlacesToItinerary(
+                                        selectedPlaces: selectedPlacesId,
+                                        date: date.toString(),
+                                        tripId: tripId),
+                                  );
+                              context.read<RouteBloc>().add(
+                                    CreateRoute(
+                                      tripId,
+                                      allPlaces
+                                          .map((place) =>
+                                              '${place.longitude},${place.latitude}')
+                                          .toList(),
+                                      date.toString(),
+                                    ),
+                                  );
+                            },
+                      child: addPlacesRequired
+                          ? const CircularProgressIndicator()
+                          : const Text('Add places to Itinerary'),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: ElevatedButton(
-                onPressed: addPlacesRequired
-                    ? null
-                    : () {
-                        final List selectedPlacesId = [];
-                        int index = 0;
-                        for (var checkbox in selectedCheckboxes) {
-                          if (checkbox) {
-                            selectedPlacesId.add(places[index].id);
-                            allPlaces.add(places[index]);
-                          }
-                          index++;
-                        }
-                        context.read<TripCalendarBloc>().add(
-                              AddPlacesToItinerary(
-                                  selectedPlaces: selectedPlacesId,
-                                  date: date.toString(),
-                                  tripId: tripId),
-                            );
-                        context.read<RouteBloc>().add(
-                              CreateRoute(
-                                tripId,
-                                allPlaces
-                                    .map((place) =>
-                                        '${place.longitude},${place.latitude}')
-                                    .toList(),
-                                date.toString(),
-                              ),
-                            );
-                      },
-                child: addPlacesRequired
-                    ? const CircularProgressIndicator()
-                    : const Text('Add places to Itinerary'),
-              ),
-            ),
-            const SizedBox(height: 30),
-          ],
-        ),
       ),
     );
   }

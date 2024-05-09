@@ -3,6 +3,7 @@ import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/blocs/user_history_bloc/user_history_bloc.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/city_info.dart';
 import 'package:travel_app/screens/city/components/city_map.dart';
@@ -21,6 +22,7 @@ class CityDetailScreen extends StatefulWidget {
 class _CityDetailScreenState extends State<CityDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    context.read<UserHistoryBloc>().add(AddToHistory(widget.city.cityId));
     return Scaffold(
       backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,

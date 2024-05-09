@@ -134,4 +134,28 @@ class FirebaseUserRepository implements UserRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<List<String>> getHistory() async {
+    final userId = _firebaseAuth.currentUser!.uid;
+    final List<String> history = await userCollection
+        .doc(userId)
+        .get()
+        .then((doc) => doc.data()!['recentlyViewed'].cast<String>());
+    return history;
+  }
+
+  @override
+  Future<void> addToHistory(String id) async {
+    final userId = _firebaseAuth.currentUser!.uid;
+    final List<String> history = await userCollection
+        .doc(userId)
+        .get()
+        .then((doc) => doc.data()!['recentlyViewed'].cast<String>());
+    if (history.length == 6) {
+      history.removeAt(0);
+    }
+    history.add(id);
+    userCollection.doc(userId).update({'recentlyViewed': history});
+  }
 }

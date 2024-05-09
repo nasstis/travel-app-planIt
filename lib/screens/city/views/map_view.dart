@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/info_window.dart';
-import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/helpers/get_custom_icon.dart';
 import 'package:travel_app/utils/helpers/get_json.dart';
 import 'package:travel_app/utils/helpers/get_user_location.dart';
@@ -116,6 +114,7 @@ class _MapViewState extends State<MapView> {
             zoom: widget.zoom ?? 13,
           ),
           myLocationEnabled: widget.zoom != null,
+          myLocationButtonEnabled: false,
           markers: _markers,
           polylines: widget.polylines ?? {},
           onTap: (_) {

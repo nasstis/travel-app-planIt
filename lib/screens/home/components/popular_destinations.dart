@@ -1,7 +1,9 @@
 import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_app/blocs/user_history_bloc/user_history_bloc.dart';
 import 'package:travel_app/utils/components/card_view.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 
@@ -44,7 +46,11 @@ class PopularDestinations extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
-                    context.push(PageName.cityRoute, extra: cities[index]);
+                    context
+                        .push(PageName.cityRoute, extra: cities[index])
+                        .then((_) {
+                      context.read<UserHistoryBloc>().add(GetUserHistory());
+                    });
                   },
                   child: CardView(
                     imageUrl: cities[index].picture,

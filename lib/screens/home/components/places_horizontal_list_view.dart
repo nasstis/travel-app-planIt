@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 class PlacesHorizontalListView extends StatelessWidget {
   const PlacesHorizontalListView({
     super.key,
+    required this.recentlyViewed,
   });
+
+  final List<String> recentlyViewed;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 160,
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Where are you going?',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-              ),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Recently viewed',
+              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
             ),
           ),
-          const SizedBox(height: 25),
+          const SizedBox(height: 15),
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: recentlyViewed.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),

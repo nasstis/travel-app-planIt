@@ -6,6 +6,7 @@ class MyUser {
   String email;
   List<dynamic> favoriteCities;
   List<dynamic> favoritePlaces;
+  List<String> recentlyViewed;
 
   MyUser({
     required this.userId,
@@ -13,6 +14,7 @@ class MyUser {
     required this.email,
     this.favoriteCities = const [],
     this.favoritePlaces = const [],
+    this.recentlyViewed = const [],
   });
 
   static final MyUser empty = MyUser(
@@ -36,6 +38,7 @@ class MyUser {
       email: entity.email,
       favoriteCities: entity.favoriteCities,
       favoritePlaces: entity.favoritePlaces,
+      recentlyViewed: entity.recentlyViewed,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:city_repository/city_repository.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/blocs/user_history_bloc/user_history_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
@@ -20,7 +21,6 @@ import 'package:trip_repository/trip_repository.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/auth/views/welcome_screen.dart';
-import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/views/city_detail_screen.dart';
 import 'package:travel_app/screens/city/views/map_screen.dart';
 import 'package:travel_app/screens/home/blocs/get_cities_bloc/get_cities_bloc.dart';
@@ -36,12 +36,14 @@ import 'package:travel_app/screens/search/views/search_screen.dart';
 import 'package:travel_app/screens/splash/views/splash_screen.dart';
 import 'package:travel_app/utils/components/bottom_nav_bar.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:user_repository/user_repository.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final FirebaseCityRepo _firebaseCityRepo = FirebaseCityRepo();
 final FirebasePlaceRepo _firebasePlaceRepo = FirebasePlaceRepo();
 final FirebaseTripRepo _firebaseTripRepo = FirebaseTripRepo();
 final RouteRepository _routeRepository = RouteRepository();
+final FirebaseUserRepository _firebaseUserRepository = FirebaseUserRepository();
 
 GoRouter router(AuthBloc authBloc) {
   return GoRouter(
@@ -86,6 +88,11 @@ GoRouter router(AuthBloc authBloc) {
                                 GetCitiesBloc(_firebaseCityRepo)
                                   ..add(GetCities()),
                           ),
+                          BlocProvider(
+                            create: (context) =>
+                                UserHistoryBloc(_firebaseUserRepository)
+                                  ..add(GetUserHistory()),
+                          ),
                         ],
                         child: const HomeScreen(),
                       ),
@@ -93,7 +100,8 @@ GoRouter router(AuthBloc authBloc) {
                     GoRoute(
                       path: PageName.cityPathName,
                       builder: (context, state) => BlocProvider(
-                        create: (context) => GetPlacesBloc(_firebasePlaceRepo),
+                        create: (context) =>
+                            UserHistoryBloc(_firebaseUserRepository),
                         child: CityDetailScreen(city: state.extra as City),
                       ),
                     ),
@@ -307,6 +315,7 @@ GoRouter router(AuthBloc authBloc) {
                 day: extra['day'],
                 startingRoute: extra['startingRoute'],
                 startingLocation: extra['startingLocation'],
+                profile: extra['profile'],
               ),
             );
           }),
