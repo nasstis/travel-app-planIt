@@ -19,8 +19,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late List<City> cities;
+
   @override
   Widget build(BuildContext context) {
+    final isHomePage =
+        GoRouterState.of(context).uri.toString() == PageName.homeRoute;
+
+    if (isHomePage) {
+      setState(() {
+        context.read<UserHistoryBloc>().add(GetUserHistory());
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.light,
@@ -65,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   BlocBuilder<UserHistoryBloc, UserHistoryState>(
                     builder: (context, state) {
                       if (state is GetUserHistorySuccess) {
+                        print('BBBBBBBBBBBBBBBBBB');
                         if (state.recentlyViewed.isNotEmpty) {
                           return PlacesHorizontalListView(
                             recentlyViewed: state.recentlyViewed,

@@ -90,8 +90,7 @@ GoRouter router(AuthBloc authBloc) {
                           ),
                           BlocProvider(
                             create: (context) =>
-                                UserHistoryBloc(_firebaseUserRepository)
-                                  ..add(GetUserHistory()),
+                                UserHistoryBloc(_firebaseUserRepository),
                           ),
                         ],
                         child: const HomeScreen(),
