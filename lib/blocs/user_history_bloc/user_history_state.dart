@@ -10,7 +10,7 @@ sealed class UserHistoryState extends Equatable {
 final class UserHistoryInitial extends UserHistoryState {}
 
 class GetUserHistorySuccess extends UserHistoryState {
-  final List<String> recentlyViewed;
+  final List<City> recentlyViewed;
 
   const GetUserHistorySuccess(this.recentlyViewed);
 }

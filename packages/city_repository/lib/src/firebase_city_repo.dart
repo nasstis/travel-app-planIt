@@ -23,6 +23,22 @@ class FirebaseCityRepo implements CityRepo {
   }
 
   @override
+  Future<List<City>> getCitiesById(List<String> id) async {
+    final List<City> cities = [];
+    for (var cityId in id) {
+      await cityColection
+          .where('cityId', isEqualTo: cityId)
+          .get()
+          .then((value) {
+        cities.add(City.fromEntity(
+          CityEntity.fromDocument(value.docs.first.data()),
+        ));
+      });
+    }
+    return cities;
+  }
+
+  @override
   Future<List<City>?> getSearchResult({required String qSearch}) async {
     String newVal =
         qSearch[0].toUpperCase() + qSearch.substring(1).toLowerCase();

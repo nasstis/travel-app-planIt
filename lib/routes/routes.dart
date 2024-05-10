@@ -89,8 +89,8 @@ GoRouter router(AuthBloc authBloc) {
                                   ..add(GetCities()),
                           ),
                           BlocProvider(
-                            create: (context) =>
-                                UserHistoryBloc(_firebaseUserRepository),
+                            create: (context) => UserHistoryBloc(
+                                _firebaseUserRepository, _firebaseCityRepo),
                           ),
                         ],
                         child: const HomeScreen(),
@@ -99,8 +99,8 @@ GoRouter router(AuthBloc authBloc) {
                     GoRoute(
                       path: PageName.cityPathName,
                       builder: (context, state) => BlocProvider(
-                        create: (context) =>
-                            UserHistoryBloc(_firebaseUserRepository),
+                        create: (context) => UserHistoryBloc(
+                            _firebaseUserRepository, _firebaseCityRepo),
                         child: CityDetailScreen(city: state.extra as City),
                       ),
                     ),

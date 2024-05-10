@@ -22,10 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isHomePage =
-        GoRouterState.of(context).uri.toString() == PageName.homeRoute;
-
-    if (isHomePage) {
+    if (GoRouterState.of(context).uri.toString() == PageName.homeRoute) {
       setState(() {
         context.read<UserHistoryBloc>().add(GetUserHistory());
       });
@@ -74,12 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   BlocBuilder<UserHistoryBloc, UserHistoryState>(
                     builder: (context, state) {
                       if (state is GetUserHistorySuccess) {
-                        print('BBBBBBBBBBBBBBBBBB');
-                        if (state.recentlyViewed.isNotEmpty) {
-                          return PlacesHorizontalListView(
-                            recentlyViewed: state.recentlyViewed,
-                          );
-                        }
+                        return PlacesHorizontalListView(
+                          recentlyViewed: state.recentlyViewed,
+                        );
+                      }
+                      if (state is GetUserHistoryLoading) {
+                        return const SizedBox(
+                          height: 160,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
                       }
                       return const SizedBox();
                     },
