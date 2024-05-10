@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class ScaffoldWithNavBar extends StatelessWidget {
   const ScaffoldWithNavBar({
@@ -27,7 +28,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
           child: Container(
             height: 65,
             decoration: BoxDecoration(
-              color: MyColors.white,
+              color: MyThemeMode.isDark ? MyColors.dark : MyColors.white,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(

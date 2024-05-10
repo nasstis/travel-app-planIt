@@ -5,6 +5,7 @@ import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/place/components/star_display.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class MyInfoWindow extends StatelessWidget {
   const MyInfoWindow({
@@ -21,7 +22,7 @@ class MyInfoWindow extends StatelessWidget {
     return Material(
       elevation: 10,
       borderRadius: BorderRadius.circular(20),
-      color: MyColors.white,
+      color: MyThemeMode.isDark ? MyColors.dark : MyColors.white,
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: routingToPlaceAllowed

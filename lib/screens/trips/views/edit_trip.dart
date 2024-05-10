@@ -12,6 +12,7 @@ import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/components/delete_dialog.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class EditTrip extends StatefulWidget {
@@ -30,6 +31,8 @@ class _EditTripState extends State<EditTrip> {
   DateTimeRange? pickedDate;
   File? newPhoto;
   bool _editRequired = false;
+  final color = MyThemeMode.isDark ? MyColors.light : MyColors.darkGrey;
+  final fillColor = MyThemeMode.isDark ? MyColors.dark : MyColors.white;
 
   @override
   void initState() {
@@ -55,7 +58,7 @@ class _EditTripState extends State<EditTrip> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.light,
+        backgroundColor: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
         title: Padding(
           padding:
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.28),
@@ -76,43 +79,42 @@ class _EditTripState extends State<EditTrip> {
               TextField(
                 controller: _nameController,
                 maxLength: 50,
-                style: const TextStyle(color: MyColors.darkGrey),
-                cursorColor: MyColors.darkGrey,
-                decoration: const InputDecoration(
-                  label: Text('Trip name'),
-                  labelStyle: TextStyle(color: MyColors.darkGrey),
+                style: TextStyle(color: color),
+                cursorColor: color,
+                decoration: InputDecoration(
+                  label: const Text('Trip name'),
+                  labelStyle: TextStyle(color: color),
                   filled: true,
-                  fillColor: MyColors.white,
+                  fillColor: fillColor,
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                   enabledBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
+                      const OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: MyColors.darkGrey, width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    borderSide: BorderSide(color: color, width: 1.5),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
                   ),
                 ),
               ),
               const SizedBox(height: 30),
               TextField(
                 controller: _dateController,
-                style: const TextStyle(
-                  color: MyColors.darkGrey,
+                style: TextStyle(
+                  color: color,
                 ),
-                decoration: const InputDecoration(
-                  label: Text('Date'),
-                  labelStyle: TextStyle(color: MyColors.darkGrey),
+                decoration: InputDecoration(
+                  label: const Text('Date'),
+                  labelStyle: TextStyle(color: color),
                   filled: true,
-                  fillColor: MyColors.white,
+                  fillColor: fillColor,
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-                  prefixIcon: Icon(Icons.calendar_month),
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                  prefixIcon: const Icon(Icons.calendar_month),
                   enabledBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
+                      const OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
-                  prefixIconColor: MyColors.darkGrey,
+                      const OutlineInputBorder(borderSide: BorderSide.none),
+                  prefixIconColor: color,
                 ),
                 readOnly: true,
                 onTap: () async {
@@ -134,28 +136,27 @@ class _EditTripState extends State<EditTrip> {
               const SizedBox(height: 30),
               TextField(
                 controller: _descriptionController,
-                style: const TextStyle(
-                  color: MyColors.darkGrey,
+                style: TextStyle(
+                  color: color,
                 ),
                 maxLines: 4,
-                decoration: const InputDecoration(
-                  label: Text('Description'),
+                decoration: InputDecoration(
+                  label: const Text('Description'),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: 'Here you can add some details about your trip',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     fontSize: 14,
                   ),
-                  labelStyle: TextStyle(color: MyColors.darkGrey),
+                  labelStyle: TextStyle(color: color),
                   filled: true,
-                  fillColor: MyColors.white,
+                  fillColor: fillColor,
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                   enabledBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
+                      const OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: MyColors.darkGrey, width: 1.5),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    borderSide: BorderSide(color: color, width: 1.5),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
                   ),
                 ),
               ),

@@ -27,7 +27,7 @@ class CityMap extends StatelessWidget {
             child: MapView(
               latLng: LatLng(city.latitude, city.longitude),
               zoomControlsEnabled: false,
-              mapType: MapType.terrain,
+              mapType: MapType.normal,
               isItinerary: false,
             ),
           )),

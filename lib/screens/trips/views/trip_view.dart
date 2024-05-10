@@ -8,6 +8,7 @@ import 'package:travel_app/screens/trips/components/trip_info.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/trip_itinerary.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class TripView extends StatelessWidget {
@@ -64,7 +65,8 @@ class TripView extends StatelessWidget {
               height: MediaQuery.of(context).size.height - 185,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), color: Colors.white),
+                  borderRadius: BorderRadius.circular(30),
+                  color: MyThemeMode.isDark ? MyColors.darkDark : Colors.white),
               child: DefaultTabController(
                 length: 2,
                 child: Column(

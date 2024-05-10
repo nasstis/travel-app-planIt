@@ -5,6 +5,7 @@ import 'package:readmore/readmore.dart';
 import 'package:travel_app/screens/place/components/place_types.dart';
 import 'package:travel_app/screens/place/components/working_hours.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:travel_app/utils/helpers/get_working_hours.dart';
 
 class PlaceInfo extends StatefulWidget {
@@ -151,26 +152,28 @@ class _PlaceInfoState extends State<PlaceInfo> {
               ),
             if (widget.place.goodForChildren != null &&
                 widget.place.goodForChildren!)
-              const Chip(
-                avatar: Icon(
+              Chip(
+                avatar: const Icon(
                   Icons.child_friendly,
                   size: 18,
                 ),
-                label: Text(
+                label: const Text(
                   'This place is good for children',
                 ),
-                backgroundColor: MyColors.light,
+                backgroundColor:
+                    MyThemeMode.isDark ? MyColors.dark : MyColors.light,
               ),
             if (widget.place.restroom != null && widget.place.restroom!)
-              const Chip(
-                avatar: FaIcon(
+              Chip(
+                avatar: const FaIcon(
                   FontAwesomeIcons.restroom,
                   size: 15,
                 ),
-                label: Text(
+                label: const Text(
                   'This place have a restroom',
                 ),
-                backgroundColor: MyColors.light,
+                backgroundColor:
+                    MyThemeMode.isDark ? MyColors.dark : MyColors.light,
               ),
             const SizedBox(height: 50),
           ],

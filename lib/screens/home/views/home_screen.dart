@@ -9,6 +9,7 @@ import 'package:travel_app/screens/home/components/places_horizontal_list_view.d
 import 'package:travel_app/screens/home/components/popular_destinations.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.light,
+        backgroundColor: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
         title: const Text(
           'Hey, User!',
           style: TextStyle(
@@ -44,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: const Icon(
                 Icons.logout,
-                color: Colors.black,
               )),
         ],
       ),

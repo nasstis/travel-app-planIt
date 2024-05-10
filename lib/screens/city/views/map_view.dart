@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/city/blocs/get_places_bloc/get_places_bloc.dart';
 import 'package:travel_app/screens/city/components/info_window.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:travel_app/utils/helpers/get_custom_icon.dart';
 import 'package:travel_app/utils/helpers/get_json.dart';
 import 'package:travel_app/utils/helpers/get_user_location.dart';
@@ -44,9 +45,15 @@ class _MapViewState extends State<MapView> {
   final Completer<GoogleMapController> _controller = Completer();
 
   void changeMapMode(GoogleMapController mapController) {
-    getJsonFile("assets/styles/map_style.json").then(
-      (value) => mapController.setMapStyle(value),
-    );
+    if (MyThemeMode.isDark) {
+      getJsonFile("assets/styles/dark_map_style.json").then(
+        (value) => mapController.setMapStyle(value),
+      );
+    } else {
+      getJsonFile("assets/styles/map_style.json").then(
+        (value) => mapController.setMapStyle(value),
+      );
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -131,14 +138,14 @@ class _MapViewState extends State<MapView> {
         ),
         if (widget.zoom != null)
           Positioned(
-            right: 7,
-            bottom: 100,
+            right: 6.8,
+            bottom: 110,
             child: Container(
               height: 50,
               width: 50,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color: const Color(0xFFfcfafa).withOpacity(0.8)),
+                  color: const Color(0xFFfcfafa).withOpacity(0.75)),
               child: IconButton(
                 onPressed: () {
                   getUserCurrentLocation().then((value) {

@@ -9,6 +9,9 @@ class MyColors {
   static const Color secondary = Color(0xFFe39ec1);
   static const Color accent = Color(0xFFFFA400);
 
+  static const Color dark = Color(0xFF272727);
+  static const Color darkDark = Color(0xFF1c1c1c);
+
   static const Color white = Colors.white;
   static const Color light = Color(0xFFEFEEEE);
   static const Color darkLight = Color(0xFFE3E3E3);

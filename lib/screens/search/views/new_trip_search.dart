@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/search/components/search_results.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class NewTripSearch extends StatefulWidget {
   const NewTripSearch({super.key});
@@ -33,7 +34,8 @@ class _NewTripSearchState extends State<NewTripSearch> {
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               filled: true,
-              fillColor: MyColors.white,
+              fillColor:
+                  MyThemeMode.isDark ? MyColors.darkGrey : MyColors.white,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(

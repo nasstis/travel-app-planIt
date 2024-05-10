@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class ModalBottomSheet extends StatefulWidget {
   const ModalBottomSheet({
@@ -25,7 +26,7 @@ class _ModalBottomSheetState extends State<ModalBottomSheet> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: MyColors.white,
+        color: MyThemeMode.isDark ? MyColors.dark : MyColors.white,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),

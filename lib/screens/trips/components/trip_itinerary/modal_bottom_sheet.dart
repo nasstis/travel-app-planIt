@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class ItineraryModalBottomSheet extends StatelessWidget {
   const ItineraryModalBottomSheet({
@@ -14,7 +15,7 @@ class ItineraryModalBottomSheet extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: MyColors.white,
+        color: MyThemeMode.isDark ? MyColors.dark : MyColors.white,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -27,15 +28,16 @@ class ItineraryModalBottomSheet extends StatelessWidget {
               onPressed: () {
                 context.pop('Map');
               },
-              icon: const FaIcon(
+              icon: FaIcon(
                 FontAwesomeIcons.solidMap,
                 size: 16,
-                color: MyColors.darkGrey,
+                color: MyThemeMode.isDark ? MyColors.white : MyColors.darkGrey,
               ),
-              label: const Text(
+              label: Text(
                 'See Itinerary on the map',
                 style: TextStyle(
-                  color: MyColors.darkGrey,
+                  color:
+                      MyThemeMode.isDark ? MyColors.white : MyColors.darkGrey,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -44,15 +46,16 @@ class ItineraryModalBottomSheet extends StatelessWidget {
               onPressed: () {
                 context.pop('Edit');
               },
-              icon: const FaIcon(
+              icon: FaIcon(
                 FontAwesomeIcons.pencil,
                 size: 16,
-                color: MyColors.darkGrey,
+                color: MyThemeMode.isDark ? MyColors.white : MyColors.darkGrey,
               ),
-              label: const Text(
+              label: Text(
                 'Edit itinerary',
                 style: TextStyle(
-                  color: MyColors.darkGrey,
+                  color:
+                      MyThemeMode.isDark ? MyColors.white : MyColors.darkGrey,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -61,15 +64,16 @@ class ItineraryModalBottomSheet extends StatelessWidget {
               onPressed: () {
                 context.pop('Add');
               },
-              icon: const FaIcon(
+              icon: FaIcon(
                 FontAwesomeIcons.plus,
                 size: 16,
-                color: MyColors.darkGrey,
+                color: MyThemeMode.isDark ? MyColors.white : MyColors.darkGrey,
               ),
-              label: const Text(
+              label: Text(
                 'Add places to Itinerary',
                 style: TextStyle(
-                  color: MyColors.darkGrey,
+                  color:
+                      MyThemeMode.isDark ? MyColors.white : MyColors.darkGrey,
                   fontWeight: FontWeight.w500,
                 ),
               ),

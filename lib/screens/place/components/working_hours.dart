@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class WorkingHoursElement extends StatelessWidget {
   const WorkingHoursElement({
@@ -23,7 +24,7 @@ class WorkingHoursElement extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: MyColors.light,
+              color: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
             ),
             child: ListView.separated(
               padding: EdgeInsets.zero,

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class EditPlacesItinerary extends StatefulWidget {
   const EditPlacesItinerary({super.key, required this.extra});
@@ -26,7 +27,7 @@ class _EditPlacesItineraryState extends State<EditPlacesItinerary> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyColors.light,
+        backgroundColor: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
         title: Text(
           DateFormat.MMMMd().format(date).toString(),
           style: const TextStyle(

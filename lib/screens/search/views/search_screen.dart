@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/search/components/search_results.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -27,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
           color: MyColors.light,
         ),
       ),
-      backgroundColor: MyColors.white,
+      backgroundColor: MyThemeMode.isDark ? MyColors.dark : MyColors.white,
       extendBodyBehindAppBar: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,9 +36,11 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(40)),
-              color: MyColors.primary,
+            decoration: BoxDecoration(
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(40)),
+              color:
+                  MyThemeMode.isDark ? MyColors.darkPrimary : MyColors.primary,
             ),
             child: Padding(
               padding: const EdgeInsets.only(left: 50, top: 30),
@@ -75,12 +78,16 @@ class _SearchScreenState extends State<SearchScreen> {
                       textAlignVertical: TextAlignVertical.bottom,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: MyColors.white,
+                        fillColor: MyThemeMode.isDark
+                            ? MyColors.darkGrey
+                            : MyColors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
+                          borderSide: BorderSide(
                             width: 1,
-                            color: MyColors.darkLight,
+                            color: MyThemeMode.isDark
+                                ? MyColors.darkGrey
+                                : MyColors.darkLight,
                           ),
                         ),
                         border: OutlineInputBorder(
@@ -107,14 +114,16 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               'Search result',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                color: MyColors.darkPrimary,
+                color: MyThemeMode.isDark
+                    ? MyColors.primary
+                    : MyColors.darkPrimary,
               ),
             ),
           ),

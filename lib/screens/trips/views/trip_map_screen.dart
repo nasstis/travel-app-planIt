@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 import '../../city/views/map_view.dart';
 
@@ -14,7 +15,9 @@ class TripMapScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: MyColors.light.withOpacity(0.5),
+        backgroundColor: MyThemeMode.isDark
+            ? MyColors.dark.withOpacity(0.5)
+            : MyColors.light.withOpacity(0.5),
       ),
       body: Stack(
         children: [

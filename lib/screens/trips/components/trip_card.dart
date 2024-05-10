@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class TripCard extends StatelessWidget {
@@ -36,9 +37,9 @@ class TripCard extends StatelessWidget {
             ),
           ),
           Container(
-            decoration: const BoxDecoration(
-              color: MyColors.white,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: MyThemeMode.isDark ? MyColors.darkGrey : MyColors.white,
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(15),
                 bottomRight: Radius.circular(15),
               ),
@@ -63,10 +64,12 @@ class TripCard extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.calendar_month,
                         size: 22,
-                        color: Color(0xFF313131),
+                        color: MyThemeMode.isDark
+                            ? MyColors.light
+                            : const Color(0xFF313131),
                       ),
                       const SizedBox(width: 5),
                       Text(

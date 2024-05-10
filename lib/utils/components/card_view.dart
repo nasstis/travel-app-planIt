@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class CardView extends StatefulWidget {
   const CardView({
@@ -88,7 +89,9 @@ class _CardViewState extends State<CardView> {
                 width: 55,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: MyColors.light.withOpacity(0.8),
+                  color: MyThemeMode.isDark
+                      ? MyColors.dark.withOpacity(0.8)
+                      : MyColors.light.withOpacity(0.8),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

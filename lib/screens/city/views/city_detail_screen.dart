@@ -9,6 +9,7 @@ import 'package:travel_app/screens/city/components/city_info.dart';
 import 'package:travel_app/screens/city/components/city_map.dart';
 import 'package:travel_app/screens/place/views/places_list_view.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class CityDetailScreen extends StatefulWidget {
   const CityDetailScreen({super.key, required this.city});
@@ -24,7 +25,6 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
   Widget build(BuildContext context) {
     context.read<UserHistoryBloc>().add(AddToHistory(widget.city.cityId));
     return Scaffold(
-      backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(
@@ -33,10 +33,6 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
         ),
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.share),
-          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -140,7 +136,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   height: 65,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: MyColors.light,
+                    color: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
                   ),
                   child: const TabBar(
                     tabs: [

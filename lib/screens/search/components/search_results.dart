@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class SearchResults extends StatelessWidget {
   const SearchResults({
@@ -54,17 +55,21 @@ class SearchResults extends StatelessWidget {
                       },
                       title: Text(
                         cities![index].name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: MyColors.darkPrimary,
+                          color: MyThemeMode.isDark
+                              ? MyColors.darkLight
+                              : MyColors.darkPrimary,
                         ),
                       ),
                       subtitle: Text(
                         cities![index].country,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
-                          color: MyColors.darkPrimary,
+                          color: MyThemeMode.isDark
+                              ? MyColors.darkLight
+                              : MyColors.darkPrimary,
                         ),
                       ),
                       leading: Container(

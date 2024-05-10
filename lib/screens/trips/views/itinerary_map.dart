@@ -10,6 +10,7 @@ import 'package:travel_app/screens/trips/blocs/route_bloc/route_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/profile_icon.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:travel_app/utils/helpers/get_user_location.dart';
 
 import '../../city/views/map_view.dart';
@@ -61,7 +62,9 @@ class _ItineraryMapState extends State<ItineraryMap> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: MyColors.light.withOpacity(0.5),
+        backgroundColor: MyThemeMode.isDark
+            ? MyColors.dark.withOpacity(0.5)
+            : MyColors.light.withOpacity(0.5),
       ),
       body: widget.hasOnePlace
           ? MapView(
@@ -185,7 +188,9 @@ class _ItineraryMapState extends State<ItineraryMap> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: MyColors.light.withOpacity(0.6),
+                            color: MyThemeMode.isDark
+                                ? MyColors.dark.withOpacity(0.6)
+                                : MyColors.light.withOpacity(0.6),
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,

@@ -6,6 +6,7 @@ import 'package:travel_app/screens/search/blocs/search_bloc/search_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/screens/trips/components/search_place_results.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class AddPlaceSearch extends StatefulWidget {
@@ -40,7 +41,7 @@ class _AddPlaceSearchState extends State<AddPlaceSearch> {
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               filled: true,
-              fillColor: MyColors.white,
+              fillColor: MyThemeMode.isDark ? MyColors.dark : MyColors.white,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(

@@ -11,6 +11,7 @@ import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dar
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/components/is_open_text.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class PlaceScreen extends StatelessWidget {
@@ -22,7 +23,6 @@ class PlaceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final tripRepo = FirebaseTripRepo();
     return Scaffold(
-      backgroundColor: MyColors.darkLight,
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(
@@ -31,10 +31,6 @@ class PlaceScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.share),
-          ),
           IconButton(
             onPressed: () {
               showModalBottomSheet<void>(
@@ -178,7 +174,7 @@ class PlaceScreen extends StatelessWidget {
                   height: 65,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: MyColors.light,
+                    color: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
                   ),
                   child: const TabBar(
                     tabs: [

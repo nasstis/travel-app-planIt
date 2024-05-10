@@ -7,6 +7,7 @@ import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dar
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:travel_app/utils/helpers/get_list_of_days.dart';
 import 'package:trip_repository/trip_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -125,10 +126,12 @@ class _NewTripState extends State<NewTrip> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.25,
                 width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(40)),
-                  color: MyColors.primary,
+                      const BorderRadius.vertical(bottom: Radius.circular(40)),
+                  color: MyThemeMode.isDark
+                      ? MyColors.darkPrimary
+                      : MyColors.primary,
                 ),
                 child: const Padding(
                   padding: EdgeInsets.only(left: 30, top: 50),
@@ -176,16 +179,24 @@ class _NewTripState extends State<NewTrip> {
                     const SizedBox(height: 25),
                     TextField(
                       controller: _cityController,
-                      style: const TextStyle(color: MyColors.darkGrey),
-                      decoration: const InputDecoration(
-                        label: Text('Where are you going?'),
-                        labelStyle: TextStyle(color: MyColors.darkGrey),
+                      style: TextStyle(
+                          color: MyThemeMode.isDark
+                              ? MyColors.light
+                              : MyColors.darkGrey),
+                      decoration: InputDecoration(
+                        label: const Text('Where are you going?'),
+                        labelStyle: TextStyle(
+                            color: MyThemeMode.isDark
+                                ? MyColors.light
+                                : MyColors.darkGrey),
                         filled: true,
-                        fillColor: MyColors.white,
-                        enabledBorder:
-                            OutlineInputBorder(borderSide: BorderSide.none),
-                        focusedBorder:
-                            OutlineInputBorder(borderSide: BorderSide.none),
+                        fillColor: MyThemeMode.isDark
+                            ? MyColors.darkGrey
+                            : MyColors.white,
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide.none),
                       ),
                       readOnly: true,
                       onTap: () async {
@@ -201,22 +212,31 @@ class _NewTripState extends State<NewTrip> {
                     const SizedBox(height: 15),
                     TextField(
                       controller: _dateController,
-                      style: const TextStyle(
-                        color: MyColors.darkGrey,
+                      style: TextStyle(
+                        color: MyThemeMode.isDark
+                            ? MyColors.light
+                            : MyColors.darkGrey,
                       ),
                       decoration: InputDecoration(
                         label: _dateController.text == 'Date'
                             ? null
                             : const Text('Date'),
-                        labelStyle: const TextStyle(color: MyColors.darkGrey),
+                        labelStyle: TextStyle(
+                            color: MyThemeMode.isDark
+                                ? MyColors.light
+                                : MyColors.darkGrey),
                         filled: true,
-                        fillColor: MyColors.white,
+                        fillColor: MyThemeMode.isDark
+                            ? MyColors.darkGrey
+                            : MyColors.white,
                         prefixIcon: const Icon(Icons.calendar_month),
                         enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide.none),
                         focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide.none),
-                        prefixIconColor: MyColors.darkGrey,
+                        prefixIconColor: MyThemeMode.isDark
+                            ? MyColors.light
+                            : MyColors.darkGrey,
                       ),
                       readOnly: true,
                       onTap: () async {

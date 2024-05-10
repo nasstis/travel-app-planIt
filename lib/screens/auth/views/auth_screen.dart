@@ -6,7 +6,9 @@ import 'package:travel_app/screens/auth/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:travel_app/screens/auth/components/forgot_password_component.dart';
 import 'package:travel_app/screens/auth/components/sign_in_component.dart';
 import 'package:travel_app/screens/auth/components/sign_up_component.dart';
+import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/text_strings.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key, required this.screen});
@@ -50,7 +52,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color: Colors.white),
+                      color: MyThemeMode.isDark
+                          ? MyColors.darkDark
+                          : Colors.white),
                   child: Column(
                     children: [
                       const SizedBox(

@@ -6,6 +6,7 @@ import 'package:place_repository/place_repository.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 class SearchPlaceResults extends StatelessWidget {
@@ -61,17 +62,21 @@ class SearchPlaceResults extends StatelessWidget {
                         },
                         title: Text(
                           places![index].name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: MyColors.darkPrimary,
+                            color: MyThemeMode.isDark
+                                ? MyColors.light
+                                : MyColors.darkPrimary,
                           ),
                         ),
                         subtitle: Text(
                           places![index].cityName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
-                            color: MyColors.darkPrimary,
+                            color: MyThemeMode.isDark
+                                ? MyColors.light
+                                : MyColors.darkPrimary,
                           ),
                         ),
                         leading: Container(
@@ -95,10 +100,12 @@ class SearchPlaceResults extends StatelessWidget {
                                       placeId: places![index].id),
                                 );
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.add,
                             weight: 10,
-                            color: MyColors.darkPrimary,
+                            color: MyThemeMode.isDark
+                                ? MyColors.light
+                                : MyColors.darkPrimary,
                           ),
                         ),
                       ),

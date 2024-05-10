@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class DeleteConfirmDialog extends StatelessWidget {
   const DeleteConfirmDialog({
@@ -22,8 +23,8 @@ class DeleteConfirmDialog extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      backgroundColor: MyColors.light,
-      surfaceTintColor: MyColors.light,
+      backgroundColor: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
+      surfaceTintColor: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
       content: Text(
         content,
         style: const TextStyle(
