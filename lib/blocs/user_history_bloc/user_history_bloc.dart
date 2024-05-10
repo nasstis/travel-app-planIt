@@ -27,11 +27,8 @@ class UserHistoryBloc extends Bloc<UserHistoryEvent, UserHistoryState> {
     });
 
     on<AddToHistory>((event, emit) async {
-      final recentlyViewed = await _userRepository.getHistory();
-      if (!recentlyViewed.contains(event.id)) {
-        await _userRepository.addToHistory(event.id);
-        emit(AddToHistorySuccess());
-      }
+      await _userRepository.addToHistory(event.id);
+      emit(AddToHistorySuccess());
     });
   }
 }

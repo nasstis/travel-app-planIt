@@ -152,6 +152,9 @@ class FirebaseUserRepository implements UserRepository {
         .doc(userId)
         .get()
         .then((doc) => doc.data()!['recentlyViewed'].cast<String>());
+    if (history.contains(id)) {
+      history.remove(id);
+    }
     if (history.length == 6) {
       history.removeAt(0);
     }

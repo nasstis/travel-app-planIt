@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:city_repository/city_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
 
 class PlacesHorizontalListView extends StatelessWidget {
   const PlacesHorizontalListView({
@@ -31,25 +33,32 @@ class PlacesHorizontalListView extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 95,
-                            width: 95,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    recentlyViewed[index].picture),
-                                fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () {
+                          context.push(PageName.cityRoute,
+                              extra: recentlyViewed[index]);
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 95,
+                              width: 95,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                      recentlyViewed[index].picture),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              borderRadius: BorderRadius.circular(20),
                             ),
-                          ),
-                          Text(
-                            recentlyViewed[index].name,
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ],
+                            Text(
+                              recentlyViewed[index].name,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
