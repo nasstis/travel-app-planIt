@@ -2,6 +2,7 @@ class MyUserEntity {
   String userId;
   String name;
   String email;
+  String photo;
   List<dynamic> favoriteCities;
   List<dynamic> favoritePlaces;
   List<String> recentlyViewed;
@@ -10,6 +11,7 @@ class MyUserEntity {
     required this.userId,
     required this.name,
     required this.email,
+    required this.photo,
     this.favoriteCities = const [],
     this.favoritePlaces = const [],
     this.recentlyViewed = const [],
@@ -20,6 +22,7 @@ class MyUserEntity {
       'userId': userId,
       'email': email,
       'name': name,
+      'photo': photo,
       'favoriteCities': favoriteCities,
       'favoritePlaces': favoritePlaces,
       'recentlyViewed': recentlyViewed,
@@ -31,6 +34,7 @@ class MyUserEntity {
       userId: doc['userId'],
       name: doc['name'],
       email: doc['email'],
+      photo: doc['photo'],
       favoriteCities: doc['favoriteCities'],
       favoritePlaces: doc['favoritePlaces'],
       recentlyViewed: doc['recentlyViewed'].cast<String>(),

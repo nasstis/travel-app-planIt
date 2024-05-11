@@ -4,6 +4,7 @@ class MyUser {
   String userId;
   String name;
   String email;
+  String photo;
   List<dynamic> favoriteCities;
   List<dynamic> favoritePlaces;
   List<String> recentlyViewed;
@@ -12,6 +13,7 @@ class MyUser {
     required this.userId,
     required this.name,
     required this.email,
+    required this.photo,
     this.favoriteCities = const [],
     this.favoritePlaces = const [],
     this.recentlyViewed = const [],
@@ -21,6 +23,7 @@ class MyUser {
     userId: '',
     name: '',
     email: '',
+    photo: '',
   );
 
   MyUserEntity toEntity() {
@@ -28,6 +31,7 @@ class MyUser {
       userId: userId,
       name: name,
       email: email,
+      photo: photo,
     );
   }
 
@@ -36,6 +40,7 @@ class MyUser {
       userId: entity.userId,
       name: entity.name,
       email: entity.email,
+      photo: entity.photo,
       favoriteCities: entity.favoriteCities,
       favoritePlaces: entity.favoritePlaces,
       recentlyViewed: entity.recentlyViewed,

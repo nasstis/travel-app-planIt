@@ -136,7 +136,8 @@ class _SignUpComponentState extends State<SignUpComponent> {
                                   user: MyUser(
                                       userId: 'userId',
                                       name: nameController.text,
-                                      email: emailController.text),
+                                      email: emailController.text,
+                                      photo: ''),
                                   password: passwordController.text,
                                 ),
                               );

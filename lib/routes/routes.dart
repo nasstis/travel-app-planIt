@@ -16,6 +16,7 @@ import 'package:travel_app/screens/trips/views/itinerary_map.dart';
 import 'package:travel_app/screens/trips/views/itinerary_steps_map.dart';
 import 'package:travel_app/screens/trips/views/trip_map_screen.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
+import 'package:travel_app/screens/user/views/user_page.dart';
 import 'package:trip_repository/trip_repository.dart';
 
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
@@ -185,6 +186,14 @@ GoRouter router(AuthBloc authBloc) {
                         ),
                       ]),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: PageName.userRoute,
+                builder: (context, state) => const UserPage(),
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -53,6 +54,10 @@ class FirebaseUserRepository implements UserRepository {
           email: myUser.email, password: password);
 
       myUser.userId = user.user!.uid;
+      myUser.photo = await FirebaseStorage.instance
+          .ref()
+          .child("profile_pic.jpg")
+          .getDownloadURL();
       return myUser;
     } catch (e) {
       log(e.toString());
@@ -111,9 +116,15 @@ class FirebaseUserRepository implements UserRepository {
           await _firebaseAuth.signInWithCredential(credential);
 
       return MyUser(
-          userId: user.user!.uid,
-          name: googleUser.displayName ?? googleUser.email,
-          email: googleUser.email);
+        userId: user.user!.uid,
+        name: googleUser.displayName ?? googleUser.email,
+        email: googleUser.email,
+        photo: googleUser.photoUrl ??
+            await FirebaseStorage.instance
+                .ref()
+                .child("profile_pic.jpg")
+                .getDownloadURL(),
+      );
     } catch (e) {
       log(e.toString());
       rethrow;
