@@ -58,6 +58,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/frames/
+    - assets/images/badges/
     - assets/styles/
     - assets/icons/
     
