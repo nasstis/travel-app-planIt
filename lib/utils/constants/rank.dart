@@ -37,13 +37,13 @@ class Rank {
 
   static const rankNames = [
     'Novice Traveler',
-    'Explorer Apprentice',
-    'Journey Enthusiast',
+    'Explorer',
+    'Enthusiast',
     'Adventure Seeker',
-    'Travel Connoisseur',
+    'Connoisseur',
     'Expedition Expert',
-    'Globetrotting Maestro',
-    'Wanderlust Ambassador',
+    'Explorer Maestro',
+    'Ambassador',
     'Nomadic Legend',
   ];
 }

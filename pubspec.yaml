@@ -60,6 +60,7 @@ flutter:
     - assets/images/
     - assets/images/frames/
     - assets/images/badges/
+    - assets/images/ranks/
     - assets/styles/
     - assets/icons/
     

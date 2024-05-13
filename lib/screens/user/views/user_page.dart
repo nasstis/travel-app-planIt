@@ -1,9 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/user/components/profile_button.dart';
+import 'package:travel_app/screens/user/components/user_profile_top_part.dart';
+import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/rank.dart';
 
 class UserPage extends StatelessWidget {
@@ -16,54 +17,62 @@ class UserPage extends StatelessWidget {
         if (state.status == AuthStatus.authenticated) {
           return Column(
             children: [
-              const SizedBox(height: 80),
+              UserProfileTop(user: state.user!),
               Stack(
-                alignment: Alignment.topCenter,
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
+                  const SizedBox(
+                    width: 310,
+                    height: 80,
                   ),
                   Positioned(
-                    top: 23,
+                    top: 47,
                     child: Container(
-                      height: MediaQuery.of(context).size.width * 0.28,
-                      width: MediaQuery.of(context).size.width * 0.28,
+                      width: 280,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(state.user!.photo),
-                          fit: BoxFit.cover,
+                        borderRadius: BorderRadius.circular(15),
+                        gradient: const LinearGradient(
+                          colors: [
+                            MyColors.primary,
+                            MyColors.lightPrimary,
+                            Color(0xffD6D6D6),
+                          ],
+                          stops: [
+                            0.55 / 2,
+                            0.55,
+                            0.55,
+                          ],
                         ),
                       ),
+                      child: const SizedBox(height: 15),
                     ),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.width * 0.39,
-                    width: MediaQuery.of(context).size.width * 0.39,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage(
-                        Rank.frames[0],
-                      ),
-                      fit: BoxFit.cover,
-                    )),
-                  ),
                   Positioned(
-                    top: 148,
+                    right: -5,
+                    top: 30,
+                    child: Image.asset(
+                      Rank.ranks[1],
+                      height: 50,
+                    ),
+                  ),
+                  const Positioned(
+                    top: 0,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          state.user!.name,
-                          style: const TextStyle(
-                            fontSize: 22,
+                          'Your progress',
+                          style: TextStyle(
+                            color: Color(0xFFA4A0B1),
+                            fontSize: 11,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 2),
                         Text(
-                          state.user!.email,
-                          style: const TextStyle(
-                            fontSize: 16,
+                          '45% to next Rank',
+                          style: TextStyle(
+                            color: MyColors.primary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -71,46 +80,7 @@ class UserPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const Divider(),
-              Stack(
-                children: [
-                  Material(
-                    elevation: 8,
-                    borderRadius: BorderRadius.circular(25),
-                    child: Container(
-                      height: 30,
-                      width: MediaQuery.of(context).size.width * 0.43,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        gradient: const RadialGradient(
-                          colors: [
-                            Color(0xFFFFF5E8),
-                            Color(0xFFFFEACD),
-                          ],
-                          radius: 4,
-                          stops: [0.2, 0.9],
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 50),
-                          Text(
-                            Rank.rankNames[0],
-                            style: const TextStyle(
-                              color: Color(0xF23D3121),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Image.asset(
-                    Rank.badges[0],
-                    height: 53,
-                  ),
-                ],
-              ),
+              const SizedBox(height: 20),
               const ProfileButton(
                 icon: CupertinoIcons.heart,
                 text: 'Your Favorites',
