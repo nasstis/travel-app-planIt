@@ -19,8 +19,8 @@ class BackgroundPainter extends CustomPainter {
       BlurStyle.normal,
       30,
     );
-    drawShape1(canvas, size, paint, const Color(0xFF6B51BE));
-    drawShape2(canvas, size, paint, const Color(0xFF9F8DD8));
+    drawShape2(canvas, size, paint, const Color(0xFF6B51BE));
+    drawShape1(canvas, size, paint, const Color(0xFF9F8DD8));
     drawShape3(canvas, size, paint, const Color(0xFF4F3C8B));
   }
 

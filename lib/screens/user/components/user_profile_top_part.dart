@@ -43,7 +43,7 @@ class UserProfileTop extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(
-                        Rank.rankNames[0],
+                        Rank.rankNames[2],
                         style: const TextStyle(
                           color: MyColors.darkGrey,
                           fontWeight: FontWeight.w600,
@@ -58,7 +58,7 @@ class UserProfileTop extends StatelessWidget {
               top: 4,
               right: 1,
               child: Image.asset(
-                Rank.ranks[0],
+                Rank.ranks[2],
                 height: 45,
               ),
             ),
@@ -93,7 +93,7 @@ class UserProfileTop extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage(
-                    Rank.frames[0],
+                    Rank.frames[2],
                   ),
                   fit: BoxFit.cover,
                 )),

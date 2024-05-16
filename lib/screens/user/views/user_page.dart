@@ -1,15 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:travel_app/blocs/theme_bloc/theme_bloc.dart';
+import 'package:travel_app/screens/auth/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:travel_app/screens/user/components/profile_button.dart';
 import 'package:travel_app/screens/user/components/user_profile_top_part.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/rank.dart';
+import 'package:travel_app/utils/constants/routes_names.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 
-class UserPage extends StatelessWidget {
+class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
+  @override
+  State<UserPage> createState() => _UserPageState();
+}
+
+class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -50,7 +60,7 @@ class UserPage extends StatelessWidget {
                     right: -5,
                     top: 30,
                     child: Image.asset(
-                      Rank.ranks[1],
+                      Rank.ranks[3],
                       height: 50,
                     ),
                   ),
@@ -81,32 +91,65 @@ class UserPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const ProfileButton(
+              ProfileButton(
                 icon: CupertinoIcons.heart,
                 text: 'Your Favorites',
+                onPressed: () {},
               ),
               const SizedBox(height: 5),
-              const ProfileButton(
+              ProfileButton(
                 icon: CupertinoIcons.profile_circled,
                 text: 'Edit Profile',
+                onPressed: () {},
               ),
               const SizedBox(height: 5),
-              const ProfileButton(
-                icon: Icons.sunny,
-                text: 'Theme Mode',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: ProfileButton(
+                      icon: Icons.dark_mode,
+                      text: 'Dark theme',
+                      onPressed: () {},
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: SizedBox(
+                      height: MyThemeMode.isDark ? 30 : 35,
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Switch(
+                          value: MyThemeMode.isDark,
+                          onChanged: (value) {
+                            context
+                                .read<ThemeBloc>()
+                                .add(ChangeTheme(MyThemeMode.isDark));
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 5),
               const Divider(),
-              const ProfileButton(
+              ProfileButton(
                 icon: Icons.info,
                 text: 'Info',
                 info: true,
+                onPressed: () {},
               ),
               const SizedBox(height: 5),
-              const ProfileButton(
+              ProfileButton(
                 icon: Icons.logout,
                 text: 'Log out',
                 logout: true,
+                onPressed: () {
+                  context.read<SignInBloc>().add(SignOutRequired());
+                  context.go(PageName.initRoute);
+                },
               ),
             ],
           );

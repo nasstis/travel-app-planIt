@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:travel_app/app.dart';
+import 'package:travel_app/utils/constants/theme_mode.dart';
 import 'package:travel_app/utils/helpers/simple_bloc_observer.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -28,5 +29,6 @@ void main() async {
   //   );
   // }
   Bloc.observer = SimpleBlocObserver();
+  await MyThemeMode.initialize();
   runApp(MyApp(FirebaseUserRepository()));
 }

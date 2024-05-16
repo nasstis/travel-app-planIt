@@ -193,7 +193,15 @@ GoRouter router(AuthBloc authBloc) {
             routes: <RouteBase>[
               GoRoute(
                 path: PageName.userRoute,
-                builder: (context, state) => const UserPage(),
+                builder: (context, state) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          SignInBloc(context.read<AuthBloc>().userRepository),
+                    ),
+                  ],
+                  child: const UserPage(),
+                ),
               ),
             ],
           ),

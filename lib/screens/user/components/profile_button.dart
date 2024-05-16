@@ -8,17 +8,19 @@ class ProfileButton extends StatelessWidget {
     required this.text,
     this.logout = false,
     this.info = false,
+    required this.onPressed,
   });
 
   final IconData icon;
   final String text;
   final bool logout;
   final bool info;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Icon(
         icon,
         color: logout
