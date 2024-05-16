@@ -10,7 +10,7 @@ class MySwitchTheme {
         if (states.contains(MaterialState.selected)) {
           return null;
         }
-        return const Color(0xFFDBDADA);
+        return const Color(0xFFD4CDEB);
       },
     ),
     trackOutlineColor: MaterialStateProperty.resolveWith(
@@ -18,7 +18,7 @@ class MySwitchTheme {
         if (states.contains(MaterialState.selected)) {
           return MyColors.primary;
         }
-        return const Color(0xFFDBDADA);
+        return const Color(0xFFD4CDEB);
       },
     ),
   );

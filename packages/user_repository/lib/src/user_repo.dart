@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'models/models.dart';
 
 abstract class UserRepository {
@@ -20,4 +22,11 @@ abstract class UserRepository {
   Future<List<String>> getHistory();
 
   Future<void> addToHistory(String id);
+
+  Future<void> editPhoto(File photo);
+
+  Future<void> editProfile({
+    required String name,
+    required String email,
+  });
 }

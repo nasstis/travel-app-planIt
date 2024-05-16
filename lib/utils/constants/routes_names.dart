@@ -21,10 +21,13 @@ abstract class PageName {
   static const tripMap = '/trips/trip/map';
   static const itineraryMap = '/trips/trip/itinerary_map';
   static const itineraryStepsMap = '/trips/trip/itinerary_steps_map';
+  static const editProfileRoute = '/user/edit';
+  static const resetPasswordRoute = '/user/edit/reset_password';
 
   static const cityPathName = 'city';
   static const placePathName = 'place';
   static const mapPathName = 'map';
   static const newTripPathName = 'new_trip';
   static const tripPathName = 'trip';
+  static const editProfileName = 'edit';
 }

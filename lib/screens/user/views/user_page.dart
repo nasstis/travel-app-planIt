@@ -100,7 +100,9 @@ class _UserPageState extends State<UserPage> {
               ProfileButton(
                 icon: CupertinoIcons.profile_circled,
                 text: 'Edit Profile',
-                onPressed: () {},
+                onPressed: () {
+                  context.push(PageName.editProfileRoute, extra: state.user!);
+                },
               ),
               const SizedBox(height: 5),
               Row(
@@ -127,6 +129,7 @@ class _UserPageState extends State<UserPage> {
                                 .read<ThemeBloc>()
                                 .add(ChangeTheme(MyThemeMode.isDark));
                           },
+                          inactiveThumbColor: const Color(0xFF7159C2),
                         ),
                       ),
                     ),
