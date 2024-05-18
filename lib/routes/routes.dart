@@ -16,6 +16,7 @@ import 'package:travel_app/screens/trips/views/itinerary_map.dart';
 import 'package:travel_app/screens/trips/views/itinerary_steps_map.dart';
 import 'package:travel_app/screens/trips/views/trip_map_screen.dart';
 import 'package:travel_app/screens/trips/views/trip_view.dart';
+import 'package:travel_app/screens/user/blocs/bloc/user_bloc.dart';
 import 'package:travel_app/screens/user/views/edit_profile.dart';
 import 'package:travel_app/screens/user/views/reset_password.dart';
 import 'package:travel_app/screens/user/views/user_page.dart';
@@ -339,8 +340,11 @@ GoRouter router(AuthBloc authBloc) {
           }),
       GoRoute(
         path: PageName.editProfileRoute,
-        builder: (context, state) => EditProfile(
-          user: state.extra as MyUser,
+        builder: (context, state) => BlocProvider(
+          create: (context) => UserBloc(_firebaseUserRepository),
+          child: EditProfileScreen(
+            user: state.extra as MyUser,
+          ),
         ),
       ),
       GoRoute(

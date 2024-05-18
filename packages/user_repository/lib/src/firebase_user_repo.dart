@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:path/path.dart' as path;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'user_repo.dart';
@@ -175,12 +174,10 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<void> editPhoto(File photo) async {
+  Future<MyUser> editPhoto(File photo) async {
     String? imageUrl;
     final String userId = _firebaseAuth.currentUser!.uid;
-
-    String fileName = path.basename(photo.path);
-    Reference ref = storage.ref().child("$userId/profileImage/Image-$fileName");
+    Reference ref = storage.ref().child("$userId/profileImage.jpg");
 
     UploadTask uploadTask = ref.putFile(photo);
 
@@ -189,18 +186,64 @@ class FirebaseUserRepository implements UserRepository {
       imageUrl = url.toString();
     }).then((value) async {
       if (imageUrl != null) {
-        await userCollection.doc(userId).update({'photoUrl': imageUrl!});
+        await userCollection.doc(userId).update({'photo': imageUrl!});
       }
     });
+
+    final MyUser user = await userCollection.doc(userId).get().then(
+          (value) => MyUser.fromEntity(
+            MyUserEntity.fromDocument(value.data()!),
+          ),
+        );
+    return user;
   }
 
   @override
-  Future<void> editProfile(
+  Future<MyUser> editProfile(
       {required String name, required String email}) async {
     Map<String, dynamic> updates = {
       'name': name,
       'email': email,
     };
     await userCollection.doc(_firebaseAuth.currentUser!.uid).update(updates);
+    final MyUser user =
+        await userCollection.doc(_firebaseAuth.currentUser!.uid).get().then(
+              (value) => MyUser.fromEntity(
+                MyUserEntity.fromDocument(value.data()!),
+              ),
+            );
+    return user;
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    try {
+      final String userId = _firebaseAuth.currentUser!.uid;
+      await userCollection.doc(userId).delete();
+      await storage.ref().child("$userId/profileImage.jpg").delete();
+      await _firebaseAuth.currentUser!.delete();
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      if (e.code == "requires-recent-login") {
+        await _reauthenticateAndDelete();
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _reauthenticateAndDelete() async {
+    final providerData = _firebaseAuth.currentUser?.providerData.first;
+
+    if (AppleAuthProvider().providerId == providerData!.providerId) {
+      await _firebaseAuth.currentUser!
+          .reauthenticateWithProvider(AppleAuthProvider());
+    } else if (GoogleAuthProvider().providerId == providerData.providerId) {
+      await _firebaseAuth.currentUser!
+          .reauthenticateWithProvider(GoogleAuthProvider());
+    }
+
+    await _firebaseAuth.currentUser?.delete();
   }
 }

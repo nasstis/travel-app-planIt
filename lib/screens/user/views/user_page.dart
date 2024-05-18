@@ -64,12 +64,12 @@ class _UserPageState extends State<UserPage> {
                       height: 50,
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Your progress',
                           style: TextStyle(
                             color: Color(0xFFA4A0B1),
@@ -80,7 +80,9 @@ class _UserPageState extends State<UserPage> {
                         Text(
                           '45% to next Rank',
                           style: TextStyle(
-                            color: MyColors.primary,
+                            color: MyThemeMode.isDark
+                                ? MyColors.lightPrimary
+                                : MyColors.primary,
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                           ),

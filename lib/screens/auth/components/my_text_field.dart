@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/utils/constants/colors.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -39,6 +40,7 @@ class MyTextField extends StatelessWidget {
       onTap: onTap,
       textInputAction: TextInputAction.next,
       onChanged: onChanged,
+      style: const TextStyle(color: MyColors.darkGrey),
       decoration: InputDecoration(
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,

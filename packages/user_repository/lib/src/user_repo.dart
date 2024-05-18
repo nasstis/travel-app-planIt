@@ -23,10 +23,12 @@ abstract class UserRepository {
 
   Future<void> addToHistory(String id);
 
-  Future<void> editPhoto(File photo);
+  Future<MyUser> editPhoto(File photo);
 
-  Future<void> editProfile({
+  Future<MyUser> editProfile({
     required String name,
     required String email,
   });
+
+  Future<void> deleteAccount();
 }
