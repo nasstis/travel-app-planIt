@@ -12,6 +12,7 @@ class FirebaseTripRepo extends TripRepo {
   final tripCollection = FirebaseFirestore.instance.collection('trips');
   final tripCalendarCollection =
       FirebaseFirestore.instance.collection('tripsCalendars');
+  final userCollection = FirebaseFirestore.instance.collection('users');
   final placeCollection = FirebaseFirestore.instance.collection('places');
   final FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -38,6 +39,7 @@ class FirebaseTripRepo extends TripRepo {
   Future<void> addTrip(Trip newTrip, TripCalendar tripCalendar) async {
     try {
       newTrip.userId = _firebaseAuth.currentUser!.uid;
+      // userCollection.doc(_firebaseAuth.currentUser!.uid).update({'rankProgress'});
       await tripCollection.doc(newTrip.id).set(
             newTrip.toEntity().toDocument(),
           );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/get_trips_bloc/get_trips_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_bloc/trip_bloc.dart';
 import 'package:travel_app/utils/constants/colors.dart';
@@ -38,29 +39,30 @@ class _NewTripState extends State<NewTrip> {
     if (pickedCity != null && pickedDate != null) {
       context.read<TripBloc>().add(
             CreateTrip(
-              Trip(
-                id: tripId,
-                userId: '',
-                cityId: pickedCity!.cityId,
-                startDate: pickedDate!.start,
-                endDate: pickedDate!.end,
-                name:
-                    '${pickedCity!.name} ${DateFormat.yMMMM().format(pickedDate!.start).toString()}',
-                photoUrl: pickedCity!.picture,
-                places: [],
-              ),
-              TripCalendar(
-                id: uuid.v4(),
-                tripId: tripId,
-                places: Map.fromIterables(
-                    getListOfDaysInDateRange(pickedDate!.start, pickedDate!.end)
-                        .map((date) => date.toString()),
-                    List.generate(
-                        pickedDate!.end.difference(pickedDate!.start).inDays +
-                            1,
-                        (index) => [])),
-              ),
-            ),
+                Trip(
+                  id: tripId,
+                  userId: '',
+                  cityId: pickedCity!.cityId,
+                  startDate: pickedDate!.start,
+                  endDate: pickedDate!.end,
+                  name:
+                      '${pickedCity!.name} ${DateFormat.yMMMM().format(pickedDate!.start).toString()}',
+                  photoUrl: pickedCity!.picture,
+                  places: [],
+                ),
+                TripCalendar(
+                  id: uuid.v4(),
+                  tripId: tripId,
+                  places: Map.fromIterables(
+                      getListOfDaysInDateRange(
+                              pickedDate!.start, pickedDate!.end)
+                          .map((date) => date.toString()),
+                      List.generate(
+                          pickedDate!.end.difference(pickedDate!.start).inDays +
+                              1,
+                          (index) => [])),
+                ),
+                context.read<AuthBloc>().state.user!),
           );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

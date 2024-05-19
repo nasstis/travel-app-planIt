@@ -144,7 +144,8 @@ GoRouter router(AuthBloc authBloc) {
                         ..add(const GetTripsRequired()),
                     ),
                     BlocProvider(
-                      create: (context) => TripBloc(_firebaseTripRepo),
+                      create: (context) =>
+                          TripBloc(_firebaseTripRepo, _firebaseUserRepository),
                     ),
                   ],
                   child: const MyTrips(),
@@ -155,7 +156,8 @@ GoRouter router(AuthBloc authBloc) {
                     builder: (context, state) => MultiBlocProvider(
                       providers: [
                         BlocProvider(
-                          create: (context) => TripBloc(_firebaseTripRepo),
+                          create: (context) => TripBloc(
+                              _firebaseTripRepo, _firebaseUserRepository),
                         ),
                         BlocProvider(
                           create: (context) => GetTripsBloc(_firebaseTripRepo),
@@ -169,8 +171,8 @@ GoRouter router(AuthBloc authBloc) {
                       builder: (context, state) => MultiBlocProvider(
                             providers: [
                               BlocProvider(
-                                create: (context) =>
-                                    TripBloc(_firebaseTripRepo),
+                                create: (context) => TripBloc(
+                                    _firebaseTripRepo, _firebaseUserRepository),
                               ),
                               BlocProvider(
                                 create: (context) =>
@@ -228,7 +230,8 @@ GoRouter router(AuthBloc authBloc) {
         builder: (context, state) => MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => TripBloc(_firebaseTripRepo),
+              create: (context) =>
+                  TripBloc(_firebaseTripRepo, _firebaseUserRepository),
             ),
             BlocProvider(
               create: (context) => GetTripsBloc(_firebaseTripRepo),
@@ -246,8 +249,9 @@ GoRouter router(AuthBloc authBloc) {
                         SearchBloc(_firebaseCityRepo, _firebasePlaceRepo),
                   ),
                   BlocProvider(
-                    create: (context) => TripBloc(_firebaseTripRepo)
-                      ..add(GetCityPlaces((state.extra as Trip).cityId)),
+                    create: (context) =>
+                        TripBloc(_firebaseTripRepo, _firebaseUserRepository)
+                          ..add(GetCityPlaces((state.extra as Trip).cityId)),
                   ),
                 ],
                 child: AddPlaceSearch(

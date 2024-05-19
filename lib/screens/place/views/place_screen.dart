@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:place_repository/place_repository.dart';
+import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 
 import 'package:travel_app/screens/place/components/gallery.dart';
 import 'package:travel_app/screens/place/components/modal_bottom_sheet.dart';
@@ -43,7 +44,8 @@ class PlaceScreen extends StatelessWidget {
                           ..add(const GetTripsRequired()),
                       ),
                       BlocProvider(
-                        create: (context) => TripBloc(tripRepo),
+                        create: (context) => TripBloc(
+                            tripRepo, context.read<AuthBloc>().userRepository),
                       ),
                     ],
                     child: ModalBottomSheet(

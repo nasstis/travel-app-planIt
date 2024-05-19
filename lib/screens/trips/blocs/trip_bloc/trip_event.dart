@@ -9,9 +9,10 @@ sealed class TripEvent extends Equatable {
 
 class CreateTrip extends TripEvent {
   final Trip trip;
+  final MyUser user;
   final TripCalendar tripCalendar;
 
-  const CreateTrip(this.trip, this.tripCalendar);
+  const CreateTrip(this.trip, this.tripCalendar, this.user);
 }
 
 class DeleteTrip extends TripEvent {

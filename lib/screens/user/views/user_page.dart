@@ -12,86 +12,93 @@ import 'package:travel_app/utils/constants/rank.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:travel_app/utils/constants/theme_mode.dart';
 
-class UserPage extends StatefulWidget {
+class UserPage extends StatelessWidget {
   const UserPage({super.key});
 
-  @override
-  State<UserPage> createState() => _UserPageState();
-}
+  int calculateProgress(int score, int scoreToNextRank) {
+    final int progress = 100 - (score * 100 / scoreToNextRank).round();
+    return progress;
+  }
 
-class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state.status == AuthStatus.authenticated) {
+          double progress = 0;
+          if (state.user!.rank != 5) {
+            progress = state.user!.score /
+                state.user!.rankSystem[state.user!.rank + 1]['minScore']!;
+          }
+
           return Column(
             children: [
               UserProfileTop(user: state.user!),
-              Stack(
-                children: [
-                  const SizedBox(
-                    width: 310,
-                    height: 80,
-                  ),
-                  Positioned(
-                    top: 47,
-                    child: Container(
-                      width: 280,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        gradient: const LinearGradient(
-                          colors: [
-                            MyColors.primary,
-                            MyColors.lightPrimary,
-                            Color(0xffD6D6D6),
-                          ],
-                          stops: [
-                            0.55 / 2,
-                            0.55,
-                            0.55,
-                          ],
+              if (state.user!.rank != 5)
+                Stack(
+                  children: [
+                    const SizedBox(
+                      width: 310,
+                      height: 80,
+                    ),
+                    Positioned(
+                      top: 47,
+                      child: Container(
+                        width: 280,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          gradient: LinearGradient(
+                            colors: const [
+                              MyColors.primary,
+                              MyColors.lightPrimary,
+                              Color(0xffD6D6D6),
+                            ],
+                            stops: [
+                              progress / 2,
+                              progress,
+                              progress,
+                            ],
+                          ),
                         ),
+                        child: const SizedBox(height: 15),
                       ),
-                      child: const SizedBox(height: 15),
                     ),
-                  ),
-                  Positioned(
-                    right: -5,
-                    top: 30,
-                    child: Image.asset(
-                      Rank.ranks[3],
-                      height: 50,
+                    Positioned(
+                      right: -5,
+                      top: 30,
+                      child: Image.asset(
+                        Rank.ranks[state.user!.rank + 1],
+                        height: 50,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Your progress',
-                          style: TextStyle(
-                            color: Color(0xFFA4A0B1),
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                    Positioned(
+                      top: 0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Your progress',
+                            style: TextStyle(
+                              color: Color(0xFFA4A0B1),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '45% to next Rank',
-                          style: TextStyle(
-                            color: MyThemeMode.isDark
-                                ? MyColors.lightPrimary
-                                : MyColors.primary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                          Text(
+                            '${calculateProgress(state.user!.score, state.user!.rankSystem[state.user!.rank + 1]['minScore']!)}% to next Rank',
+                            style: TextStyle(
+                              color: MyThemeMode.isDark
+                                  ? MyColors.lightPrimary
+                                  : MyColors.primary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(height: 20),
               ProfileButton(
                 icon: CupertinoIcons.heart,

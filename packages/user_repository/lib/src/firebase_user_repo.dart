@@ -246,4 +246,18 @@ class FirebaseUserRepository implements UserRepository {
 
     await _firebaseAuth.currentUser?.delete();
   }
+
+  @override
+  Future<void> updateScore(MyUser user, int points) async {
+    final String userId = _firebaseAuth.currentUser!.uid;
+    user.score += points;
+    Map<String, dynamic> updates = {'score': user.score};
+    if (user.rank != 5 &&
+        user.score >= user.rankSystem[user.rank + 1]['minScore']!) {
+      final rank = user.rankSystem[user.rank + 1]['rank'];
+      user.rank = rank!;
+      updates['rank'] = rank;
+    }
+    userCollection.doc(userId).update(updates);
+  }
 }

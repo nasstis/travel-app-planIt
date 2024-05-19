@@ -5,18 +5,21 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:place_repository/place_repository.dart';
 import 'package:trip_repository/trip_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'trip_event.dart';
 part 'trip_state.dart';
 
 class TripBloc extends Bloc<TripEvent, TripState> {
   final TripRepo _tripRepository;
+  final UserRepository _userRepository;
 
-  TripBloc(this._tripRepository) : super(TripInitial()) {
+  TripBloc(this._tripRepository, this._userRepository) : super(TripInitial()) {
     on<CreateTrip>((event, emit) async {
       emit(CreateTripLoading());
       try {
         await _tripRepository.addTrip(event.trip, event.tripCalendar);
+        await _userRepository.updateScore(event.user, 2);
         emit(CreateTripSuccess());
       } catch (e) {
         log(e.toString());

@@ -31,4 +31,6 @@ abstract class UserRepository {
   });
 
   Future<void> deleteAccount();
+
+  Future<void> updateScore(MyUser user, int points);
 }
