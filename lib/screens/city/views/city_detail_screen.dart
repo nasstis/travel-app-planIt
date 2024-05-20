@@ -32,15 +32,6 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
           color: MyColors.light,
         ),
         backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.star_border_outlined,
-              size: 28,
-            ),
-          ),
-        ],
       ),
       body: DefaultTabController(
         length: 3,

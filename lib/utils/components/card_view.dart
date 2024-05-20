@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/utils/constants/colors.dart';
-import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class CardView extends StatefulWidget {
   const CardView({
@@ -55,17 +54,6 @@ class _CardViewState extends State<CardView> {
                     ),
                   )),
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              CupertinoIcons.heart_fill,
-              color: MyColors.light,
-              size: 25,
-            ),
-          ),
-        ),
         Positioned(
           bottom: 10,
           left: 12,
@@ -77,40 +65,12 @@ class _CardViewState extends State<CardView> {
                 child: Text(
                   widget.name,
                   style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
                     color: MyColors.light,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Container(
-                height: 28,
-                width: 55,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: MyThemeMode.isDark
-                      ? MyColors.dark.withOpacity(0.8)
-                      : MyColors.light.withOpacity(0.8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Icon(
-                      CupertinoIcons.star_fill,
-                      size: 20,
-                      color: Colors.amber,
-                    ),
-                    Text(
-                      widget.rating.toString(),
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),

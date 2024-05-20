@@ -34,6 +34,7 @@ class UserPage extends StatelessWidget {
           return Column(
             children: [
               UserProfileTop(user: state.user!),
+              const SizedBox(height: 25),
               if (state.user!.rank != 5)
                 Stack(
                   children: [
@@ -99,13 +100,7 @@ class UserPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              const SizedBox(height: 20),
-              ProfileButton(
-                icon: CupertinoIcons.heart,
-                text: 'Your Favorites',
-                onPressed: () {},
-              ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 40),
               ProfileButton(
                 icon: CupertinoIcons.profile_circled,
                 text: 'Edit Profile',
