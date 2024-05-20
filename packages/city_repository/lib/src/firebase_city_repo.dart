@@ -4,12 +4,19 @@ import 'package:city_repository/city_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseCityRepo implements CityRepo {
-  final cityColection = FirebaseFirestore.instance.collection('cities');
+  final cityCollection = FirebaseFirestore.instance.collection('cities');
+
+  final cityQuery =
+      FirebaseFirestore.instance.collection('cities').withConverter<City>(
+            fromFirestore: (snapshot, _) =>
+                City.fromEntity(CityEntity.fromDocument(snapshot.data()!)),
+            toFirestore: (city, _) => city.toEntity().toDocument(),
+          );
 
   @override
   Future<List<City>> getCities() async {
     try {
-      return await cityColection.get().then((value) => value.docs
+      return await cityCollection.limit(10).get().then((value) => value.docs
           .map(
             (e) => City.fromEntity(
               CityEntity.fromDocument(e.data()),
@@ -26,7 +33,7 @@ class FirebaseCityRepo implements CityRepo {
   Future<List<City>> getCitiesById(List<String> id) async {
     final List<City> cities = [];
     for (var cityId in id) {
-      await cityColection
+      await cityCollection
           .where('cityId', isEqualTo: cityId)
           .get()
           .then((value) {
@@ -42,7 +49,7 @@ class FirebaseCityRepo implements CityRepo {
   Future<List<City>?> getSearchResult({required String qSearch}) async {
     String newVal =
         qSearch[0].toUpperCase() + qSearch.substring(1).toLowerCase();
-    final city = await cityColection
+    final city = await cityCollection
         .where('name', isGreaterThanOrEqualTo: newVal)
         .where('name', isLessThanOrEqualTo: '$newVal\uf8ff')
         .get();
@@ -59,7 +66,7 @@ class FirebaseCityRepo implements CityRepo {
 
   @override
   Future<String> getCityName(String cityId) async {
-    String cityName = await cityColection
+    String cityName = await cityCollection
         .doc(cityId)
         .get()
         .then((doc) => doc.data()!['name']);

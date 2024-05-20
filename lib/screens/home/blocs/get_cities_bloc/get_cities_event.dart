@@ -8,3 +8,5 @@ sealed class GetCitiesEvent extends Equatable {
 }
 
 class GetCities extends GetCitiesEvent {}
+
+class GetAllCities extends GetCitiesEvent {}

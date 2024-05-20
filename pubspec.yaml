@@ -38,7 +38,7 @@ dependencies:
   cloud_firestore: ^4.14.0
   firebase_storage: ^11.6.0
   cached_network_image: ^3.3.1
-  intl: ^0.19.0
+  intl: 0.18.1
   latlong2: ^0.9.1
   uuid: ^4.2.2
   image_picker: ^1.0.8
@@ -47,6 +47,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   geolocator: ^11.0.0
   shared_preferences: ^2.2.3
+  firebase_ui_firestore: ^1.6.2
 
 dev_dependencies:
   flutter_test:

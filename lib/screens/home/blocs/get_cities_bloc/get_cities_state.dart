@@ -25,3 +25,9 @@ final class GetCitiesSuccess extends GetCitiesState {
   @override
   List<Object> get props => [cities];
 }
+
+final class GetAllCitiesState extends GetCitiesState {
+  final Query<City> cityQuery;
+
+  const GetAllCitiesState(this.cityQuery);
+}

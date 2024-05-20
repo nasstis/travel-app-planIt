@@ -8,6 +8,7 @@ abstract class PageName {
   static const userRoute = '/user';
 
   static const cityRoute = '/home/city';
+  static const allCitiesRoute = '/home/all_cities';
   static const placeRoute = '/home/place';
   static const mapRoute = '/home/map';
   static const newTripRoute = '/trips/new_trip';
@@ -24,6 +25,7 @@ abstract class PageName {
   static const editProfileRoute = '/user/edit';
   static const resetPasswordRoute = '/user/edit/reset_password';
 
+  static const allCitiesPathName = 'all_cities';
   static const cityPathName = 'city';
   static const placePathName = 'place';
   static const mapPathName = 'map';

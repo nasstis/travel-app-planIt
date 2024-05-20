@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:city_repository/city_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 part 'get_cities_event.dart';
@@ -16,6 +17,10 @@ class GetCitiesBloc extends Bloc<GetCitiesEvent, GetCitiesState> {
       } catch (e) {
         emit(GetCitiesFailure(e.toString()));
       }
+    });
+
+    on<GetAllCities>((event, emit) async {
+      emit(GetAllCitiesState(FirebaseCityRepo().cityQuery));
     });
   }
 }
