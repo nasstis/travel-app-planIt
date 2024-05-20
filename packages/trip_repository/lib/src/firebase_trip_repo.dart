@@ -216,6 +216,18 @@ class FirebaseTripRepo extends TripRepo {
   }
 
   @override
+  Future<void> finishDayItinerary(String tripId, String date) async {
+    final querySnapshot =
+        await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();
+    final Map<String, dynamic> isFinishedMap =
+        await querySnapshot.docs[0].data()['isDayFinished'];
+    isFinishedMap[date] = true;
+
+    await querySnapshot.docs[0].reference
+        .update({'isDayFinished': isFinishedMap});
+  }
+
+  @override
   Future<void> editItinerary(String tripId, String date, List places) async {
     final querySnapshot =
         await tripCalendarCollection.where('tripId', isEqualTo: tripId).get();

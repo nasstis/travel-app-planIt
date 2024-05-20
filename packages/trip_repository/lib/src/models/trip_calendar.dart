@@ -4,11 +4,13 @@ class TripCalendar {
   final String id;
   final String tripId;
   final Map<String, List> places;
+  final Map<String, dynamic> isDayFinished;
 
   TripCalendar({
     required this.id,
     required this.tripId,
     required this.places,
+    required this.isDayFinished,
   });
 
   TripCalendarEntity toEntity() {
@@ -16,15 +18,18 @@ class TripCalendar {
       id: id,
       tripId: tripId,
       places: places,
+      isDayFinished: isDayFinished,
     );
   }
 
   static Future<Map<String, List>> getPlaces(
       Map<String, dynamic> placesMap) async {
-    final List<List> places = [];
-    for (var placesId in placesMap.values) {
-      places.add(await FirebaseTripRepo().getPlaces(placesId));
-    }
+    final futures = placesMap.values.map((placesId) async {
+      return await FirebaseTripRepo().getPlaces(placesId);
+    }).toList();
+
+    final places = await Future.wait(futures);
+
     Map<String, List> map = Map.fromIterables(placesMap.keys, places);
     return map;
   }
@@ -34,6 +39,7 @@ class TripCalendar {
       id: entity.id,
       tripId: entity.tripId,
       places: await getPlaces(entity.places),
+      isDayFinished: entity.isDayFinished,
     );
   }
 }

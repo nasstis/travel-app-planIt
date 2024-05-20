@@ -49,15 +49,21 @@ class _ItineraryState extends State<Itinerary> {
                       child: Container(
                         width: 70,
                         decoration: BoxDecoration(
-                          color: MyColors.light,
+                          color: tripCalendar
+                                  .isDayFinished[days[index].toString()]!
+                              ? MyColors.green.withOpacity(0.1)
+                              : MyColors.light,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Center(
                           child: Text(
                             DateFormat.MMMd().format(days[index]).toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 13,
-                              color: MyColors.grey,
+                              color: tripCalendar
+                                      .isDayFinished[days[index].toString()]!
+                                  ? MyColors.grey.withOpacity(0.5)
+                                  : MyColors.grey,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -74,18 +80,14 @@ class _ItineraryState extends State<Itinerary> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   itemCount: days.length,
                   itemBuilder: (context, index) {
-                    final sortedPlacesMap = Map.fromEntries(
-                        tripCalendar.places.entries.toList()
-                          ..sort((e1, e2) => e1.key.compareTo(e2.key)));
-
-                    final List places = sortedPlacesMap.values.toList()[index];
-
                     return ItineraryView(
                       date: days[index],
-                      places: places,
+                      places: tripCalendar.places[days[index].toString()]!,
                       trip: widget.trip,
                       seePlaces: index == initialIndex,
                       index: index,
+                      isFinished:
+                          tripCalendar.isDayFinished[days[index].toString()]!,
                     );
                   },
                 ),

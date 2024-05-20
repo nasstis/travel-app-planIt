@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -20,10 +18,11 @@ class ItineraryMap extends StatefulWidget {
     super.key,
     required this.places,
     required this.hasOnePlace,
+    required this.isFinished,
   });
 
   final List places;
-
+  final bool isFinished;
   final bool hasOnePlace;
 
   @override
@@ -84,7 +83,6 @@ class _ItineraryMapState extends State<ItineraryMap> {
                   });
                 }
                 if (state is GetRouteFromCurrentLocationSuccess) {
-                  log('aaaaaaaaaaa');
                   context.pushReplacement(PageName.itineraryStepsMap, extra: {
                     'places': widget.places,
                     'tripId': state.route.tripId,
@@ -152,36 +150,37 @@ class _ItineraryMapState extends State<ItineraryMap> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom: 80,
-                        left: 140,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              startItitneraryRequired = true;
-                            });
-                            getUserCurrentLocation().then((value) {
-                              context
-                                  .read<RouteBloc>()
-                                  .add(GetRouteFromCurrentLocation([
-                                    '${value.longitude},${value.latitude}',
-                                    '${widget.places[0].longitude},${widget.places[0].latitude}'
-                                  ], state.route));
+                      if (!widget.isFinished)
+                        Positioned(
+                          bottom: 80,
+                          left: 140,
+                          child: ElevatedButton(
+                            onPressed: () {
                               setState(() {
-                                startingLocation =
-                                    LatLng(value.latitude, value.longitude);
+                                startItitneraryRequired = true;
                               });
-                            });
-                          },
-                          child: startItitneraryRequired
-                              ? const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 30),
-                                  child: CircularProgressIndicator(),
-                                )
-                              : const Text('Start itinerary'),
+                              getUserCurrentLocation().then((value) {
+                                context
+                                    .read<RouteBloc>()
+                                    .add(GetRouteFromCurrentLocation([
+                                      '${value.longitude},${value.latitude}',
+                                      '${widget.places[0].longitude},${widget.places[0].latitude}'
+                                    ], state.route));
+                                setState(() {
+                                  startingLocation =
+                                      LatLng(value.latitude, value.longitude);
+                                });
+                              });
+                            },
+                            child: startItitneraryRequired
+                                ? const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 30),
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : const Text('Start itinerary'),
+                          ),
                         ),
-                      ),
                       Positioned(
                         top: 110,
                         right: 10,

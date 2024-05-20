@@ -271,7 +271,8 @@ GoRouter router(AuthBloc authBloc) {
           providers: [
             BlocProvider(
               create: (context) {
-                return TripCalendarBloc(_firebaseTripRepo);
+                return TripCalendarBloc(
+                    _firebaseTripRepo, _firebaseUserRepository);
               },
             ),
             BlocProvider(
@@ -289,7 +290,8 @@ GoRouter router(AuthBloc authBloc) {
           providers: [
             BlocProvider(
               create: (context) {
-                return TripCalendarBloc(_firebaseTripRepo);
+                return TripCalendarBloc(
+                    _firebaseTripRepo, _firebaseUserRepository);
               },
             ),
             BlocProvider(
@@ -313,6 +315,7 @@ GoRouter router(AuthBloc authBloc) {
               return ItineraryMap(
                 places: extra['places'],
                 hasOnePlace: true,
+                isFinished: extra['isFinished'],
               );
             } else {
               return BlocProvider(
@@ -322,6 +325,7 @@ GoRouter router(AuthBloc authBloc) {
                 child: ItineraryMap(
                   places: extra['places'],
                   hasOnePlace: false,
+                  isFinished: extra['isFinished'],
                 ),
               );
             }
@@ -330,8 +334,16 @@ GoRouter router(AuthBloc authBloc) {
           path: PageName.itineraryStepsMap,
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
-            return BlocProvider(
-              create: (context) => RouteBloc(_routeRepository),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => RouteBloc(_routeRepository),
+                ),
+                BlocProvider(
+                  create: (context) => TripCalendarBloc(
+                      _firebaseTripRepo, _firebaseUserRepository),
+                ),
+              ],
               child: ItineraryStepsMap(
                 places: extra['places'],
                 tripId: extra['tripId'],

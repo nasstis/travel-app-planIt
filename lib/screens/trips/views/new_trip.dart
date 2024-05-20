@@ -54,13 +54,21 @@ class _NewTripState extends State<NewTrip> {
                   id: uuid.v4(),
                   tripId: tripId,
                   places: Map.fromIterables(
-                      getListOfDaysInDateRange(
-                              pickedDate!.start, pickedDate!.end)
-                          .map((date) => date.toString()),
-                      List.generate(
-                          pickedDate!.end.difference(pickedDate!.start).inDays +
-                              1,
-                          (index) => [])),
+                    getListOfDaysInDateRange(pickedDate!.start, pickedDate!.end)
+                        .map((date) => date.toString()),
+                    List.generate(
+                        pickedDate!.end.difference(pickedDate!.start).inDays +
+                            1,
+                        (index) => []),
+                  ),
+                  isDayFinished: Map.fromIterables(
+                    getListOfDaysInDateRange(pickedDate!.start, pickedDate!.end)
+                        .map((date) => date.toString()),
+                    List.generate(
+                        pickedDate!.end.difference(pickedDate!.start).inDays +
+                            1,
+                        (index) => false),
+                  ),
                 ),
                 context.read<AuthBloc>().state.user!),
           );

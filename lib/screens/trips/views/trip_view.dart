@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_header.dart';
 import 'package:travel_app/screens/trips/components/trip_info.dart';
@@ -86,9 +87,10 @@ class TripView extends StatelessWidget {
                         children: [
                           TripInfo(trip: trip),
                           BlocProvider(
-                            create: (context) =>
-                                TripCalendarBloc(FirebaseTripRepo())
-                                  ..add(GetTripCalendar(trip.id)),
+                            create: (context) => TripCalendarBloc(
+                                FirebaseTripRepo(),
+                                context.read<AuthBloc>().userRepository)
+                              ..add(GetTripCalendar(trip.id)),
                             child: Itinerary(
                               trip: trip,
                             ),

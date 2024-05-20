@@ -2,11 +2,13 @@ class TripCalendarEntity {
   final String id;
   final String tripId;
   final Map<String, dynamic> places;
+  final Map<String, dynamic> isDayFinished;
 
   TripCalendarEntity({
     required this.id,
     required this.tripId,
     required this.places,
+    required this.isDayFinished,
   });
 
   Map<String, Object?> toDocument() {
@@ -14,6 +16,7 @@ class TripCalendarEntity {
       'id': id,
       'tripId': tripId,
       'places': places,
+      'isDayFinished': isDayFinished,
     };
   }
 
@@ -22,6 +25,7 @@ class TripCalendarEntity {
       id: doc['id'],
       tripId: doc['tripId'],
       places: doc['places'],
+      isDayFinished: doc['isDayFinished'],
     );
   }
 }

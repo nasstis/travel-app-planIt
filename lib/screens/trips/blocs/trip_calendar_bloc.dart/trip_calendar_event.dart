@@ -34,3 +34,11 @@ class EditItinerary extends TripCalendarEvent {
     required this.places,
   });
 }
+
+class FinishDayItinerary extends TripCalendarEvent {
+  final String tripId;
+  final String date;
+  final MyUser user;
+
+  const FinishDayItinerary(this.tripId, this.date, this.user);
+}

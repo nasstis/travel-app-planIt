@@ -10,6 +10,7 @@ class Trip {
   String photoUrl;
   String? description;
   List places;
+  bool isFinished;
 
   Trip({
     required this.id,
@@ -21,6 +22,7 @@ class Trip {
     required this.photoUrl,
     this.description,
     required this.places,
+    this.isFinished = false,
   });
 
   TripEntity toEntity() {
@@ -34,6 +36,7 @@ class Trip {
       description: description,
       cityId: cityId,
       placesId: places,
+      isFinished: isFinished,
     );
   }
 
@@ -48,6 +51,7 @@ class Trip {
       name: entity.name,
       photoUrl: entity.photoUrl,
       description: entity.description,
+      isFinished: entity.isFinished,
     );
   }
 }

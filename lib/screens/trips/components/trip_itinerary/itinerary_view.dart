@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/screens/trips/blocs/trip_calendar_bloc.dart/trip_calendar_bloc.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/modal_bottom_sheet.dart';
 import 'package:travel_app/screens/trips/components/trip_itinerary/places_itinerary.dart';
+import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
 import 'package:trip_repository/trip_repository.dart';
 
@@ -16,6 +18,7 @@ class ItineraryView extends StatefulWidget {
     required this.trip,
     required this.seePlaces,
     required this.index,
+    required this.isFinished,
   });
 
   final DateTime date;
@@ -23,6 +26,7 @@ class ItineraryView extends StatefulWidget {
   final Trip trip;
   final bool seePlaces;
   final int index;
+  final bool isFinished;
 
   @override
   State<ItineraryView> createState() => _ItineraryViewState();
@@ -82,6 +86,7 @@ class _ItineraryViewState extends State<ItineraryView> {
         'tripId': widget.trip.id,
         'day': widget.date.toString(),
         'profile': 'walking',
+        'isFinished': widget.isFinished,
       });
     }
   }
@@ -117,20 +122,50 @@ class _ItineraryViewState extends State<ItineraryView> {
                               : Icons.arrow_drop_down)),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      showModalBottomSheet<String>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const ItineraryModalBottomSheet();
-                        },
-                      ).then((value) {
-                        if (value == 'Edit') editPlaceHandle(context);
-                        if (value == 'Add') addPlaceHandle(context);
-                        if (value == 'Map') showMap(context);
-                      });
-                    },
-                    icon: const Icon(Icons.more_vert),
+                  Row(
+                    children: [
+                      if (widget.isFinished)
+                        Container(
+                          width: 58,
+                          height: 15,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: MyColors.green.withOpacity(0.1)),
+                          child: const Text(
+                            'Finished',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: MyColors.green,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      IconButton(
+                        onPressed: widget.isFinished
+                            ? () {
+                                showMap(context);
+                              }
+                            : () {
+                                showModalBottomSheet<String>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const ItineraryModalBottomSheet();
+                                  },
+                                ).then((value) {
+                                  if (value == 'Edit') editPlaceHandle(context);
+                                  if (value == 'Add') addPlaceHandle(context);
+                                  if (value == 'Map') showMap(context);
+                                });
+                              },
+                        icon: widget.isFinished
+                            ? const FaIcon(
+                                FontAwesomeIcons.solidMap,
+                                size: 16,
+                              )
+                            : const Icon(Icons.more_vert),
+                      ),
+                    ],
                   )
                 ],
               ),
@@ -162,6 +197,7 @@ class _ItineraryViewState extends State<ItineraryView> {
                         trip: widget.trip,
                         date: widget.date,
                         index: widget.index,
+                        isFinished: widget.isFinished,
                       ),
             ],
           ),

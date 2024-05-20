@@ -3,15 +3,16 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:trip_repository/trip_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'trip_calendar_event.dart';
 part 'trip_calendar_state.dart';
 
 class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
   final TripRepo _tripRepository;
-  TripCalendarBloc(
-    this._tripRepository,
-  ) : super(TripCalendarInitial()) {
+  final UserRepository _userRepository;
+  TripCalendarBloc(this._tripRepository, this._userRepository)
+      : super(TripCalendarInitial()) {
     on<GetTripCalendar>(
       (event, emit) async {
         emit(GetTripCalendarLoading());
@@ -55,6 +56,20 @@ class TripCalendarBloc extends Bloc<TripCalendarEvent, TripCalendarState> {
         } catch (e) {
           log(e.toString());
           emit(EditItineraryFailure(e.toString()));
+        }
+      },
+    );
+
+    on<FinishDayItinerary>(
+      (event, emit) async {
+        emit(FinishDayItineraryLoading());
+        try {
+          await _tripRepository.finishDayItinerary(event.tripId, event.date);
+          await _userRepository.updateScore(event.user, 3);
+          emit(FinishDayItinerarySuccess());
+        } catch (e) {
+          log(e.toString());
+          emit(FinishDayItineraryFailure());
         }
       },
     );

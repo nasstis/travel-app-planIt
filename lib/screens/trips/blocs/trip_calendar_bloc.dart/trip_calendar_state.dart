@@ -39,3 +39,9 @@ final class EditItineraryFailure extends TripCalendarState {
 final class EditItinerarySuccess extends TripCalendarState {}
 
 final class EditItineraryLoading extends TripCalendarState {}
+
+final class FinishDayItineraryFailure extends TripCalendarState {}
+
+final class FinishDayItinerarySuccess extends TripCalendarState {}
+
+final class FinishDayItineraryLoading extends TripCalendarState {}

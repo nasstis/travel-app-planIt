@@ -8,6 +8,7 @@ class TripEntity {
   String photoUrl;
   String? description;
   List placesId;
+  bool isFinished;
 
   TripEntity({
     required this.id,
@@ -19,6 +20,7 @@ class TripEntity {
     required this.photoUrl,
     this.description,
     required this.placesId,
+    required this.isFinished,
   });
 
   Map<String, Object?> toDocument() {
@@ -32,6 +34,7 @@ class TripEntity {
       'name': name,
       'photoUrl': photoUrl,
       'description': description,
+      'isFinished': isFinished,
     };
   }
 
@@ -46,6 +49,7 @@ class TripEntity {
       name: doc['name'],
       photoUrl: doc['photoUrl'],
       description: doc['description'],
+      isFinished: doc['isFinished'],
     );
   }
 }

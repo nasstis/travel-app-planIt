@@ -16,12 +16,14 @@ class PlacesItineraryView extends StatefulWidget {
     required this.date,
     required this.trip,
     required this.index,
+    required this.isFinished,
   });
 
   final List places;
   final Trip trip;
   final DateTime date;
   final int index;
+  final bool isFinished;
 
   @override
   State<PlacesItineraryView> createState() => _PlacesItineraryViewState();
@@ -130,25 +132,25 @@ class _PlacesItineraryViewState extends State<PlacesItineraryView> {
           ),
         ),
         const SizedBox(height: 15),
-        ElevatedButton(
-          onPressed: () {
-            context.push(PageName.addPlaceToItinerary, extra: {
-              'places': widget.trip.places
-                  .where((e) => !widget.places.contains(e))
-                  .toList(),
-              'tripId': widget.trip.id,
-              'date': widget.date,
-              'allPlaces': widget.places,
-            }).then((value) {
-              setState(() {
-                context
-                    .read<TripCalendarBloc>()
-                    .add(GetTripCalendar(widget.trip.id, index: widget.index));
+        if (!widget.isFinished)
+          ElevatedButton(
+            onPressed: () {
+              context.push(PageName.addPlaceToItinerary, extra: {
+                'places': widget.trip.places
+                    .where((e) => !widget.places.contains(e))
+                    .toList(),
+                'tripId': widget.trip.id,
+                'date': widget.date,
+                'allPlaces': widget.places,
+              }).then((value) {
+                setState(() {
+                  context.read<TripCalendarBloc>().add(
+                      GetTripCalendar(widget.trip.id, index: widget.index));
+                });
               });
-            });
-          },
-          child: const Text('Add more places'),
-        ),
+            },
+            child: const Text('Add more places'),
+          ),
       ],
     );
   }
