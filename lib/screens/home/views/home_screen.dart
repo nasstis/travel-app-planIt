@@ -30,45 +30,59 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: MyThemeMode.isDark ? MyColors.dark : MyColors.light,
+        backgroundColor: MyColors.primary,
         title: const Text(
           'Hey, User!',
           style: TextStyle(
-            fontWeight: FontWeight.w500,
-          ),
+              fontWeight: FontWeight.w500, color: MyColors.white, fontSize: 20),
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                context.read<SignInBloc>().add(SignOutRequired());
-                context.go(PageName.initRoute);
-              },
-              icon: const Icon(
-                Icons.logout,
-              )),
+            onPressed: () {
+              context.read<SignInBloc>().add(SignOutRequired());
+              context.go(PageName.initRoute);
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: MyColors.white,
+            ),
+          ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: BlocBuilder<GetCitiesBloc, GetCitiesState>(
-          builder: (context, state) {
-            if (state is GetCitiesSuccess) {
-              cities = state.cities;
-              return Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Where are you going?',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.w600),
+      body: BlocBuilder<GetCitiesBloc, GetCitiesState>(
+        builder: (context, state) {
+          if (state is GetCitiesSuccess) {
+            cities = state.cities;
+            return Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: MyColors.primary,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(100),
+                            bottomRight: Radius.circular(100)),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  BlocBuilder<UserHistoryBloc, UserHistoryState>(
+                    Positioned(
+                      bottom: 10,
+                      left: MediaQuery.of(context).size.width * 0.25,
+                      child: const Text(
+                        'Where are you going?',
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: MyColors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: BlocBuilder<UserHistoryBloc, UserHistoryState>(
                     builder: (context, state) {
                       if (state is GetUserHistorySuccess) {
                         return PlacesHorizontalListView(
@@ -84,29 +98,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       return const SizedBox();
                     },
                   ),
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: PopularDestinations(
-                      cities: state.cities,
-                    ),
-                  )),
-                  const SizedBox(
-                    height: 70,
-                  )
-                ],
-              );
-            } else if (state is GetCitiesFailure) {
-              return const Center(
-                child: Text('An error has occured...'),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
+                ),
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: PopularDestinations(
+                    cities: state.cities,
+                  ),
+                )),
+                const SizedBox(
+                  height: 70,
+                )
+              ],
+            );
+          } else if (state is GetCitiesFailure) {
+            return const Center(
+              child: Text('An error has occured...'),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

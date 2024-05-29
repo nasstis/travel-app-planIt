@@ -22,13 +22,13 @@ class UserProfileTop extends StatelessWidget {
               height: 50,
             ),
             Positioned(
-              right: 10,
+              right: 15,
               child: Material(
                 elevation: 5,
                 borderRadius: BorderRadius.circular(25),
                 child: Container(
                   height: 30,
-                  width: MediaQuery.of(context).size.width * 0.42,
+                  width: MediaQuery.of(context).size.width * 0.43,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     gradient: const LinearGradient(

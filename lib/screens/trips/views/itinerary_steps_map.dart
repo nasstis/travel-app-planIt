@@ -152,7 +152,7 @@ class _ItineraryStepsMapState extends State<ItineraryStepsMap> {
                     ),
                     child: Center(
                       child: Text(
-                        '//${(leg.distance / 1000).toStringAsFixed(1)} km, ${(leg.duration / 60).toStringAsFixed(0)} mins',
+                        '${(leg.distance / 1000).toStringAsFixed(1)} km, ${(leg.duration / 60).toStringAsFixed(0)} mins',
                         style: const TextStyle(
                           fontSize: 14,
                           color: MyColors.white,
