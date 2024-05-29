@@ -9,7 +9,6 @@ import 'package:travel_app/screens/home/components/places_horizontal_list_view.d
 import 'package:travel_app/screens/home/components/popular_destinations.dart';
 import 'package:travel_app/utils/constants/colors.dart';
 import 'package:travel_app/utils/constants/routes_names.dart';
-import 'package:travel_app/utils/constants/theme_mode.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

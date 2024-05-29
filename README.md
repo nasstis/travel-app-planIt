@@ -34,4 +34,4 @@ Stack:
 
 [Full Demo video](https://www.youtube.com/watch?v=wZrtyGo9ACY)
 
-![App Screenshot](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWJrcHh1Mm1mOWF2eGplOXFzaGZwdjk3cHhsNnR4ZHlvMDQ4aG16bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KLiRkwGknsieTl3wNo/giphy.gif)
+![Demo Gif](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXRueDljbnY3em50d2dneHcxcTk0Z2ZrdnZmbnZtMXNhMTNjdGxkeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/c76IJLufpNwSULPk77/giphy.gif)
